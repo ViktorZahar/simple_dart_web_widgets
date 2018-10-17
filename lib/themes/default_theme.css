@@ -1,0 +1,42 @@
+/* Default widgets theme */
+
+html, body {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-grow: 0;
+    margin: 0;
+    padding: 0;
+    font-family: 'Cousine', sans-serif;
+}
+
+div {
+    display: flex;
+    box-sizing: border-box;
+}
+
+.simpleButton {
+    cursor: pointer;
+    background: #5897ce;
+    color: #f0f0f0;
+    font-size: 14px;
+    padding: 10px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.simpleButton:active {
+    background: #68a7ae;
+}
+
+.comboboxField {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.comboboxField > select {
+      padding: 5px;
+      flex-grow: 1;
+}
