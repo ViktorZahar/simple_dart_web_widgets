@@ -1,4 +1,4 @@
-part of 'package:simple_dart_web_widgets/src/widgets.dart';
+import 'dart:html';
 
 abstract class MixinCaption {
   String _stateCaption = '';
@@ -6,24 +6,30 @@ abstract class MixinCaption {
   Element get nodeCaptionElement;
 
   set caption(String caption) {
-    if (_stateCaption == caption) return;
-    _stateCaption = caption;
-    nodeCaptionElement.text = caption;
+    if (_stateCaption != caption) {
+      _stateCaption = caption;
+      nodeCaptionElement.text = caption;
+    }
   }
 
-  get caption => _stateCaption;
+  String get caption => _stateCaption;
 
   set fontSize(int fontSize) {
     _stateFontSize = fontSize;
     nodeCaptionElement.style.fontSize = '${fontSize}px';
   }
 
-  get fontSize => _stateFontSize;
+  int get fontSize => _stateFontSize;
 }
 
 abstract class MixinClickable {
   Element get nodeRoot;
-  void onClick(listener(event)) {
-    nodeRoot.onClick.listen(listener);
+  bool get enabled;
+  void onClick(listener(MouseEvent event)) {
+    nodeRoot.onClick.listen((e) {
+      if (enabled) {
+        listener(e);
+      }
+    });
   }
 }

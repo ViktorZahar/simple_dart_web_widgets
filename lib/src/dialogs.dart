@@ -1,15 +1,12 @@
-part of 'package:simple_dart_web_widgets/src/widgets.dart';
+import 'dart:async';
+import 'dart:html';
+
+import 'package:simple_dart_web_widgets/widgets.dart';
 
 abstract class DialogWindow {
-  DivElement backgroundElement = new DivElement();
-  DivElement dialogElement = new DivElement();
-  DivElement captionElement = new DivElement();
-  DivElement buttonsPanelElement = new DivElement();
-  Completer compliter;
-  Component dialogContent;
-  Function() onCloseListener;
-
   DialogWindow() {
+    backgroundElement = DivElement();
+
     backgroundElement.style
       ..width = '100%'
       ..height = '100%'
@@ -22,6 +19,7 @@ abstract class DialogWindow {
     backgroundElement.onClick.listen((e) {
       closeDialog();
     });
+    dialogElement = DivElement();
     dialogElement.style
       ..position = 'absolute'
       ..display = 'flex'
@@ -29,24 +27,30 @@ abstract class DialogWindow {
       ..padding = '5px'
       ..opacity = '1'
       ..flexDirection = 'column';
+    buttonsPanelElement = DivElement();
     buttonsPanelElement.style
       ..width = '100%'
       ..flexDirection = 'row';
 
-    captionElement = new DivElement();
-    buttonsPanelElement = new DivElement();
+    captionElement = DivElement();
     dialogElement.children.add(captionElement);
     dialogElement.children.add(buttonsPanelElement);
     dialogElement.children.add(createDialogContent().nodeRoot);
   }
 
-  Future showDialog() {
-    var completer = new Completer();
-    var body = window.document.querySelector("body");
-    captionElement.text = caption();
-    body.children.add(backgroundElement);
+  DivElement backgroundElement;
+  DivElement dialogElement;
+  DivElement captionElement;
+  DivElement buttonsPanelElement;
+  Completer compliter;
+  Function() onCloseListener;
 
-    body.children.add(dialogElement);
+  Future showDialog() {
+    final completer = Completer();
+    final bodyElement = window.document.querySelector('body');
+    captionElement.text = caption();
+    bodyElement.children.add(backgroundElement);
+    bodyElement.children.add(dialogElement);
 
     center();
     return completer.future;
@@ -61,15 +65,15 @@ abstract class DialogWindow {
   }
 
   void center() {
-    var windowWidth = window.innerWidth;
-    var windowHeight = window.innerHeight;
-    var dialogWidth = dialogElement.clientWidth;
-    var dialogHeight = dialogElement.clientHeight;
-    var x = (windowWidth - dialogWidth) / 2;
-    var y = (windowHeight - dialogHeight) / 2;
+    final windowWidth = window.innerWidth;
+    final windowHeight = window.innerHeight;
+    final dialogWidth = dialogElement.clientWidth;
+    final dialogHeight = dialogElement.clientHeight;
+    final x = (windowWidth - dialogWidth) / 2;
+    final y = (windowHeight - dialogHeight) / 2;
     dialogElement.style
-      ..top = "${y}px"
-      ..left = "${x}px";
+      ..top = '${y}px'
+      ..left = '${x}px';
   }
 
   String caption();

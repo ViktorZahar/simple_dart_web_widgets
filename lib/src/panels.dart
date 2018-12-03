@@ -1,11 +1,8 @@
-part of 'package:simple_dart_web_widgets/src/widgets.dart';
+import 'dart:html';
+
+import 'package:simple_dart_web_widgets/widgets.dart';
 
 class HVPanel extends Component implements Composite {
-  Element nodeRoot = new DivElement();
-  List<Component> children = [];
-  int _spaceBetweenItems = 0;
-  bool _vertical = false;
-  bool _scrollable = false;
   HVPanel() {
     nodeRoot.style
       ..display = 'flex'
@@ -17,6 +14,14 @@ class HVPanel extends Component implements Composite {
   }
 
   @override
+  Element nodeRoot = DivElement();
+  @override
+  List<Component> children = [];
+  int _spaceBetweenItems = 0;
+  bool _vertical = false;
+  bool _scrollable = false;
+
+  @override
   void add(Component component) {
     children.add(component);
     nodeRoot.children.add(component.nodeRoot);
@@ -25,10 +30,10 @@ class HVPanel extends Component implements Composite {
 
   @override
   void addAll(List<Component> components) {
-    components.forEach((comp) {
+    for (var comp in components) {
       children.add(comp);
       nodeRoot.children.add(comp.nodeRoot);
-    });
+    }
     setSpaceBetweenItems(_spaceBetweenItems);
   }
 
@@ -51,17 +56,18 @@ class HVPanel extends Component implements Composite {
       return;
     }
     _spaceBetweenItems = space;
-    nodeRoot.children.forEach((child) {
-      child.style.marginBottom = '${space}px';
-      child.style.marginRight = '${space}px';
-    });
+    for (var child in nodeRoot.children) {
+      child.style
+        ..marginBottom = '${space}px'
+        ..marginRight = '${space}px';
+    }
   }
 
-  setPadding(int padding) {
+  void setPadding(int padding) {
     nodeRoot.style.padding = '${padding}px';
   }
 
-  scrollable() {
+  void scrollable() {
     _scrollable = true;
     if (_vertical) {
       nodeRoot.style.overflowY = 'scroll';

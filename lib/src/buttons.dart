@@ -1,12 +1,52 @@
-part of 'package:simple_dart_web_widgets/src/widgets.dart';
+import 'dart:html';
+import 'package:simple_dart_web_widgets/widgets.dart';
 
 class SimpleButton extends Component with MixinCaption, MixinClickable {
-  Element nodeRoot = new DivElement();
-  SpanElement nodeCaptionElement = new SpanElement();
-
   SimpleButton() {
     nodeRoot.setAttribute('Name', 'SimpleButton');
-    addCssClasses([WidgetsTheme.simpleButton]);
     nodeRoot.children.add(nodeCaptionElement);
+    _refreshDisplay();
+  }
+
+  @override
+  Element nodeRoot = DivElement();
+  @override
+  SpanElement nodeCaptionElement = SpanElement();
+  SimpleButtonType _type = SimpleButtonType.basic;
+
+  bool _enabled = true;
+
+  set type(SimpleButtonType value) {
+    _type = value;
+    _refreshDisplay();
+  }
+
+  SimpleButtonType get type => _type;
+
+  @override
+  bool get enabled => _enabled;
+  set enabled(bool value) {
+    if (_enabled != value) {
+      _enabled = value;
+      _refreshDisplay();
+    }
+  }
+
+  void _refreshDisplay() {
+    clearClasses();
+    if (_enabled) {
+      switch (_type) {
+        case SimpleButtonType.basic:
+          addCssClasses([WidgetsTheme.simpleButtonBasic]);
+          break;
+        case SimpleButtonType.warrning:
+          addCssClasses([WidgetsTheme.simpleButtonWarrning]);
+          break;
+      }
+    } else {
+      addCssClasses([WidgetsTheme.simpleButtonDisabled]);
+    }
   }
 }
+
+enum SimpleButtonType { basic, warrning }

@@ -1,4 +1,4 @@
-part of 'package:simple_dart_web_widgets/src/widgets.dart';
+import 'dart:html';
 
 abstract class Component {
   Element get nodeRoot;
@@ -8,24 +8,29 @@ abstract class Component {
   bool get visible => _stateVisible;
 
   void varName(String varName) {
-    nodeRoot.setAttribute("varName", varName);
+    nodeRoot.setAttribute('varName', varName);
   }
 
-  fillContent() {
+  void fillContent() {
     nodeRoot.style.flex = '1';
   }
 
   void dartClassName(String className) {
-    nodeRoot.setAttribute("className", className);
+    nodeRoot.setAttribute('className', className);
+  }
+
+  void clearClasses() {
+    nodeRoot.classes.clear();
   }
 
   set visible(bool visible) {
-    if (_stateVisible == visible) return;
-    _stateVisible = visible;
-    if (visible) {
-      nodeRoot.style.display = 'flex';
-    } else {
-      nodeRoot.style.display = 'none';
+    if (_stateVisible != visible) {
+      _stateVisible = visible;
+      if (visible) {
+        nodeRoot.style.display = 'flex';
+      } else {
+        nodeRoot.style.display = 'none';
+      }
     }
   }
 
@@ -33,9 +38,13 @@ abstract class Component {
     nodeRoot.style.width = width;
   }
 
+  String get width => nodeRoot.style.width;
+
   set height(String height) {
     nodeRoot.style.height = height;
   }
+
+  String get height => nodeRoot.style.height;
 
   void fullSize() {
     width = '100%';
@@ -50,11 +59,11 @@ abstract class Component {
     height = '100%';
   }
 
-  addCssClasses(List<String> className) {
+  void addCssClasses(List<String> className) {
     nodeRoot.classes.addAll(className);
   }
 
-  removeCssClasses(List<String> className) {
+  void removeCssClasses(List<String> className) {
     nodeRoot.classes.removeAll(className);
   }
 }
@@ -71,5 +80,5 @@ abstract class Field<T> {
 
   set value(T value);
 
-  focus();
+  void focus();
 }
