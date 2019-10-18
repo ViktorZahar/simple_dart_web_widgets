@@ -41,6 +41,7 @@ class Pager extends Component {
       try {
         final newPageNum = int.parse(textElement.value);
         pagable.openPage(newPageNum);
+        refreshDisplay();
       } on Exception catch (e) {
         print(e);
       }

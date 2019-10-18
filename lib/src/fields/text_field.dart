@@ -12,7 +12,7 @@ class TextField extends Component implements Field<String> {
     _textInput = TextInputElement();
     _textInput.style
       ..fontSize = '16px'
-      ..fontFamily = 'Cousine'
+      ..fontFamily = WidgetsTheme.basicFont
       ..width = '100%'
       ..flexGrow = '1';
     nodeRoot.setAttribute('Name', 'TextField');
@@ -43,7 +43,7 @@ class TextField extends Component implements Field<String> {
 
   int get fontSize => _fontSize;
 
-  void onChange(listener(event)) {
+  void onChange(listener(Event event)) {
     _textInput.onChange.listen((e) {
       listener(e);
     });

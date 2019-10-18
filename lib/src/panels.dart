@@ -37,6 +37,12 @@ class HVPanel extends Component implements Composite {
     setSpaceBetweenItems(_spaceBetweenItems);
   }
 
+  void remove(Component component) {
+    children.remove(component);
+    nodeRoot.children.remove(component.nodeRoot);
+    setSpaceBetweenItems(_spaceBetweenItems);
+  }
+
   void clear() {
     children.clear();
     nodeRoot.children.clear();
@@ -74,5 +80,14 @@ class HVPanel extends Component implements Composite {
     } else {
       nodeRoot.style.overflowX = 'scroll';
     }
+  }
+
+  static HVPanel addLabelToComponent(String caption, Component comp) {
+    final ret = HVPanel();
+    final label = SimpleLabel()
+      ..caption = caption
+      ..width = '50%';
+    ret.addAll([label, comp]);
+    return ret;
   }
 }

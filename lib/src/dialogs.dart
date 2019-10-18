@@ -3,7 +3,7 @@ import 'dart:html';
 
 import 'package:simple_dart_web_widgets/widgets.dart';
 
-abstract class DialogWindow {
+abstract class DialogWindow<T> {
   DialogWindow() {
     backgroundElement = DivElement();
 
@@ -42,11 +42,11 @@ abstract class DialogWindow {
   DivElement dialogElement;
   DivElement captionElement;
   DivElement buttonsPanelElement;
-  Completer compliter;
+  Completer<T> compliter;
   Function() onCloseListener;
 
   Future showDialog() {
-    final completer = Completer();
+    final completer = Completer<T>();
     final bodyElement = window.document.querySelector('body');
     captionElement.text = caption();
     bodyElement.children.add(backgroundElement);

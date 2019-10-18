@@ -7,7 +7,7 @@ html, body {
     flex-grow: 0;
     margin: 0;
     padding: 0;
-    font-family: 'Cousine', sans-serif;
+    font-family: Consolas, 'Courier New', monospace;
 }
 
 div {
@@ -65,4 +65,10 @@ div {
 .comboboxField > select {
       padding: 5px;
       flex-grow: 1;
+}
+
+.radioField {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
 }
