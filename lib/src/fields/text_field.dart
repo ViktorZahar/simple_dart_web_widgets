@@ -59,4 +59,8 @@ class TextField extends Component implements Field<String> {
   void focus() {
     _textInput.focus();
   }
+
+  void disable() {
+    _textInput.disabled = true;
+  }
 }
