@@ -2,12 +2,16 @@ import 'dart:html';
 
 import 'package:simple_dart_web_widgets/widgets.dart';
 
-class ComboboxField extends Component implements Field<String> {
+class ComboboxField extends Component with Field<String> {
   ComboboxField() {
     nodeRoot.setAttribute('Name', 'ComboboxField');
     nodeRoot.style.display = 'flex';
     nodeRoot.children.add(_selectElement);
     addCssClasses([WidgetsTheme.comboboxField]);
+
+    nodeRoot.onChange.listen((event) {
+      fireValueChange(value, value);
+    });
   }
 
   @override

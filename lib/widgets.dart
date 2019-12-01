@@ -18,4 +18,5 @@ export 'src/labels/simple_link.dart';
 export 'src/mixins.dart';
 export 'src/pager.dart';
 export 'src/panels.dart';
+export 'src/tab_panel.dart';
 export 'src/widgets_theme.dart';

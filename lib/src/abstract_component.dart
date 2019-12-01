@@ -76,9 +76,25 @@ abstract class Composite {
 }
 
 abstract class Field<T> {
+  List<Function(T oldValue, T newValue)> onValueChangeListeners = [];
+
   T get value;
 
   set value(T value);
 
   void focus();
+
+  void onValueChange(listener(T oldValue, T newValue)) {
+    onValueChangeListeners.add(listener);
+  }
+
+  void clearValueChange() {
+    onValueChangeListeners.clear();
+  }
+
+  void fireValueChange(T oldValue, T newValue) {
+    for (var listener in onValueChangeListeners) {
+      listener(oldValue, newValue);
+    }
+  }
 }

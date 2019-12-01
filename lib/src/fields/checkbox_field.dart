@@ -2,7 +2,7 @@ import 'dart:html';
 
 import 'package:simple_dart_web_widgets/widgets.dart';
 
-class CheckboxField extends Component implements Field<bool> {
+class CheckboxField extends Component with Field<bool> {
   CheckboxField() {
     nodeRoot.style
       ..display = 'flex'

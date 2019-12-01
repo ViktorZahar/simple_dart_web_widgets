@@ -2,7 +2,8 @@ import 'dart:html';
 
 class BlockStateLabel {
   BlockStateLabel() {
-    backgroundElement = DivElement();
+    backgroundElement = DivElement()
+      ..setAttribute('classname', 'BlockStateLabel');
     backgroundElement.style
       ..width = '100%'
       ..height = '100%'

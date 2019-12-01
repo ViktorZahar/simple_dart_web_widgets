@@ -2,7 +2,7 @@ import 'dart:html';
 
 import 'package:simple_dart_web_widgets/widgets.dart';
 
-class RadioField extends Component implements Field<String> {
+class RadioField extends Component with Field<String> {
   RadioField() {
     nodeRoot.setAttribute('Name', 'RadioField');
     nodeRoot.style.display = 'flex';
@@ -28,7 +28,9 @@ class RadioField extends Component implements Field<String> {
     final label = LabelElement()
       ..style.paddingRight = '5px'
       ..text = text;
-
+    radioButton.onChange.listen((ev) {
+      fireValueChange(radioButton.value, value);
+    });
     radioButtons.add(radioButton);
     nodeRoot.children.add(radioButton);
     nodeRoot.children.add(label);

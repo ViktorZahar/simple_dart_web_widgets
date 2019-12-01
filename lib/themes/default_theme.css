@@ -72,3 +72,31 @@ div {
     align-items: center;
     justify-content: center;
 }
+
+.tabTag {
+    cursor: pointer;
+    background: #9b9b9b;
+    color: #f0f0f0;
+    font-size: 14px;
+    padding: 10px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    margin-right: 1px;
+}
+
+.tabTagCurrent {
+    cursor: pointer;
+    background: #5897ce;
+    color: #f0f0f0;
+    font-size: 14px;
+    padding: 10px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    margin-right: 1px;
+}

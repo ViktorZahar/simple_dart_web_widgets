@@ -2,7 +2,7 @@ import 'dart:html';
 
 import 'package:simple_dart_web_widgets/widgets.dart';
 
-class TextField extends Component implements Field<String> {
+class TextField extends Component with Field<String> {
   TextField() {
     nodeRoot.style
       ..display = 'flex'
@@ -17,6 +17,9 @@ class TextField extends Component implements Field<String> {
       ..flexGrow = '1';
     nodeRoot.setAttribute('Name', 'TextField');
     nodeRoot.children.add(_textInput);
+    nodeRoot.onChange.listen((event) {
+      fireValueChange(value, value);
+    });
   }
 
   @override

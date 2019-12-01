@@ -5,4 +5,6 @@ class WidgetsTheme {
   static const String simpleButtonDisabled = 'simpleButtonDisabled';
   static const String comboboxField = 'comboboxField';
   static const String radioField = 'radioField';
+  static const String tabTag = 'tabTag';
+  static const String tabTagCurrent = 'tabTagCurrent';
 }
