@@ -13,6 +13,13 @@ class HVPanel extends Component implements Composite {
     fullWidth();
   }
 
+  HVPanel.addLabelToComponent(String caption, Component comp) {
+    final label = SimpleLabel()
+      ..caption = caption
+      ..width = '50%';
+    addAll([label, comp]);
+  }
+
   @override
   Element nodeRoot = DivElement();
   @override
@@ -80,14 +87,5 @@ class HVPanel extends Component implements Composite {
     } else {
       nodeRoot.style.overflowX = 'scroll';
     }
-  }
-
-  static HVPanel addLabelToComponent(String caption, Component comp) {
-    final ret = HVPanel();
-    final label = SimpleLabel()
-      ..caption = caption
-      ..width = '50%';
-    ret.addAll([label, comp]);
-    return ret;
   }
 }
