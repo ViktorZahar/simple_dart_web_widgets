@@ -37,7 +37,7 @@ class ContextMenu {
     final body = window.document.querySelector('body');
     body.children.add(backgroundElement);
     menuElement.children.clear();
-    for (var action in actions) {
+    for (final action in actions) {
       final actionElement = DivElement()
         ..text = action
         ..classes.add('selectable')

@@ -1,6 +1,6 @@
 import 'dart:html';
 
-import 'package:simple_dart_web_widgets/widgets.dart';
+import '../widgets.dart';
 
 class Pager extends Component {
   Pager() {
@@ -42,9 +42,7 @@ class Pager extends Component {
         final newPageNum = int.parse(textElement.value);
         pagable.openPage(newPageNum);
         refreshDisplay();
-      } on Exception catch (e) {
-        print(e);
-      }
+      } on Exception catch (_) {}
     });
     fullSize();
     fillContent();

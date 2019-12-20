@@ -1,5 +1,5 @@
 import 'dart:html';
-import 'package:simple_dart_web_widgets/widgets.dart';
+import '../widgets.dart';
 
 class SimpleButton extends Component with MixinCaption, MixinClickable {
   SimpleButton() {

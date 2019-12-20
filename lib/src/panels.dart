@@ -1,6 +1,6 @@
 import 'dart:html';
 
-import 'package:simple_dart_web_widgets/widgets.dart';
+import '../widgets.dart';
 
 class HVPanel extends Component implements Composite {
   HVPanel() {
@@ -37,7 +37,7 @@ class HVPanel extends Component implements Composite {
 
   @override
   void addAll(List<Component> components) {
-    for (var comp in components) {
+    for (final comp in components) {
       children.add(comp);
       nodeRoot.children.add(comp.nodeRoot);
     }
@@ -69,7 +69,7 @@ class HVPanel extends Component implements Composite {
       return;
     }
     _spaceBetweenItems = space;
-    for (var child in nodeRoot.children) {
+    for (final child in nodeRoot.children) {
       child.style
         ..marginBottom = '${space}px'
         ..marginRight = '${space}px';

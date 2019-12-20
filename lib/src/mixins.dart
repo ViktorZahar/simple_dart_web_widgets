@@ -1,6 +1,6 @@
 import 'dart:html';
 
-abstract class MixinCaption {
+mixin MixinCaption {
   String _stateCaption = '';
   int _stateFontSize = 10;
   Element get nodeCaptionElement;
@@ -22,10 +22,10 @@ abstract class MixinCaption {
   int get fontSize => _stateFontSize;
 }
 
-abstract class MixinClickable {
+mixin MixinClickable {
   Element get nodeRoot;
   bool get enabled;
-  void onClick(listener(MouseEvent event)) {
+  void onClick(Function(MouseEvent event) listener) {
     nodeRoot.onClick.listen((e) {
       if (enabled) {
         listener(e);

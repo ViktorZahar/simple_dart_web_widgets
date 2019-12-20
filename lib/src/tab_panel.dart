@@ -1,5 +1,5 @@
-import 'package:simple_dart_web_widgets/src/panels.dart';
-import 'package:simple_dart_web_widgets/widgets.dart';
+import '../widgets.dart';
+import 'panels.dart';
 
 class TabPanel extends HVPanel {
   TabPanel() {
@@ -54,12 +54,12 @@ class TabTag extends SimpleLabel {
   Component tabContent;
   List<Function()> onSelectListeners = <Function()>[];
 
-  void onSelect(listener()) {
+  void onSelect(Function() listener) {
     onSelectListeners.add(listener);
   }
 
   void fireOnSelect() {
-    for (var listener in onSelectListeners) {
+    for (final listener in onSelectListeners) {
       listener();
     }
   }

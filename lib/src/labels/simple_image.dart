@@ -1,6 +1,6 @@
 import 'dart:html';
 
-import 'package:simple_dart_web_widgets/widgets.dart';
+import '../../widgets.dart';
 
 class SimpleImage extends Component {
   SimpleImage() {

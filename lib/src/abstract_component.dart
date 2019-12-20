@@ -75,7 +75,7 @@ abstract class Composite {
   void addAll(List<Component> components);
 }
 
-abstract class Field<T> {
+mixin Field<T> {
   List<Function(T oldValue, T newValue)> onValueChangeListeners = [];
 
   T get value;
@@ -84,7 +84,7 @@ abstract class Field<T> {
 
   void focus();
 
-  void onValueChange(listener(T oldValue, T newValue)) {
+  void onValueChange(Function(T oldValue, T newValue) listener) {
     onValueChangeListeners.add(listener);
   }
 
@@ -93,7 +93,7 @@ abstract class Field<T> {
   }
 
   void fireValueChange(T oldValue, T newValue) {
-    for (var listener in onValueChangeListeners) {
+    for (final listener in onValueChangeListeners) {
       listener(oldValue, newValue);
     }
   }

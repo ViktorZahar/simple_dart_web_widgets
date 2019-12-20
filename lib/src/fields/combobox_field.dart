@@ -1,6 +1,6 @@
 import 'dart:html';
 
-import 'package:simple_dart_web_widgets/widgets.dart';
+import '../../widgets.dart';
 
 class ComboboxField extends Component with Field<String> {
   ComboboxField() {
@@ -30,7 +30,7 @@ class ComboboxField extends Component with Field<String> {
   }
 
   void initOptions(List<String> options) {
-    for (var option in options) {
+    for (final option in options) {
       final optionElement = OptionElement()..text = option;
       _selectElement.append(optionElement);
     }

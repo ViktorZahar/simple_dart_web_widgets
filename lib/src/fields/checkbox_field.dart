@@ -1,6 +1,6 @@
 import 'dart:html';
 
-import 'package:simple_dart_web_widgets/widgets.dart';
+import '../../widgets.dart';
 
 class CheckboxField extends Component with Field<bool> {
   CheckboxField() {
@@ -46,7 +46,7 @@ class CheckboxField extends Component with Field<bool> {
 
   int get fontSize => _fontSize;
 
-  void onChange(listener(Event event)) {
+  void onChange(Function(Event event) listener) {
     _checkBoxInput.onChange.listen((e) {
       listener(e);
     });

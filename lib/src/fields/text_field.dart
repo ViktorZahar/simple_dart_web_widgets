@@ -1,6 +1,6 @@
 import 'dart:html';
 
-import 'package:simple_dart_web_widgets/widgets.dart';
+import '../../widgets.dart';
 
 class TextField extends Component with Field<String> {
   TextField() {
@@ -46,7 +46,7 @@ class TextField extends Component with Field<String> {
 
   int get fontSize => _fontSize;
 
-  void onChange(listener(Event event)) {
+  void onChange(Function(Event event) listener) {
     _textInput.onChange.listen((e) {
       listener(e);
     });
