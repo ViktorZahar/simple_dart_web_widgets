@@ -52,6 +52,10 @@ class TextField extends Component with Field<String> {
     });
   }
 
+  String get textAlign => _textInput.style.textAlign;
+
+  set textAlign(String value) => _textInput.style.textAlign = value;
+
   @override
   String get value => _textInput.value;
 

@@ -20,7 +20,6 @@ div {
     cursor: pointer;
     background: #5897ce;
     color: #f0f0f0;
-    font-size: 14px;
     padding: 10px;
     text-align: center;
     align-items: center;
@@ -35,7 +34,6 @@ div {
     cursor: pointer;
     background: #f4424b;
     color: #f0f0f0;
-    font-size: 14px;
     padding: 10px;
     text-align: center;
     align-items: center;
@@ -49,7 +47,6 @@ div {
 .simpleButtonDisabled{
     background: #9b9b9b;
     color: #f0f0f0;
-    font-size: 14px;
     padding: 10px;
     text-align: center;
     align-items: center;
