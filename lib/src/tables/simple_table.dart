@@ -48,6 +48,13 @@ class SimpleCell extends Component {
     height = '30px';
   }
 
+  SimpleCell.createImageCell(String content, String width, String height) {
+    nodeRoot = ImageElement(src: content);
+    this.height = height;
+    this.width = width;
+    nodeRoot.style.border = '1px solid black';
+  }
+
   @override
   Element nodeRoot;
 
@@ -76,6 +83,14 @@ class SimpleTableRow extends HVPanel {
     final cell = SimpleCell.createLinkCell(href)
       ..text = text
       ..width = '${width}px';
+    cells.add(cell);
+    add(cell);
+    return cell;
+  }
+
+  SimpleCell createImageCell(String content, int width, int height) {
+    final cell =
+        SimpleCell.createImageCell(content, '${width}px', '${height}px');
     cells.add(cell);
     add(cell);
     return cell;
