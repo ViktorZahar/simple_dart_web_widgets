@@ -2,15 +2,12 @@ import 'dart:html';
 
 import '../../widgets.dart';
 
-class RadioField extends Component with Field<String> {
+class RadioField extends HVPanel with Field<String> {
   RadioField() {
-    nodeRoot.setAttribute('Name', 'RadioField');
-    nodeRoot.style.display = 'flex';
+    dartClassName('RadioField');
     addCssClasses([WidgetsTheme.radioField]);
   }
 
-  @override
-  final DivElement nodeRoot = DivElement();
   final List<RadioButtonInputElement> radioButtons = [];
   String groupName = '';
 
@@ -22,6 +19,7 @@ class RadioField extends Component with Field<String> {
       radioButtons.singleWhere((el) => el.value == value).checked = true;
 
   void addRadioButton(String value, String text) {
+    final rowPanel = HVPanel();
     final radioButton = RadioButtonInputElement()
       ..value = value
       ..name = groupName;
@@ -32,8 +30,9 @@ class RadioField extends Component with Field<String> {
       fireValueChange(radioButton.value, value);
     });
     radioButtons.add(radioButton);
-    nodeRoot.children.add(radioButton);
-    nodeRoot.children.add(label);
+    rowPanel.nodeRoot.children.add(radioButton);
+    rowPanel.nodeRoot.children.add(label);
+    add(rowPanel);
   }
 
   @override

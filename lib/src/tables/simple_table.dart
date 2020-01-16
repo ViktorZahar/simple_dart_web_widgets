@@ -6,7 +6,7 @@ import '../panels.dart';
 class SimpleTable extends HVPanel {
   SimpleTable() {
     vertical();
-    add(headersRow);
+    addRow(headersRow);
   }
 
   SimpleTableRow headersRow = SimpleTableRow();
@@ -14,19 +14,25 @@ class SimpleTable extends HVPanel {
   List<SimpleTableColumn> columns = <SimpleTableColumn>[];
 
   void createColumn(String headerCaption, int width) {
-    final column = SimpleTableColumn()
-      .._width = width
-      ..headerCell = headersRow.createCell(headerCaption, width);
+    final column = SimpleTableColumn().._width = width;
     columns.add(column);
+    headersRow.createCell(headerCaption).width='${width}px';
   }
 
   void createRow(List<String> cellTexts, String href) {
-    final row = SimpleTableRow();
-    add(row);
-    row.createHrefCell(cellTexts[0], href, columns[0].width);
+    final row = SimpleTableRow()..createHrefCell(cellTexts[0], href);
     for (var i = 1; i < columns.length; i++) {
-      row.createCell(cellTexts[i], columns[i].width);
+      row.createCell(cellTexts[i]);
     }
+    addRow(row);
+  }
+
+  void addRow(SimpleTableRow simpleTableRow) {
+    for (var i = 0; i < columns.length; i++) {
+      simpleTableRow.cells[i].width = '${columns[i].width}px';
+    }
+    rows.add(simpleTableRow);
+    add(simpleTableRow);
   }
 
   @override
@@ -48,11 +54,15 @@ class SimpleCell extends Component {
     height = '30px';
   }
 
-  SimpleCell.createImageCell(String content, String width, String height) {
-    nodeRoot = ImageElement(src: content);
-    this.height = height;
-    this.width = width;
-    nodeRoot.style.border = '1px solid black';
+  SimpleCell.createImageCell(
+      String content, String imageWidth, String imageHeight) {
+    final imageElement = ImageElement(src: content);
+    imageElement.style
+      ..width = imageWidth
+      ..height = imageHeight
+      ..border = '1px solid black';
+    nodeRoot = DivElement();
+    nodeRoot.children.add(imageElement);
   }
 
   @override
@@ -70,7 +80,7 @@ class SimpleTableRow extends HVPanel {
 
   List<SimpleCell> cells = <SimpleCell>[];
 
-  SimpleCell createCell(String text, int width) {
+  SimpleCell createCell(String text) {
     final cell = SimpleCell()
       ..text = text
       ..width = '${width}px';
@@ -79,7 +89,7 @@ class SimpleTableRow extends HVPanel {
     return cell;
   }
 
-  SimpleCell createHrefCell(String text, String href, int width) {
+  SimpleCell createHrefCell(String text, String href) {
     final cell = SimpleCell.createLinkCell(href)
       ..text = text
       ..width = '${width}px';

@@ -3,7 +3,7 @@ import '../widgets.dart';
 
 class SimpleButton extends Component with MixinCaption, MixinClickable {
   SimpleButton() {
-    nodeRoot.setAttribute('Name', 'SimpleButton');
+    dartClassName('SimpleButton');
     nodeRoot.children.add(nodeCaptionElement);
     _refreshDisplay();
   }
