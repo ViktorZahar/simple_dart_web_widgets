@@ -1,5 +1,5 @@
 class WidgetsTheme {
-  static const String basicFont = 'Consolas';
+  static const String basicFont = 'JetBrains Mono';
   static const String simpleButtonBasic = 'simpleButtonBasic';
   static const String simpleButtonWarrning = 'simpleButtonWarrning';
   static const String simpleButtonDisabled = 'simpleButtonDisabled';

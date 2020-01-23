@@ -6,17 +6,48 @@ import '../panels.dart';
 class SimpleTable extends HVPanel {
   SimpleTable() {
     vertical();
-    addRow(headersRow);
+    add(headersRow);
+    add(scrollablePanel);
   }
 
-  SimpleTableRow headersRow = SimpleTableRow();
+  SimpleTableRow headersRow = SimpleTableRow()..varName('headersRow');
   List<SimpleTableRow> rows = <SimpleTableRow>[];
   List<SimpleTableColumn> columns = <SimpleTableColumn>[];
+  HVPanel scrollablePanel = HVPanel()
+    ..vertical()
+    ..varName('scrollablePanel')
+    ..scrollable()
+    ..fillContent()
+    ..fullSize();
 
-  void createColumn(String headerCaption, int width) {
-    final column = SimpleTableColumn().._width = width;
+  Function(int columnIdx, String direction) onSortListener;
+
+  void createColumn(String headerCaption, int width, {bool sortable = false}) {
+    final column = SimpleTableColumn()
+      .._width = width
+      ..caption = headerCaption
+      ..sortable = sortable;
     columns.add(column);
-    headersRow.createCell(headerCaption).width='${width}px';
+    final headerCell = headersRow.createColumnHeaderCell(column)
+      ..width = '${width}px';
+    column.headerCell = headerCell;
+    if (sortable) {
+      headerCell.nodeRoot.onClick.listen((e) {
+        if (onSortListener != null) {
+          var sortSymbol = '';
+          if (headerCell.text == column.caption) {
+            sortSymbol = '▲';
+          } else if (headerCell.text.endsWith('▲')) {
+            sortSymbol = '▼';
+          }
+          for (final col in columns) {
+            col.headerCell.text = col.caption;
+          }
+          headerCell.text = '${column.caption} $sortSymbol'.trim();
+          onSortListener(columns.indexOf(column), sortSymbol);
+        }
+      });
+    }
   }
 
   void createRow(List<String> cellTexts, String href) {
@@ -32,26 +63,35 @@ class SimpleTable extends HVPanel {
       simpleTableRow.cells[i].width = '${columns[i].width}px';
     }
     rows.add(simpleTableRow);
-    add(simpleTableRow);
+    scrollablePanel.add(simpleTableRow);
   }
 
   @override
   void clear() {
-    super.clear();
-    rows.clear();
-    add(headersRow);
+    scrollablePanel.clear();
+  }
+
+  void applyCellStyle(
+      Function(int rowIdx, int colIdx, SimpleCell cell) styleFunction) {
+    var r = 0;
+    for (final row in rows) {
+      var c = 0;
+      for (final cell in row.cells) {
+        styleFunction(r, c, cell);
+        c++;
+      }
+      r++;
+    }
   }
 }
 
 class SimpleCell extends Component {
   SimpleCell() {
     nodeRoot = DivElement();
-    height = '30px';
   }
 
   SimpleCell.createLinkCell(String href) {
     nodeRoot = AnchorElement(href: href);
-    height = '30px';
   }
 
   SimpleCell.createImageCell(
@@ -89,6 +129,20 @@ class SimpleTableRow extends HVPanel {
     return cell;
   }
 
+  SimpleCell createColumnHeaderCell(SimpleTableColumn column) {
+    final cell = SimpleCell()
+      ..text = column.caption
+      ..width = '${width}px';
+    if (column.sortable) {
+      cell.nodeRoot.style
+        ..cursor = 'pointer'
+        ..fontWeight = 'bold';
+    }
+    cells.add(cell);
+    add(cell);
+    return cell;
+  }
+
   SimpleCell createHrefCell(String text, String href) {
     final cell = SimpleCell.createLinkCell(href)
       ..text = text
@@ -113,6 +167,7 @@ class SimpleTableColumn {
   List<SimpleCell> cells = <SimpleCell>[];
   String caption = '';
   int _width = 0;
+  bool sortable = false;
 
   int get width => _width;
 
