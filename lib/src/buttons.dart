@@ -40,7 +40,7 @@ class SimpleButton extends Component with MixinCaption, MixinClickable {
           addCssClasses([WidgetsTheme.simpleButtonBasic]);
           break;
         case SimpleButtonType.warrning:
-          addCssClasses([WidgetsTheme.simpleButtonWarrning]);
+          addCssClasses([WidgetsTheme.simpleButtonWarning]);
           break;
       }
     } else {

@@ -33,3 +33,20 @@ mixin MixinClickable {
     });
   }
 }
+
+mixin MixinDisablable {
+  List<Element> get disablableNodes;
+  bool _disabled;
+  bool get disabled => _disabled;
+
+  set disabled(bool newVal) {
+    _disabled = newVal;
+    for (final element in disablableNodes) {
+      if (newVal) {
+        element.setAttribute('disabled', '');
+      } else {
+        element.removeAttribute('disabled');
+      }
+    }
+  }
+}

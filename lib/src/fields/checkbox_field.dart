@@ -2,18 +2,23 @@ import 'dart:html';
 
 import '../../widgets.dart';
 
-class CheckboxField extends Component with Field<bool> {
+class CheckboxField extends Component with Field<bool>, MixinDisablable {
   CheckboxField() {
+    dartClassName('CheckboxField');
     nodeRoot.style
       ..display = 'flex'
       ..textAlign = 'center'
-      ..justifyContent = 'left';
+      ..justifyContent = 'left'
+      ..alignItems = 'center';
 
-    _checkBoxInput = CheckboxInputElement();
+    _checkBoxInput = CheckboxInputElement()
+      ..onChange.listen((event) {
+        fireValueChange(value, value);
+      });
     _checkBoxInput.style
-      ..fontSize = '16px'
+      ..width = '18px'
+      ..height = '18px'
       ..fontFamily = WidgetsTheme.basicFont;
-    nodeRoot.setAttribute('Name', 'CheckBox');
 
     _label = LabelElement()..style.paddingRight = '5px';
 
@@ -23,6 +28,8 @@ class CheckboxField extends Component with Field<bool> {
 
   @override
   DivElement nodeRoot = DivElement();
+  @override
+  List<Element> get disablableNodes => [_checkBoxInput];
   CheckboxInputElement _checkBoxInput;
   LabelElement _label;
   int _fontSize = 16;
@@ -56,7 +63,11 @@ class CheckboxField extends Component with Field<bool> {
   bool get value => _checkBoxInput.checked;
 
   @override
-  set value(bool value) => _checkBoxInput.checked = value;
+  set value(bool value) {
+    final oldValue=_checkBoxInput.checked;
+    _checkBoxInput.checked = value;
+    fireValueChange(oldValue, value);
+  }
 
   set caption(String caption) => _label.text = caption;
 

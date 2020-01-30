@@ -71,13 +71,19 @@ class HVPanel extends Component implements Composite {
     _spaceBetweenItems = space;
     for (final child in nodeRoot.children) {
       if (_vertical) {
-      child.style
-        ..marginBottom = '${space}px'
-        ..marginRight = '0';
+        child.style.marginBottom = '${space}px';
+        if (nodeRoot.style.flexWrap == 'wrap') {
+          child.style.marginRight = '${space}px';
+        } else {
+          child.style.marginRight = '0';
+        }
       } else {
-        child.style
-        ..marginBottom = '0'
-        ..marginRight = '${space}px';
+        child.style.marginRight = '${space}px';
+        if (nodeRoot.style.flexWrap == 'wrap') {
+          child.style.marginBottom = '${space}px';
+        } else {
+          child.style.marginBottom = '0';
+        }
       }
     }
   }

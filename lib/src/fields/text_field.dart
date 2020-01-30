@@ -2,7 +2,7 @@ import 'dart:html';
 
 import '../../widgets.dart';
 
-class TextField extends Component with Field<String> {
+class TextField extends Component with Field<String>, MixinDisablable {
   TextField() {
     nodeRoot.style
       ..display = 'flex'
@@ -24,6 +24,8 @@ class TextField extends Component with Field<String> {
 
   @override
   DivElement nodeRoot = DivElement();
+  @override
+  List<Element> get disablableNodes => [_textInput];
   TextInputElement _textInput;
   int _fontSize = 16;
 
@@ -65,9 +67,5 @@ class TextField extends Component with Field<String> {
   @override
   void focus() {
     _textInput.focus();
-  }
-
-  void disable() {
-    _textInput.disabled = true;
   }
 }
