@@ -51,7 +51,12 @@ class SimpleTable extends HVPanel {
   }
 
   void createRow(List<String> cellTexts, String href) {
-    final row = SimpleTableRow()..createHrefCell(cellTexts[0], href);
+    final row = SimpleTableRow();
+    if (href.isNotEmpty) {
+      row.createHrefCell(cellTexts[0], href);
+    } else {
+      row.createCell(cellTexts[0]);
+    }
     for (var i = 1; i < columns.length; i++) {
       row.createCell(cellTexts[i]);
     }
