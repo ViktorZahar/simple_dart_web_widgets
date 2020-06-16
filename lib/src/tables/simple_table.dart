@@ -50,7 +50,7 @@ class SimpleTable extends HVPanel {
     }
   }
 
-  void createRow(List<String> cellTexts, String href) {
+  SimpleTableRow createRow(List<String> cellTexts, String href) {
     final row = SimpleTableRow();
     if (href.isNotEmpty) {
       row.createHrefCell(cellTexts[0], href);
@@ -61,6 +61,7 @@ class SimpleTable extends HVPanel {
       row.createCell(cellTexts[i]);
     }
     addRow(row);
+    return row;
   }
 
   void addRow(SimpleTableRow simpleTableRow) {
@@ -74,6 +75,7 @@ class SimpleTable extends HVPanel {
   @override
   void clear() {
     scrollablePanel.clear();
+    rows.clear();
   }
 
   void applyCellStyle(

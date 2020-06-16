@@ -2,14 +2,14 @@ import 'dart:html';
 
 import '../../widgets.dart';
 
-class DateField extends Component with Field<DateTime>, MixinDisablable {
-  DateField() {
+class TextAreaField extends Component with Field<String>, MixinDisablable {
+  TextAreaField() {
     nodeRoot.style
       ..display = 'flex'
       ..textAlign = 'center'
       ..justifyContent = 'center';
 
-    _textInput = DateInputElement();
+    _textInput = TextAreaElement();
     _textInput.style
       ..fontSize = '16px'
       ..fontFamily = WidgetsTheme.basicFont
@@ -26,7 +26,7 @@ class DateField extends Component with Field<DateTime>, MixinDisablable {
   DivElement nodeRoot = DivElement();
   @override
   List<Element> get disablableNodes => [_textInput];
-  DateInputElement _textInput;
+  TextAreaElement _textInput;
   int _fontSize = 16;
 
   @override
@@ -59,23 +59,13 @@ class DateField extends Component with Field<DateTime>, MixinDisablable {
   set textAlign(String value) => _textInput.style.textAlign = value;
 
   @override
-  DateTime get value {
-    return _textInput.valueAsDate;
-  }
+  String get value => _textInput.value;
 
   @override
-  set value(DateTime value) => _textInput.value = formatDate(value);
-
-  String getStringValue() {
-    return formatDate(value);
-  }
+  set value(String value) => _textInput.value = value;
 
   @override
   void focus() {
     _textInput.focus();
-  }
-
-  String formatDate(DateTime date) {
-    return '${date.year.toString()}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
   }
 }
