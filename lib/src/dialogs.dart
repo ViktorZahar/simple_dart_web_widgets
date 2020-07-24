@@ -17,7 +17,9 @@ abstract class DialogWindow<T> {
       ..top = '0'
       ..position = 'absolute';
     backgroundElement.onClick.listen((e) {
-      closeDialog();
+      if (closable) {
+        closeDialog();
+      }
     });
     dialogElement = DivElement();
     dialogElement.style
@@ -42,11 +44,12 @@ abstract class DialogWindow<T> {
   DivElement dialogElement;
   DivElement captionElement;
   DivElement buttonsPanelElement;
-  Completer<T> compliter;
+  Completer<T> completer;
   Function() onCloseListener;
+  bool closable = true;
 
   Future showDialog() {
-    final completer = Completer<T>();
+    completer = Completer<T>();
     final bodyElement = window.document.querySelector('body');
     captionElement.text = caption();
     bodyElement.children.add(backgroundElement);

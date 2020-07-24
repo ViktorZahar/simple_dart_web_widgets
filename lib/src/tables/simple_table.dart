@@ -1,15 +1,16 @@
 import 'dart:html';
 
-import '../abstract_component.dart';
-import '../panels.dart';
+import '../../widgets.dart';
 
 class SimpleTable extends HVPanel {
   SimpleTable() {
     vertical();
-    add(headersRow);
-    add(scrollablePanel);
+    nodeRoot.style.flexShrink = '1';
+    addAll([nameLabel, headersRow, scrollablePanel]);
+    nodeRoot.onCopy.listen(copyToClipboard);
   }
 
+  SimpleLabel nameLabel = SimpleLabel()..varName('nameLabel');
   SimpleTableRow headersRow = SimpleTableRow()..varName('headersRow');
   List<SimpleTableRow> rows = <SimpleTableRow>[];
   List<SimpleTableColumn> columns = <SimpleTableColumn>[];
@@ -57,7 +58,7 @@ class SimpleTable extends HVPanel {
     } else {
       row.createCell(cellTexts[0]);
     }
-    for (var i = 1; i < columns.length; i++) {
+    for (var i = 1; i < cellTexts.length; i++) {
       row.createCell(cellTexts[i]);
     }
     addRow(row);
@@ -65,8 +66,10 @@ class SimpleTable extends HVPanel {
   }
 
   void addRow(SimpleTableRow simpleTableRow) {
-    for (var i = 0; i < columns.length; i++) {
-      simpleTableRow.cells[i].width = '${columns[i].width}px';
+    if (columns.length == simpleTableRow.cells.length) {
+      for (var i = 0; i < simpleTableRow.cells.length; i++) {
+        simpleTableRow.cells[i].width = '${columns[i].width}px';
+      }
     }
     rows.add(simpleTableRow);
     scrollablePanel.add(simpleTableRow);
@@ -89,6 +92,21 @@ class SimpleTable extends HVPanel {
       }
       r++;
     }
+  }
+
+  void copyToClipboard(ClipboardEvent event) {
+    var cpData = nameLabel.caption + '\n';
+    cpData +=
+        headersRow.cells.map((cell) => cell.text).toList().join('\t') + '\n';
+    for (final row in rows) {
+      cpData += row.cells
+              .map((cell) => cell.text.replaceAll('.', ','))
+              .toList()
+              .join('\t') +
+          '\n';
+    }
+    event.clipboardData.setData('text/plain', cpData);
+    event.preventDefault();
   }
 }
 
