@@ -9,7 +9,7 @@ class SimpleTable extends HVPanel {
     addAll([nameLabel, headersRow, scrollablePanel]);
     nodeRoot.onCopy.listen(copyToClipboard);
   }
-
+  bool copyFull = false;
   SimpleLabel nameLabel = SimpleLabel()..varName('nameLabel');
   SimpleTableRow headersRow = SimpleTableRow()..varName('headersRow');
   List<SimpleTableRow> rows = <SimpleTableRow>[];
@@ -95,18 +95,20 @@ class SimpleTable extends HVPanel {
   }
 
   void copyToClipboard(ClipboardEvent event) {
-    var cpData = nameLabel.caption + '\n';
-    cpData +=
-        headersRow.cells.map((cell) => cell.text).toList().join('\t') + '\n';
-    for (final row in rows) {
-      cpData += row.cells
-              .map((cell) => cell.text.replaceAll('.', ','))
-              .toList()
-              .join('\t') +
-          '\n';
+    if (copyFull) {
+      var cpData = nameLabel.caption + '\n';
+      cpData +=
+          headersRow.cells.map((cell) => cell.text).toList().join('\t') + '\n';
+      for (final row in rows) {
+        cpData += row.cells
+                .map((cell) => cell.text.replaceAll('.', ','))
+                .toList()
+                .join('\t') +
+            '\n';
+      }
+      event.clipboardData.setData('text/plain', cpData);
+      event.preventDefault();
     }
-    event.clipboardData.setData('text/plain', cpData);
-    event.preventDefault();
   }
 }
 
