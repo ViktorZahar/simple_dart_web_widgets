@@ -19,6 +19,7 @@ class ComboboxField extends Component with Field<String>, MixinDisablable {
   @override
   List<Element> get disablableNodes => [_selectElement];
   final SelectElement _selectElement = SelectElement();
+  final List<String> optionList = <String>[];
 
   @override
   String get value => _selectElement.options[_selectElement.selectedIndex].text;
@@ -41,6 +42,7 @@ class ComboboxField extends Component with Field<String>, MixinDisablable {
   }
 
   void initOptions(List<String> options) {
+    optionList.addAll(options);
     for (final option in _selectElement.options) {
       option.remove();
     }
