@@ -18,7 +18,8 @@ class BlockStateLabel {
       ..position = 'absolute'
       ..flexDirection = 'column'
       ..justifyContent = 'center'
-      ..alignItems = 'center';
+      ..alignItems = 'center'
+      ..zIndex='10';
     labelElement = DivElement();
     labelElement.style
       ..display = 'flex'
