@@ -9,17 +9,17 @@ class TextField extends Component with Field<String>, MixinDisablable {
       ..textAlign = 'center'
       ..justifyContent = 'center';
     if (password) {
-      _textInput = PasswordInputElement();
+      textInput = PasswordInputElement();
     } else {
-      _textInput = TextInputElement();
+      textInput = TextInputElement();
     }
-    _textInput.style
+    textInput.style
       ..fontSize = '16px'
       ..fontFamily = WidgetsTheme.basicFont
       ..width = '100%'
       ..flexGrow = '1';
     nodeRoot.setAttribute('Name', 'TextField');
-    nodeRoot.children.add(_textInput);
+    nodeRoot.children.add(textInput);
     nodeRoot.onChange.listen((event) {
       fireValueChange(value, value);
     });
@@ -28,47 +28,49 @@ class TextField extends Component with Field<String>, MixinDisablable {
   @override
   DivElement nodeRoot = DivElement();
   @override
-  List<Element> get disablableNodes => [_textInput];
-  TextInputElementBase _textInput;
+  List<Element> get disablableNodes => [textInput];
+  TextInputElementBase textInput;
   int _fontSize = 16;
 
   @override
   set width(String width) {
-    _textInput.style.width = width;
+    textInput.style.width = width;
     nodeRoot.style.width = width;
   }
 
   @override
   set height(String height) {
-    _textInput.style.height = height;
+    textInput.style.height = height;
     nodeRoot.style.height = height;
   }
 
   set fontSize(int size) {
     _fontSize = size;
-    _textInput.style.fontSize = '${size}px';
+    textInput.style.fontSize = '${size}px';
   }
 
   int get fontSize => _fontSize;
 
   void onChange(Function(Event event) listener) {
-    _textInput.onChange.listen((e) {
+    textInput.onChange.listen((e) {
       listener(e);
     });
   }
 
-  String get textAlign => _textInput.style.textAlign;
+  
 
-  set textAlign(String value) => _textInput.style.textAlign = value;
+  String get textAlign => textInput.style.textAlign;
+
+  set textAlign(String value) => textInput.style.textAlign = value;
 
   @override
-  String get value => _textInput.value;
+  String get value => textInput.value;
 
   @override
-  set value(String value) => _textInput.value = value;
+  set value(String value) => textInput.value = value;
 
   @override
   void focus() {
-    _textInput.focus();
+    textInput.focus();
   }
 }

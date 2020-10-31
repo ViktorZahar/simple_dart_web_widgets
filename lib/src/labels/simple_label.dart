@@ -5,6 +5,7 @@ import '../../widgets.dart';
 class SimpleLabel extends Component {
   SimpleLabel() {
     nodeRoot.style
+      ..flexShrink = '0'
       ..alignItems = _verticalAlign
       ..justifyContent = _horizontalAlign;
   }

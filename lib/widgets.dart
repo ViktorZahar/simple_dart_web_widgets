@@ -1,6 +1,7 @@
 library widgets;
 
 export 'src/abstract_component.dart';
+export 'src/anchor_button.dart';
 export 'src/block_state_label.dart';
 export 'src/buttons.dart';
 export 'src/context_menu.dart';
