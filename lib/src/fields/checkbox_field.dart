@@ -48,7 +48,7 @@ class CheckboxField extends Component with Field<bool>, MixinDisablable {
 
   set fontSize(int size) {
     _fontSize = size;
-    _checkBoxInput.style.fontSize = '${size}px';
+    _label.style.fontSize = '${size}px';
   }
 
   int get fontSize => _fontSize;
@@ -64,7 +64,7 @@ class CheckboxField extends Component with Field<bool>, MixinDisablable {
 
   @override
   set value(bool value) {
-    final oldValue=_checkBoxInput.checked;
+    final oldValue = _checkBoxInput.checked;
     _checkBoxInput.checked = value;
     fireValueChange(oldValue, value);
   }

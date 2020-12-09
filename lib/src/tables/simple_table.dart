@@ -23,11 +23,13 @@ class SimpleTable extends HVPanel {
 
   Function(int columnIdx, String direction) onSortListener;
 
-  void createColumn(String headerCaption, int width, {bool sortable = false}) {
+  SimpleTableColumn createColumn(String headerCaption, int width,
+      {bool sortable = false, String vAlign = 'left'}) {
     final column = SimpleTableColumn()
       .._width = width
       ..caption = headerCaption
-      ..sortable = sortable;
+      ..sortable = sortable
+      ..vAlign = vAlign;
     columns.add(column);
     final headerCell = headersRow.createColumnHeaderCell(column)
       ..width = '${width}px';
@@ -49,6 +51,7 @@ class SimpleTable extends HVPanel {
         }
       });
     }
+    return column;
   }
 
   SimpleTableRow createRow(List<String> cellTexts, String href) {
@@ -59,7 +62,14 @@ class SimpleTable extends HVPanel {
       row.createCell(cellTexts[0]);
     }
     for (var i = 1; i < cellTexts.length; i++) {
-      row.createCell(cellTexts[i]);
+      final cell = row.createCell(cellTexts[i]);
+      var vAlign = columns[i].vAlign;
+      if (vAlign == 'center') {
+        cell.nodeRoot.style.justifyContent = 'center';
+      }
+      if (vAlign == 'right') {
+        cell.nodeRoot.style.justifyContent = 'flex-end';
+      }
     }
     addRow(row);
     return row;
@@ -114,7 +124,7 @@ class SimpleTable extends HVPanel {
 
 class SimpleCell extends Component {
   SimpleCell() {
-    nodeRoot = DivElement();
+    nodeRoot = DivElement()..style.overflowWrap = 'anywhere';
   }
 
   SimpleCell.createLinkCell(String href) {
@@ -195,6 +205,7 @@ class SimpleTableColumn {
   String caption = '';
   int _width = 0;
   bool sortable = false;
+  String vAlign = 'left';
 
   int get width => _width;
 
