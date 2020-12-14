@@ -10,6 +10,7 @@ export 'src/fields/checkbox_field.dart';
 export 'src/fields/combobox_field.dart';
 export 'src/fields/date_field.dart';
 export 'src/fields/radio_field.dart';
+export 'src/fields/select_field.dart';
 export 'src/fields/text_area_field.dart';
 export 'src/fields/text_field.dart';
 export 'src/file_chooser.dart';
