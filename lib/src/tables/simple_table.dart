@@ -70,7 +70,7 @@ class SimpleTable extends HVPanel {
     }
     for (var i = 1; i < cellTexts.length; i++) {
       final cell = row.createCell(cellTexts[i]);
-      var vAlign = columns[i].vAlign;
+      final vAlign = columns[i].vAlign;
       if (vAlign == 'center') {
         cell.nodeRoot.style.justifyContent = 'center';
       }
@@ -113,13 +113,14 @@ class SimpleTable extends HVPanel {
 
   void copyToClipboard(ClipboardEvent event) {
     if (copyFull) {
-      var cpData = nameLabel.caption + '\n';
-      cpData +=
-          headersRow.cells.map((cell) => cell.text).toList().join('\t') + '\n';
+      final cpData = StringBuffer()
+        ..writeln(nameLabel.caption)
+        ..writeln(
+            headersRow.cells.map((cell) => cell.text).toList().join('\t'));
       for (final row in rows) {
-        cpData += row.cells.map((cell) => cell.text).toList().join('\t') + '\n';
+        cpData.writeln(row.cells.map((cell) => cell.text).toList().join('\t'));
       }
-      event.clipboardData.setData('text/plain', cpData);
+      event.clipboardData.setData('text/plain', cpData.toString());
       event.preventDefault();
     }
   }
