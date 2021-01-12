@@ -6,14 +6,21 @@ class SimpleTable extends HVPanel {
   SimpleTable() {
     vertical();
     nodeRoot.style.flexShrink = '1';
-    addAll([nameLabel, headersRow, scrollablePanel]);
+    nameLabel.fillContent();
+    btnCopyFull.onChange((event) {
+      copyFull = btnCopyFull.value;
+    });
+    namePanel..add(nameLabel)..add(btnCopyFull);
+    addAll([namePanel, headersRow, scrollablePanel]);
     nodeRoot.onCopy.listen(copyToClipboard);
   }
+  HVPanel namePanel = HVPanel();
   bool copyFull = false;
   SimpleLabel nameLabel = SimpleLabel()..varName('nameLabel');
   SimpleTableRow headersRow = SimpleTableRow()..varName('headersRow');
   List<SimpleTableRow> rows = <SimpleTableRow>[];
   List<SimpleTableColumn> columns = <SimpleTableColumn>[];
+  CheckboxField btnCopyFull = CheckboxField()..caption = 'copy full';
   HVPanel scrollablePanel = HVPanel()
     ..vertical()
     ..varName('scrollablePanel')
@@ -110,11 +117,7 @@ class SimpleTable extends HVPanel {
       cpData +=
           headersRow.cells.map((cell) => cell.text).toList().join('\t') + '\n';
       for (final row in rows) {
-        cpData += row.cells
-                .map((cell) => cell.text.replaceAll('.', ','))
-                .toList()
-                .join('\t') +
-            '\n';
+        cpData += row.cells.map((cell) => cell.text).toList().join('\t') + '\n';
       }
       event.clipboardData.setData('text/plain', cpData);
       event.preventDefault();
