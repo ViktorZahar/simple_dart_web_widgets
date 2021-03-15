@@ -12,7 +12,8 @@ class RadioField extends HVPanel with Field<String> {
   String groupName = '';
 
   @override
-  String get value => radioButtons.singleWhere((el) => el.checked).value;
+  String get value =>
+      radioButtons.singleWhere((el) => el.checked ?? false).value ?? '';
 
   @override
   set value(String value) =>
@@ -27,7 +28,7 @@ class RadioField extends HVPanel with Field<String> {
       ..style.paddingRight = '5px'
       ..text = text;
     radioButton.onChange.listen((ev) {
-      fireValueChange(radioButton.value, value);
+      fireValueChange(radioButton.value!, value);
     });
     radioButtons.add(radioButton);
     rowPanel.nodeRoot.children.add(radioButton);

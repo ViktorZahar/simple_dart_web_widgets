@@ -22,13 +22,14 @@ class ComboboxField extends Component with Field<String>, MixinDisablable {
   final List<String> optionList = <String>[];
 
   @override
-  String get value => _selectElement.options[_selectElement.selectedIndex].text;
+  String get value =>
+      _selectElement.options[_selectElement.selectedIndex!].text ?? '';
 
   @override
   set value(String newValue) {
-    final oldValue = _selectElement.value;
+    final oldValue = _selectElement.value ?? '';
     for (final option in _selectElement.options) {
-      if (option.text.toUpperCase() == newValue.toUpperCase()) {
+      if (option.text?.toUpperCase() == newValue.toUpperCase()) {
         _selectElement.selectedIndex = option.index;
         break;
       }

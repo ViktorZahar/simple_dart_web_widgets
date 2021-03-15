@@ -4,7 +4,6 @@ import 'dart:html';
 
 class ContextMenu {
   ContextMenu() {
-    backgroundElement = DivElement();
     backgroundElement.style
       ..width = '100%'
       ..height = '100%'
@@ -17,7 +16,6 @@ class ContextMenu {
     backgroundElement.onClick.listen((e) {
       closeMenu();
     });
-    menuElement = DivElement();
     menuElement.style
       ..position = 'absolute'
       ..display = 'flex'
@@ -27,14 +25,14 @@ class ContextMenu {
       ..flexDirection = 'column';
   }
 
-  Completer<String> completer;
+  Completer<String> completer = Completer<String>();
 
-  DivElement backgroundElement;
-  DivElement menuElement;
+  DivElement backgroundElement = DivElement();
+  DivElement menuElement = DivElement();
 
   Future<String> showContextMenu(List<String> actions, num x, num y) {
     completer = Completer();
-    final body = window.document.querySelector('body');
+    final body = window.document.querySelector('body')!;
     body.children.add(backgroundElement);
     menuElement.children.clear();
     for (final action in actions) {

@@ -11,16 +11,13 @@ class CheckboxField extends Component with Field<bool>, MixinDisablable {
       ..justifyContent = 'left'
       ..alignItems = 'center';
 
-    _checkBoxInput = CheckboxInputElement()
-      ..onChange.listen((event) {
-        fireValueChange(value, value);
-      });
+    _checkBoxInput.onChange.listen((event) {
+      fireValueChange(value, value);
+    });
     _checkBoxInput.style
       ..width = '18px'
       ..height = '18px'
       ..fontFamily = WidgetsTheme.basicFont;
-
-    _label = LabelElement()..style.paddingRight = '5px';
 
     nodeRoot.children.add(_checkBoxInput);
     nodeRoot.children.add(_label);
@@ -30,8 +27,8 @@ class CheckboxField extends Component with Field<bool>, MixinDisablable {
   DivElement nodeRoot = DivElement();
   @override
   List<Element> get disablableNodes => [_checkBoxInput];
-  CheckboxInputElement _checkBoxInput;
-  LabelElement _label;
+  final CheckboxInputElement _checkBoxInput = CheckboxInputElement();
+  final LabelElement _label = LabelElement()..style.paddingRight = '5px';
   int _fontSize = 16;
 
   @override
@@ -60,18 +57,18 @@ class CheckboxField extends Component with Field<bool>, MixinDisablable {
   }
 
   @override
-  bool get value => _checkBoxInput.checked;
+  bool get value => _checkBoxInput.checked ?? false;
 
   @override
   set value(bool value) {
-    final oldValue = _checkBoxInput.checked;
+    final oldValue = _checkBoxInput.checked ?? false;
     _checkBoxInput.checked = value;
     fireValueChange(oldValue, value);
   }
 
   set caption(String caption) => _label.text = caption;
 
-  String get caption => _label.text;
+  String get caption => _label.text ?? '';
 
   @override
   void focus() {

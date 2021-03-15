@@ -18,29 +18,29 @@ class Pager extends Component {
     nodeRoot.children.add(btnNext.nodeRoot);
     nodeRoot.children.add(btnLast.nodeRoot);
     btnFirst.onClick((e) {
-      pagable.openPage(1);
+      pagable!.openPage(1);
       refreshDisplay();
     });
     btnPrev.onClick((e) {
-      if (pagable.currentPage > 1) {
-        pagable.openPage(pagable.currentPage - 1);
+      if (pagable!.currentPage > 1) {
+        pagable!.openPage(pagable!.currentPage - 1);
         refreshDisplay();
       }
     });
     btnNext.onClick((e) {
-      if (pagable.currentPage < pagable.pageCount) {
-        pagable.openPage(pagable.currentPage + 1);
+      if (pagable!.currentPage < pagable!.pageCount) {
+        pagable!.openPage(pagable!.currentPage + 1);
         refreshDisplay();
       }
     });
     btnLast.onClick((e) {
-      pagable.openPage(pagable.pageCount);
+      pagable!.openPage(pagable!.pageCount);
       refreshDisplay();
     });
     textElement.onChange((e) {
       try {
         final newPageNum = int.parse(textElement.value);
-        pagable.openPage(newPageNum);
+        pagable!.openPage(newPageNum);
         refreshDisplay();
       } on Exception catch (_) {}
     });
@@ -78,7 +78,7 @@ class Pager extends Component {
     ..nodeRoot.style.paddingLeft = '5px'
     ..nodeRoot.style.paddingRight = '5px';
 
-  Pagable pagable;
+  Pagable? pagable;
 
   void bind(Pagable pagable) {
     this.pagable = pagable;
@@ -86,12 +86,14 @@ class Pager extends Component {
   }
 
   void refreshDisplay() {
-    textElement.value = pagable.currentPage.toString();
-    lblCount.caption = '/ ${pagable.pageCount}';
-    btnFirst.enabled = pagable.currentPage != 1;
-    btnLast.enabled = pagable.currentPage < pagable.pageCount;
-    btnPrev.enabled = btnFirst.enabled;
-    btnNext.enabled = btnLast.enabled;
+    if (pagable != null) {
+      textElement.value = pagable!.currentPage.toString();
+      lblCount.caption = '/ ${pagable!.pageCount}';
+      btnFirst.enabled = pagable!.currentPage != 1;
+      btnLast.enabled = pagable!.currentPage < pagable!.pageCount;
+      btnPrev.enabled = btnFirst.enabled;
+      btnNext.enabled = btnLast.enabled;
+    }
   }
 }
 

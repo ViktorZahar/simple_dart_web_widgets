@@ -9,7 +9,6 @@ class TextAreaField extends Component with Field<String>, MixinDisablable {
       ..textAlign = 'center'
       ..justifyContent = 'center';
 
-    _textInput = TextAreaElement();
     _textInput.style
       ..fontSize = '16px'
       ..fontFamily = WidgetsTheme.basicFont
@@ -26,7 +25,7 @@ class TextAreaField extends Component with Field<String>, MixinDisablable {
   DivElement nodeRoot = DivElement();
   @override
   List<Element> get disablableNodes => [_textInput];
-  TextAreaElement _textInput;
+  final TextAreaElement _textInput = TextAreaElement();
   int _fontSize = 16;
 
   @override
@@ -59,7 +58,7 @@ class TextAreaField extends Component with Field<String>, MixinDisablable {
   set textAlign(String value) => _textInput.style.textAlign = value;
 
   @override
-  String get value => _textInput.value;
+  String get value => _textInput.value ?? '';
 
   @override
   set value(String value) => _textInput.value = value;

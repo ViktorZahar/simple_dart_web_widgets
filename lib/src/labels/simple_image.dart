@@ -36,5 +36,5 @@ class SimpleImage extends Component {
     nodeRoot.src = newSource;
   }
 
-  String get source => nodeRoot.src;
+  String get source => nodeRoot.src ?? '';
 }

@@ -5,8 +5,6 @@ import '../widgets.dart';
 
 class BlockStateLabel {
   BlockStateLabel() {
-    backgroundElement = DivElement()
-      ..setAttribute('classname', 'BlockStateLabel');
     backgroundElement.style
       ..width = '100%'
       ..height = '100%'
@@ -19,8 +17,7 @@ class BlockStateLabel {
       ..flexDirection = 'column'
       ..justifyContent = 'center'
       ..alignItems = 'center'
-      ..zIndex='10';
-    labelElement = DivElement();
+      ..zIndex = '10';
     labelElement.style
       ..display = 'flex'
       ..width = '100%'
@@ -35,59 +32,54 @@ class BlockStateLabel {
       ..caption = 'Retry'
       ..width = '30%'
       ..nodeRoot.style.marginBottom = '5px';
-    cancelButton = SimpleButton()
+    cancelButton
       ..width = '30%'
       ..caption = 'Cancel'
       ..type = SimpleButtonType.warrning
       ..nodeRoot.style.marginBottom = '5px';
     backgroundElement.onClick.listen((e) {
-      if (retryCompleter != null) {
-        retryCompleter.complete(false);
-      }
+      retryCompleter?.complete(false);
       retryCompleter = null;
       hide();
     });
     cancelButton.onClick((e) {
-      if (retryCompleter != null) {
-        retryCompleter.complete(false);
-      }
+      retryCompleter?.complete(false);
       retryCompleter = null;
       hide();
     });
-    retryButton.onClick((e) {
-      if (retryCompleter != null) {
-        retryCompleter.complete(true);
-      }
+    retryButton!.onClick((e) {
+      retryCompleter?.complete(true);
       retryCompleter = null;
       hide();
     });
     backgroundElement.children.add(labelElement);
-    backgroundElement.children.add(retryButton.nodeRoot);
+    backgroundElement.children.add(retryButton!.nodeRoot);
     backgroundElement.children.add(cancelButton.nodeRoot);
   }
 
-  DivElement backgroundElement;
-  DivElement labelElement;
+  DivElement backgroundElement = DivElement()
+    ..setAttribute('classname', 'BlockStateLabel');
+  DivElement labelElement = DivElement();
 
-  SimpleButton retryButton;
-  SimpleButton cancelButton;
+  SimpleButton? retryButton;
+  SimpleButton cancelButton = SimpleButton();
 
-  Completer<bool> retryCompleter;
+  Completer<bool>? retryCompleter;
 
   void showText(String message) {
     backgroundElement.style.display = 'flex';
     labelElement.text = message;
-    retryButton.visible = false;
+    retryButton?.visible = false;
     cancelButton.visible = false;
   }
 
   Future<bool> showTextWaitRetry(String message) {
     backgroundElement.style.display = 'flex';
     labelElement.text = message;
-    retryButton.visible = true;
+    retryButton?.visible = true;
     cancelButton.visible = true;
     retryCompleter = Completer<bool>();
-    return retryCompleter.future;
+    return retryCompleter!.future;
   }
 
   void hide() {
@@ -95,5 +87,5 @@ class BlockStateLabel {
   }
 
   set caption(String newCaption) => labelElement.text = newCaption;
-  String get caption => labelElement.text;
+  String get caption => labelElement.text ?? '';
 }

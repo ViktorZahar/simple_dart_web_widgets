@@ -26,7 +26,7 @@ class SimpleLabel extends Component {
 
   set caption(String caption) => nodeRoot.text = caption;
 
-  String get caption => nodeRoot.text;
+  String get caption => nodeRoot.text ?? '';
 
   String get verticalAlign => _verticalAlign;
 

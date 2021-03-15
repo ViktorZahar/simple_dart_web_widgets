@@ -23,11 +23,12 @@ class SelectField extends Component with Field<List<String>>, MixinDisablable {
 
   @override
   List<String> get value =>
-      _selectElement.selectedOptions.map((so) => so.text).toList();
+      _selectElement.selectedOptions.map((so) => so.text!).toList();
 
   @override
   set value(List<String> newValue) {
-    final oldValue = _selectElement.selectedOptions.map((so) => so.text);
+    final oldValue =
+        _selectElement.selectedOptions.map((so) => so.text!).toList();
     for (final option in _selectElement.options) {
       if (newValue.contains(option.text)) {
         option.selected = true;
@@ -65,9 +66,9 @@ class SelectField extends Component with Field<List<String>>, MixinDisablable {
     });
   }
 
-  bool get multiple => _selectElement.multiple;
+  bool get multiple => _selectElement.multiple ?? false;
   set multiple(bool newVal) => _selectElement.multiple = newVal;
 
-  int get size => _selectElement.size;
+  int get size => _selectElement.size ?? 0;
   set size(int newVal) => _selectElement.size = newVal;
 }

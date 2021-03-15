@@ -12,7 +12,7 @@ class TabPanel extends HVPanel {
     ..varName('tagsPanel')
     ..height = '30px';
   List<TabTag> tags = <TabTag>[];
-  TabTag _currentTag;
+  TabTag? _currentTag;
 
   TabTag addTab(String caption, Component tabComponent) {
     final newTabTag = TabTag()
@@ -26,21 +26,21 @@ class TabPanel extends HVPanel {
     return newTabTag;
   }
 
-  TabTag get currentTag => _currentTag;
+  TabTag get currentTag => _currentTag!;
 
   set currentTag(TabTag tabTag) {
     if (_currentTag != tabTag) {
       if (_currentTag != null) {
-        _currentTag
+        _currentTag!
           ..clearClasses()
           ..addCssClasses([WidgetsTheme.tabTag]);
-        remove(_currentTag.tabContent);
+        remove(_currentTag!.tabContent!);
       }
       _currentTag = tabTag
         ..clearClasses()
         ..addCssClasses([WidgetsTheme.tabTagCurrent])
         ..fireOnSelect();
-      add(_currentTag.tabContent);
+      add(_currentTag!.tabContent!);
     }
   }
 }
@@ -51,7 +51,7 @@ class TabTag extends SimpleLabel {
     clearClasses();
     addCssClasses([WidgetsTheme.tabTag]);
   }
-  Component tabContent;
+  Component? tabContent;
   List<Function()> onSelectListeners = <Function()>[];
 
   void onSelect(Function() listener) {

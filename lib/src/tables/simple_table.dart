@@ -8,16 +8,18 @@ class SimpleTable extends HVPanel {
     nodeRoot.style.flexShrink = '1';
     nameLabel.fillContent();
     btnCopyFull.onChange((event) {
-      copyFull = btnCopyFull.value;
+      _copyFull = btnCopyFull.value;
     });
     namePanel..add(nameLabel)..add(btnCopyFull);
     addAll([namePanel, headersRow, scrollablePanel]);
     nodeRoot.onCopy.listen(copyToClipboard);
   }
   HVPanel namePanel = HVPanel();
-  bool copyFull = false;
+  bool _copyFull = false;
   SimpleLabel nameLabel = SimpleLabel()..varName('nameLabel');
-  SimpleTableRow headersRow = SimpleTableRow()..varName('headersRow');
+  SimpleTableRow headersRow = SimpleTableRow()
+    ..varName('headersRow')
+    ..nodeRoot.style.paddingRight = '15px';
   List<SimpleTableRow> rows = <SimpleTableRow>[];
   List<SimpleTableColumn> columns = <SimpleTableColumn>[];
   CheckboxField btnCopyFull = CheckboxField()..caption = 'copy full';
@@ -28,7 +30,14 @@ class SimpleTable extends HVPanel {
     ..fillContent()
     ..fullSize();
 
-  Function(int columnIdx, String direction) onSortListener;
+  Function(int columnIdx, String direction)? onSortListener;
+
+  bool get copyFull => _copyFull;
+
+  set copyFull(bool newVal) {
+    _copyFull = newVal;
+    btnCopyFull.value = newVal;
+  }
 
   SimpleTableColumn createColumn(String headerCaption, int width,
       {bool sortable = false, String vAlign = 'left'}) {
@@ -54,7 +63,7 @@ class SimpleTable extends HVPanel {
             col.headerCell.text = col.caption;
           }
           headerCell.text = '${column.caption} $sortSymbol'.trim();
-          onSortListener(columns.indexOf(column), sortSymbol);
+          onSortListener!(columns.indexOf(column), sortSymbol);
         }
       });
     }
@@ -112,7 +121,7 @@ class SimpleTable extends HVPanel {
   }
 
   void copyToClipboard(ClipboardEvent event) {
-    if (copyFull) {
+    if (_copyFull) {
       final cpData = StringBuffer()
         ..writeln(nameLabel.caption)
         ..writeln(
@@ -120,16 +129,14 @@ class SimpleTable extends HVPanel {
       for (final row in rows) {
         cpData.writeln(row.cells.map((cell) => cell.text).toList().join('\t'));
       }
-      event.clipboardData.setData('text/plain', cpData.toString());
+      event.clipboardData!.setData('text/plain', cpData.toString());
       event.preventDefault();
     }
   }
 }
 
 class SimpleCell extends Component {
-  SimpleCell() {
-    nodeRoot = DivElement()..style.overflowWrap = 'anywhere';
-  }
+  SimpleCell();
 
   SimpleCell.createLinkCell(String href) {
     nodeRoot = AnchorElement(href: href);
@@ -147,9 +154,9 @@ class SimpleCell extends Component {
   }
 
   @override
-  Element nodeRoot;
+  Element nodeRoot = DivElement()..style.overflowWrap = 'anywhere';
 
-  String get text => nodeRoot.text;
+  String get text => nodeRoot.text ?? '';
 
   set text(String newText) => nodeRoot.text = newText;
 }
@@ -204,7 +211,7 @@ class SimpleTableRow extends HVPanel {
 
 class SimpleTableColumn {
   SimpleTableColumn();
-  SimpleCell headerCell;
+  SimpleCell headerCell = SimpleCell();
   List<SimpleCell> cells = <SimpleCell>[];
   String caption = '';
   int _width = 0;

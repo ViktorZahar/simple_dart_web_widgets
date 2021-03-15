@@ -10,8 +10,6 @@ class TextField extends Component with Field<String>, MixinDisablable {
       ..justifyContent = 'center';
     if (password) {
       textInput = PasswordInputElement();
-    } else {
-      textInput = TextInputElement();
     }
     textInput.style
       ..fontSize = '16px'
@@ -29,7 +27,7 @@ class TextField extends Component with Field<String>, MixinDisablable {
   DivElement nodeRoot = DivElement();
   @override
   List<Element> get disablableNodes => [textInput];
-  TextInputElementBase textInput;
+  TextInputElementBase textInput = TextInputElement();
   int _fontSize = 16;
 
   @override
@@ -57,14 +55,12 @@ class TextField extends Component with Field<String>, MixinDisablable {
     });
   }
 
-  
-
   String get textAlign => textInput.style.textAlign;
 
   set textAlign(String value) => textInput.style.textAlign = value;
 
   @override
-  String get value => textInput.value;
+  String get value => textInput.value ?? '';
 
   @override
   set value(String value) => textInput.value = value;

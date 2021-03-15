@@ -9,31 +9,32 @@ class DateField extends Component with Field<DateTime>, MixinDisablable {
       ..textAlign = 'center'
       ..justifyContent = 'center';
 
-    _dateInput = DateInputElement();
     _dateInput.style
       ..fontSize = '16px'
       ..fontFamily = WidgetsTheme.basicFont
       ..width = '100%'
       ..flexGrow = '1';
-    _timeInput = LocalDateTimeInputElement();
+
     _timeInput.style
       ..fontSize = '16px'
       ..fontFamily = WidgetsTheme.basicFont
       ..width = '100%'
       ..flexGrow = '1';
-    nodeRoot.setAttribute('Name', 'TextField');
-    nodeRoot.children.add(_dateInput);
-    nodeRoot.onChange.listen((event) {
-      fireValueChange(value, value);
-    });
+
+    nodeRoot
+      ..setAttribute('Name', 'TextField')
+      ..children.add(_dateInput)
+      ..onChange.listen((event) {
+        fireValueChange(value, value);
+      });
   }
 
   @override
   DivElement nodeRoot = DivElement();
   @override
   List<Element> get disablableNodes => [_dateInput, _timeInput];
-  DateInputElement _dateInput;
-  LocalDateTimeInputElement _timeInput;
+  final DateInputElement _dateInput = DateInputElement();
+  final LocalDateTimeInputElement _timeInput = LocalDateTimeInputElement();
   int _fontSize = 16;
   bool _showTime = false;
 
@@ -89,7 +90,9 @@ class DateField extends Component with Field<DateTime>, MixinDisablable {
   @override
   DateTime get value {
     if (_showTime) {
-      return DateTime.fromMillisecondsSinceEpoch(_timeInput.valueAsNumber, isUtc: true);
+      return DateTime.fromMillisecondsSinceEpoch(
+          (_timeInput.valueAsNumber ?? 0).ceil(),
+          isUtc: true);
     } else {
       return _dateInput.valueAsDate;
     }

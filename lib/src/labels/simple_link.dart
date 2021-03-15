@@ -3,19 +3,16 @@ import 'dart:html';
 import '../../widgets.dart';
 
 class SimpleLink extends Component {
-  SimpleLink() {
-    nodeRoot = AnchorElement();
-    nodeRoot.style.textDecoration = 'None';
-  }
+  SimpleLink();
 
   @override
-  AnchorElement nodeRoot;
+  AnchorElement nodeRoot = AnchorElement()..style.textDecoration = 'None';
 
   set caption(String caption) => nodeRoot.text = caption;
 
-  String get caption => nodeRoot.text;
+  String get caption => nodeRoot.text ?? '';
 
   set href(String href) => nodeRoot.href = href;
 
-  String get href => nodeRoot.href;
+  String get href => nodeRoot.href ?? '';
 }

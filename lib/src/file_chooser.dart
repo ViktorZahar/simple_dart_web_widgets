@@ -11,9 +11,9 @@ class FileChooser extends Component {
   Element nodeRoot = DivElement();
   final _fileUploadInputElement = FileUploadInputElement();
 
-  File getCurrentFile() => _fileUploadInputElement.files.first;
+  File getCurrentFile() => _fileUploadInputElement.files!.first;
 
-  String get caption => _fileUploadInputElement.title;
+  String get caption => _fileUploadInputElement.title ?? '';
 
   set caption(String newVal) => _fileUploadInputElement.title = newVal;
 }

@@ -46,9 +46,9 @@ class AnchorButton extends Component {
 
   set url(String url) => nodeRoot.href = url;
 
-  String get url => nodeRoot.href;
+  String get url => nodeRoot.href ?? '';
 
   set caption(String text) => nodeRoot.text = text;
 
-  String get caption => nodeRoot.text;
+  String get caption => nodeRoot.text ?? '';
 }

@@ -36,7 +36,7 @@ mixin MixinClickable {
 
 mixin MixinDisablable {
   List<Element> get disablableNodes;
-  bool _disabled;
+  bool _disabled = false;
   bool get disabled => _disabled;
 
   set disabled(bool newVal) {
