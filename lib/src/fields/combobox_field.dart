@@ -6,6 +6,9 @@ class ComboboxField extends Component with Field<String>, MixinDisablable {
   ComboboxField() {
     dartClassName('ComboboxField');
     nodeRoot.style.display = 'flex';
+    _selectElement.style
+      ..fontSize = '16px'
+      ..fontFamily = WidgetsTheme.basicFont;
     nodeRoot.children.add(_selectElement);
     addCssClasses([WidgetsTheme.comboboxField]);
 
@@ -16,14 +19,21 @@ class ComboboxField extends Component with Field<String>, MixinDisablable {
 
   @override
   DivElement nodeRoot = DivElement();
+
   @override
   List<Element> get disablableNodes => [_selectElement];
   final SelectElement _selectElement = SelectElement();
   final List<String> optionList = <String>[];
 
   @override
-  String get value =>
-      _selectElement.options[_selectElement.selectedIndex!].text ?? '';
+  String get value {
+    if (_selectElement.selectedIndex == -1 ||
+        _selectElement.options.length < _selectElement.selectedIndex!) {
+      return '';
+    }
+    return _selectElement.options[_selectElement.selectedIndex!].text ?? '';
+  }
+
 
   @override
   set value(String newValue) {
@@ -48,8 +58,15 @@ class ComboboxField extends Component with Field<String>, MixinDisablable {
       option.remove();
     }
     for (final option in options) {
-      final optionElement = OptionElement()..text = option;
+      final optionElement = OptionElement()
+        ..text = option;
       _selectElement.append(optionElement);
     }
   }
+
+  set height(String height) {
+    _selectElement.style.height = height;
+  }
+
+  set fontSize(String size) => _selectElement.style.fontSize = size;
 }

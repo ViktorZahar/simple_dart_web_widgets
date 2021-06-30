@@ -44,6 +44,10 @@ abstract class Component {
     nodeRoot.style.height = height;
   }
 
+  set borderRadius(String borderRadius) {
+    nodeRoot.style.borderRadius = borderRadius;
+  }
+
   String get height => nodeRoot.style.height;
 
   void fullSize() {

@@ -10,14 +10,14 @@ class BlockStateLabel {
       ..height = '100%'
       ..background = 'black'
       ..opacity = '0.8'
-      ..display = 'block'
       ..left = '0'
       ..top = '0'
-      ..position = 'absolute'
+      ..position = 'fixed'
       ..flexDirection = 'column'
       ..justifyContent = 'center'
       ..alignItems = 'center'
-      ..zIndex = '10';
+      ..zIndex = '10'
+      ..display = 'none';
     labelElement.style
       ..display = 'flex'
       ..width = '100%'
@@ -35,12 +35,14 @@ class BlockStateLabel {
     cancelButton
       ..width = '30%'
       ..caption = 'Cancel'
-      ..type = SimpleButtonType.warrning
+      ..type = SimpleButtonType.warning
       ..nodeRoot.style.marginBottom = '5px';
     backgroundElement.onClick.listen((e) {
-      retryCompleter?.complete(false);
-      retryCompleter = null;
-      hide();
+      if (retryCompleter != null) {
+        retryCompleter?.complete(false);
+        retryCompleter = null;
+        hide();
+      }
     });
     cancelButton.onClick((e) {
       retryCompleter?.complete(false);
@@ -66,7 +68,16 @@ class BlockStateLabel {
 
   Completer<bool>? retryCompleter;
 
-  void showText(String message) {
+  Future<bool> showText(String message) {
+    backgroundElement.style.display = 'flex';
+    labelElement.text = message;
+    retryButton?.visible = false;
+    cancelButton.visible = false;
+    retryCompleter = Completer<bool>();
+    return retryCompleter!.future;
+  }
+
+  void showTextModal(String message) {
     backgroundElement.style.display = 'flex';
     labelElement.text = message;
     retryButton?.visible = false;
@@ -87,5 +98,6 @@ class BlockStateLabel {
   }
 
   set caption(String newCaption) => labelElement.text = newCaption;
+
   String get caption => labelElement.text ?? '';
 }

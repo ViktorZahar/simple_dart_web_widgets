@@ -18,7 +18,7 @@ class TextField extends Component with Field<String>, MixinDisablable {
       ..flexGrow = '1';
     nodeRoot.setAttribute('Name', 'TextField');
     nodeRoot.children.add(textInput);
-    nodeRoot.onChange.listen((event) {
+    textInput.onInput.listen((event) {
       fireValueChange(value, value);
     });
   }
@@ -38,7 +38,6 @@ class TextField extends Component with Field<String>, MixinDisablable {
 
   @override
   set height(String height) {
-    textInput.style.height = height;
     nodeRoot.style.height = height;
   }
 

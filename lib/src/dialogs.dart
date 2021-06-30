@@ -13,19 +13,13 @@ abstract class DialogWindow<T> {
       ..display = 'block'
       ..left = '0'
       ..top = '0'
-      ..position = 'absolute';
+      ..position = 'fixed';
     backgroundElement.onClick.listen((e) {
       if (closable) {
         closeDialog();
       }
     });
-    dialogElement.style
-      ..position = 'absolute'
-      ..display = 'flex'
-      ..background = 'white'
-      ..padding = '5px'
-      ..opacity = '1'
-      ..flexDirection = 'column';
+    dialogElement.classes.add('dialogWindow');
     buttonsPanelElement.style
       ..width = '100%'
       ..flexDirection = 'row';

@@ -20,13 +20,19 @@ class HVPanel extends Component implements Composite {
     addAll([label, comp]);
   }
 
+  SimpleImage? loadIndicator;
+
   @override
-  Element nodeRoot = DivElement();
+  DivElement nodeRoot = DivElement();
+
+  DivElement? headerLabel;
   @override
   List<Component> children = [];
   int _spaceBetweenItems = 0;
   bool _vertical = false;
   bool _scrollable = false;
+  String _header = '';
+  String _align = '';
 
   @override
   void add(Component component) {
@@ -51,8 +57,8 @@ class HVPanel extends Component implements Composite {
   }
 
   void clear() {
-    children.clear();
     nodeRoot.children.clear();
+    children.clear();
   }
 
   void vertical() {
@@ -69,20 +75,20 @@ class HVPanel extends Component implements Composite {
       return;
     }
     _spaceBetweenItems = space;
-    for (final child in nodeRoot.children) {
+    for (final child in children) {
       if (_vertical) {
-        child.style.marginBottom = '${space}px';
+        child.nodeRoot.style.marginBottom = '${space}px';
         if (nodeRoot.style.flexWrap == 'wrap') {
-          child.style.marginRight = '${space}px';
+          child.nodeRoot.style.marginRight = '${space}px';
         } else {
-          child.style.marginRight = '0';
+          child.nodeRoot.style.marginRight = '0';
         }
       } else {
-        child.style.marginRight = '${space}px';
+        child.nodeRoot.style.marginRight = '${space}px';
         if (nodeRoot.style.flexWrap == 'wrap') {
-          child.style.marginBottom = '${space}px';
+          child.nodeRoot.style.marginBottom = '${space}px';
         } else {
-          child.style.marginBottom = '0';
+          child.nodeRoot.style.marginBottom = '0';
         }
       }
     }
@@ -92,6 +98,8 @@ class HVPanel extends Component implements Composite {
     nodeRoot.style.padding = '${padding}px';
   }
 
+  void setPaddings(String paddings) => nodeRoot.style.padding = paddings;
+
   void scrollable() {
     _scrollable = true;
     if (_vertical) {
@@ -99,5 +107,70 @@ class HVPanel extends Component implements Composite {
     } else {
       nodeRoot.style.overflowX = 'scroll';
     }
+  }
+
+  void noScrollable() {
+    _scrollable = false;
+    if (_vertical) {
+      nodeRoot.style.overflowY = 'hidden';
+    } else {
+      nodeRoot.style.overflowX = 'hidden';
+    }
+  }
+
+  void loadIndicatorShow() {
+    loadIndicator ??= SimpleImage()
+      ..source = 'images/load_indicator.gif'
+      ..addCssClasses(['loadIndicator']);
+    nodeRoot.style.alignItems = 'center';
+    nodeRoot.style.justifyContent = 'center';
+    add(loadIndicator!);
+    loadIndicator!.nodeRoot.style.display = 'flex';
+  }
+
+  void loadIndicatorHide() {
+    if (loadIndicator != null) {
+      nodeRoot.style.alignItems = _align;
+      nodeRoot.style.justifyContent = 'normal';
+      loadIndicator!.nodeRoot.style.display = 'none';
+    }
+  }
+
+  set border(String border) {
+    nodeRoot.style.border = border;
+  }
+
+  String get border => nodeRoot.style.border;
+
+  set header(String newHeader) {
+    _header = newHeader;
+    if (_header.isEmpty) {
+      headerLabel?.style.display = 'none';
+    } else {
+      headerLabel ??= DivElement()..classes.add('hvPanelHeader');
+      headerLabel!
+        ..text = header
+        ..style.display = 'block';
+      nodeRoot.children.insert(0, headerLabel!);
+    }
+  }
+
+  String get header => _header;
+
+  String get align => _align;
+
+  set align(String newAlign) {
+    _align = newAlign;
+    nodeRoot.style.alignItems = newAlign;
+  }
+
+  String get background => nodeRoot.style.background;
+
+  set background(String newBackground) {
+    nodeRoot.style.backgroundColor = newBackground;
+  }
+
+  set borderRadius(String borderRadius) {
+    nodeRoot.style.borderRadius = borderRadius;
   }
 }

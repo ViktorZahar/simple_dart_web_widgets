@@ -14,15 +14,17 @@ class SimpleTable extends HVPanel {
     addAll([namePanel, headersRow, scrollablePanel]);
     nodeRoot.onCopy.listen(copyToClipboard);
   }
+
   HVPanel namePanel = HVPanel();
   bool _copyFull = false;
-  SimpleLabel nameLabel = SimpleLabel()..varName('nameLabel');
+  SimpleLabel nameLabel = SimpleLabel()
+    ..varName('nameLabel');
   SimpleTableRow headersRow = SimpleTableRow()
-    ..varName('headersRow')
-    ..nodeRoot.style.paddingRight = '15px';
+    ..varName('headersRow')..addCssClasses(['tableHeadersRow']);
   List<SimpleTableRow> rows = <SimpleTableRow>[];
   List<SimpleTableColumn> columns = <SimpleTableColumn>[];
-  CheckboxField btnCopyFull = CheckboxField()..caption = 'copy full';
+  CheckboxField btnCopyFull = CheckboxField()
+    ..caption = 'copy full';
   HVPanel scrollablePanel = HVPanel()
     ..vertical()
     ..varName('scrollablePanel')
@@ -123,8 +125,7 @@ class SimpleTable extends HVPanel {
   void copyToClipboard(ClipboardEvent event) {
     if (_copyFull) {
       final cpData = StringBuffer()
-        ..writeln(nameLabel.caption)
-        ..writeln(
+        ..writeln(nameLabel.caption)..writeln(
             headersRow.cells.map((cell) => cell.text).toList().join('\t'));
       for (final row in rows) {
         cpData.writeln(row.cells.map((cell) => cell.text).toList().join('\t'));
@@ -142,8 +143,8 @@ class SimpleCell extends Component {
     nodeRoot = AnchorElement(href: href);
   }
 
-  SimpleCell.createImageCell(
-      String content, String imageWidth, String imageHeight) {
+  SimpleCell.createImageCell(String content, String imageWidth,
+      String imageHeight) {
     final imageElement = ImageElement(src: content);
     imageElement.style
       ..width = imageWidth
@@ -154,7 +155,8 @@ class SimpleCell extends Component {
   }
 
   @override
-  Element nodeRoot = DivElement()..style.overflowWrap = 'anywhere';
+  Element nodeRoot = DivElement()
+    ..style.overflowWrap = 'anywhere';
 
   String get text => nodeRoot.text ?? '';
 
@@ -202,7 +204,7 @@ class SimpleTableRow extends HVPanel {
 
   SimpleCell createImageCell(String content, int width, int height) {
     final cell =
-        SimpleCell.createImageCell(content, '${width}px', '${height}px');
+    SimpleCell.createImageCell(content, '${width}px', '${height}px');
     cells.add(cell);
     add(cell);
     return cell;
@@ -211,6 +213,7 @@ class SimpleTableRow extends HVPanel {
 
 class SimpleTableColumn {
   SimpleTableColumn();
+
   SimpleCell headerCell = SimpleCell();
   List<SimpleCell> cells = <SimpleCell>[];
   String caption = '';

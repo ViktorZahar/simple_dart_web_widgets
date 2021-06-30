@@ -9,6 +9,7 @@ class SimpleLabel extends Component {
       ..alignItems = _verticalAlign
       ..justifyContent = _horizontalAlign;
   }
+
   @override
   Element nodeRoot = DivElement();
 
@@ -44,5 +45,9 @@ class SimpleLabel extends Component {
       _horizontalAlign = align;
       nodeRoot.style.justifyContent = _horizontalAlign;
     }
+  }
+
+  wrap() {
+    nodeRoot.style.wordWrap = 'anywhere';
   }
 }

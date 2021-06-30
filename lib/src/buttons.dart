@@ -1,4 +1,5 @@
 import 'dart:html';
+
 import '../widgets.dart';
 
 class SimpleButton extends Component with MixinCaption, MixinClickable {
@@ -25,6 +26,7 @@ class SimpleButton extends Component with MixinCaption, MixinClickable {
 
   @override
   bool get enabled => _enabled;
+
   set enabled(bool value) {
     if (_enabled != value) {
       _enabled = value;
@@ -39,14 +41,19 @@ class SimpleButton extends Component with MixinCaption, MixinClickable {
         case SimpleButtonType.basic:
           addCssClasses([WidgetsTheme.simpleButtonBasic]);
           break;
-        case SimpleButtonType.warrning:
+        case SimpleButtonType.warning:
           addCssClasses([WidgetsTheme.simpleButtonWarning]);
+          break;
+        case SimpleButtonType.noStyle:
+          addCssClasses([WidgetsTheme.simpleButtonNoStyle]);
           break;
       }
     } else {
       addCssClasses([WidgetsTheme.simpleButtonDisabled]);
     }
   }
+
+
 }
 
-enum SimpleButtonType { basic, warrning }
+enum SimpleButtonType { basic, warning, noStyle }

@@ -4,9 +4,6 @@
     font-family: "JetBrains Mono";
     src: url(JetBrainsMono-Regular.ttf) format("truetype");
 }
-p.customfont { 
-    font-family: "My Custom Font", Verdana, Tahoma;
-}
 
 html, body {
     width: 100%;
@@ -15,7 +12,18 @@ html, body {
     flex-grow: 0;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
     font-family: JetBrains Mono, Consolas, 'Courier New', monospace;
+}
+
+textArea ,input {
+    border: 1px #5897ce solid;
+    box-sizing: border-box;
+    color:black;
+}
+
+select {
+    color:black;
 }
 
 div {
@@ -35,6 +43,10 @@ div {
 }
 
 .simpleButtonBasic:active {
+    background: #68a7ae;
+}
+
+.simpleButtonBasic:hover {
     background: #68a7ae;
 }
 
@@ -61,15 +73,24 @@ div {
     justify-content: center;
 }
 
-.comboboxField {
+.simpleButtonNoStyle {
+    cursor: pointer;
+    padding: 10px;
     text-align: center;
     align-items: center;
     justify-content: center;
 }
 
+.comboboxField {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+
+}
+
 .comboboxField > select {
-      padding: 5px;
       flex-grow: 1;
+      border: 1px #5897ce solid;
 }
 
 .radioField {
@@ -104,4 +125,27 @@ div {
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     margin-right: 1px;
+}
+
+.hvPanelHeader {
+    text-align: center;
+    font-weight: 700;
+}
+
+.dialogWindow {
+    position: fixed;
+    display: flex;
+    background: white;
+    padding: 5px;
+    opacity: 1;
+    flex-direction: column;
+}
+
+.loadIndicator {
+    width: 100px;
+    height: 100px;
+}
+
+.tableHeadersRow {
+    background:lavender;
 }
