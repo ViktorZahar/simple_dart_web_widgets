@@ -7,8 +7,12 @@ class SimpleTable extends HVPanel {
     vertical();
     nodeRoot.style.flexShrink = '1';
     nameLabel.fillContent();
-    btnCopyFull.onChange((event) {
-      _copyFull = btnCopyFull.value;
+    btnCopyFull.onClick((event) {
+      _copyFull = true;
+      window.getSelection()!.selectAllChildren(nodeRoot);
+      document.execCommand('copy');
+      window.getSelection()!.removeAllRanges();
+      _copyFull = false;
     });
     namePanel..add(nameLabel)..add(btnCopyFull);
     addAll([namePanel, headersRow, scrollablePanel]);
@@ -17,14 +21,16 @@ class SimpleTable extends HVPanel {
 
   HVPanel namePanel = HVPanel();
   bool _copyFull = false;
-  SimpleLabel nameLabel = SimpleLabel()
-    ..varName('nameLabel');
+  SimpleLabel nameLabel = SimpleLabel()..varName('nameLabel');
   SimpleTableRow headersRow = SimpleTableRow()
-    ..varName('headersRow')..addCssClasses(['tableHeadersRow']);
+    ..varName('headersRow')
+    ..addCssClasses(['tableHeadersRow']);
   List<SimpleTableRow> rows = <SimpleTableRow>[];
   List<SimpleTableColumn> columns = <SimpleTableColumn>[];
-  CheckboxField btnCopyFull = CheckboxField()
-    ..caption = 'copy full';
+  SimpleButton btnCopyFull = SimpleButton()
+    ..clearClasses()
+    ..addCssClasses(['tableCopyButton'])
+    ..caption = 'copy';
   HVPanel scrollablePanel = HVPanel()
     ..vertical()
     ..varName('scrollablePanel')
@@ -33,13 +39,6 @@ class SimpleTable extends HVPanel {
     ..fullSize();
 
   Function(int columnIdx, String direction)? onSortListener;
-
-  bool get copyFull => _copyFull;
-
-  set copyFull(bool newVal) {
-    _copyFull = newVal;
-    btnCopyFull.value = newVal;
-  }
 
   SimpleTableColumn createColumn(String headerCaption, int width,
       {bool sortable = false, String vAlign = 'left'}) {
@@ -93,6 +92,23 @@ class SimpleTable extends HVPanel {
     return row;
   }
 
+  SimpleTableRow createMultiRow(List<List<String>> cellTexts) {
+    final row = SimpleTableRow();
+
+    for (var i = 0; i < cellTexts.length; i++) {
+      final cell = row.createMultiLineCell(cellTexts[i]);
+      final vAlign = columns[i].vAlign;
+      if (vAlign == 'center') {
+        cell.nodeRoot.style.justifyContent = 'center';
+      }
+      if (vAlign == 'right') {
+        cell.nodeRoot.style.justifyContent = 'flex-end';
+      }
+    }
+    addRow(row);
+    return row;
+  }
+
   void addRow(SimpleTableRow simpleTableRow) {
     if (columns.length == simpleTableRow.cells.length) {
       for (var i = 0; i < simpleTableRow.cells.length; i++) {
@@ -125,7 +141,8 @@ class SimpleTable extends HVPanel {
   void copyToClipboard(ClipboardEvent event) {
     if (_copyFull) {
       final cpData = StringBuffer()
-        ..writeln(nameLabel.caption)..writeln(
+        ..writeln(nameLabel.caption)
+        ..writeln(
             headersRow.cells.map((cell) => cell.text).toList().join('\t'));
       for (final row in rows) {
         cpData.writeln(row.cells.map((cell) => cell.text).toList().join('\t'));
@@ -143,8 +160,8 @@ class SimpleCell extends Component {
     nodeRoot = AnchorElement(href: href);
   }
 
-  SimpleCell.createImageCell(String content, String imageWidth,
-      String imageHeight) {
+  SimpleCell.createImageCell(
+      String content, String imageWidth, String imageHeight) {
     final imageElement = ImageElement(src: content);
     imageElement.style
       ..width = imageWidth
@@ -154,9 +171,19 @@ class SimpleCell extends Component {
     nodeRoot.children.add(imageElement);
   }
 
+  SimpleCell.createMultiLineCell(List<String> content) {
+    final hvPanel = HVPanel()
+      ..vertical()
+      ..nodeRoot.style.flexShrink = '1';
+    for (final line in content) {
+      final label = SimpleLabel()..caption = line;
+      hvPanel.add(label);
+    }
+    nodeRoot = hvPanel.nodeRoot;
+  }
+
   @override
-  Element nodeRoot = DivElement()
-    ..style.overflowWrap = 'anywhere';
+  Element nodeRoot = DivElement()..style.overflowWrap = 'anywhere';
 
   String get text => nodeRoot.text ?? '';
 
@@ -204,7 +231,14 @@ class SimpleTableRow extends HVPanel {
 
   SimpleCell createImageCell(String content, int width, int height) {
     final cell =
-    SimpleCell.createImageCell(content, '${width}px', '${height}px');
+        SimpleCell.createImageCell(content, '${width}px', '${height}px');
+    cells.add(cell);
+    add(cell);
+    return cell;
+  }
+
+  SimpleCell createMultiLineCell(List<String> content) {
+    final cell = SimpleCell.createMultiLineCell(content);
     cells.add(cell);
     add(cell);
     return cell;
