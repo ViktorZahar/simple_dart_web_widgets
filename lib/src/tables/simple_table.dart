@@ -176,7 +176,7 @@ class SimpleCell extends Component {
       ..vertical()
       ..nodeRoot.style.flexShrink = '1';
     for (final line in content) {
-      final label = SimpleLabel()..caption = line;
+      final label = SimpleLabel()..caption = '$line ';
       hvPanel.add(label);
     }
     nodeRoot = hvPanel.nodeRoot;

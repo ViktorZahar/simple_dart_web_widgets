@@ -1,22 +1,16 @@
-import 'dart:html';
-
 import '../widgets.dart';
 
-class Pager extends Component {
+class Pager extends HVPanel {
   Pager() {
     dartClassName('Pager');
-    nodeRoot.style
-      ..display = 'flex'
-      ..flexShrink = '1'
-      ..flexGrow = '0'
-      ..justifyContent = 'center'
-      ..flexDirection = 'row';
-    nodeRoot.children.add(btnFirst.nodeRoot);
-    nodeRoot.children.add(btnPrev.nodeRoot);
-    nodeRoot.children.add(textElement.nodeRoot);
-    nodeRoot.children.add(lblCount.nodeRoot);
-    nodeRoot.children.add(btnNext.nodeRoot);
-    nodeRoot.children.add(btnLast.nodeRoot);
+    add(btnFirst);
+    add(btnPrev);
+    add(textElement);
+    add(lblCount);
+    add(btnNext);
+    add(btnLast);
+    setSpaceBetweenItems(1);
+    align = 'center';
     btnFirst.onClick((e) {
       pagable!.openPage(1);
       refreshDisplay();
@@ -45,24 +39,20 @@ class Pager extends Component {
       } on Exception catch (_) {}
     });
     height = '25px';
-    fullWidth();
   }
 
-  @override
-  Element nodeRoot = DivElement();
-
   SimpleButton btnFirst = SimpleButton()
-    ..caption = '<<'
-    ..nodeRoot.style.borderRadius = '0px';
+    ..fullHeight()
+    ..caption = '<<';
   SimpleButton btnPrev = SimpleButton()
-    ..caption = ' <'
-    ..nodeRoot.style.borderRadius = '0px';
+    ..fullHeight()
+    ..caption = ' <';
   SimpleButton btnNext = SimpleButton()
-    ..caption = '> '
-    ..nodeRoot.style.borderRadius = '0px';
+    ..fullHeight()
+    ..caption = '> ';
   SimpleButton btnLast = SimpleButton()
-    ..caption = '>>'
-    ..nodeRoot.style.borderRadius = '0px';
+    ..fullHeight()
+    ..caption = '>>';
 
   TextField textElement = TextField()
     ..fontSize = 12
@@ -99,6 +89,8 @@ class Pager extends Component {
 
 abstract class Pagable {
   int get pageCount;
+
   int get currentPage;
+
   void openPage(int i);
 }
