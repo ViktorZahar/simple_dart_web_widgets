@@ -2,7 +2,7 @@ import 'dart:html';
 
 import '../../widgets.dart';
 
-class DateField extends Component with Field<DateTime>, MixinDisablable {
+class DateField extends Component with Field<DateTime>, MixinDisableable {
   DateField() {
     nodeRoot.style
       ..display = 'flex'
@@ -27,12 +27,15 @@ class DateField extends Component with Field<DateTime>, MixinDisablable {
       ..onChange.listen((event) {
         fireValueChange(value, value);
       });
+    fontSize = WidgetsTheme.basicSize;
+    height = '${WidgetsTheme.basicFieldSize}px';
   }
 
   @override
   DivElement nodeRoot = DivElement();
+
   @override
-  List<Element> get disablableNodes => [_dateInput, _timeInput];
+  List<Element> get disableableNodes => [_dateInput, _timeInput];
   final DateInputElement _dateInput = DateInputElement();
   final LocalDateTimeInputElement _timeInput = LocalDateTimeInputElement();
   int _fontSize = 16;
@@ -81,7 +84,7 @@ class DateField extends Component with Field<DateTime>, MixinDisablable {
 
   set textAlign(String value) => _currentInput().style.textAlign = value;
 
-  showTime() {
+  void showTime() {
     _showTime = true;
     nodeRoot.children.remove(_dateInput);
     nodeRoot.children.add(_timeInput);

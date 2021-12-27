@@ -10,7 +10,7 @@ class TabPanel extends HVPanel {
 
   HVPanel tagsPanel = HVPanel()
     ..varName('tagsPanel')
-    ..height = '30px';
+    ..setPadding(3);
   List<TabTag> tags = <TabTag>[];
   TabTag? _currentTag;
 
@@ -51,7 +51,9 @@ class TabTag extends SimpleLabel {
     clearClasses();
     addCssClasses([WidgetsTheme.tabTag]);
   }
+
   Component? tabContent;
+
   List<Function()> onSelectListeners = <Function()>[];
 
   void onSelect(Function() listener) {

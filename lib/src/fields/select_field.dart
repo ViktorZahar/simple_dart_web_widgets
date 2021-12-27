@@ -2,22 +2,23 @@ import 'dart:html';
 
 import '../../widgets.dart';
 
-class SelectField extends Component with Field<List<String>>, MixinDisablable {
+class SelectField extends Component with Field<List<String>>, MixinDisableable {
   SelectField() {
     dartClassName('SelectField');
     nodeRoot.style.display = 'flex';
     nodeRoot.children.add(_selectElement);
     addCssClasses([WidgetsTheme.comboboxField]);
-
     nodeRoot.onChange.listen((event) {
       fireValueChange(value, value);
     });
+    height = '${WidgetsTheme.basicFieldSize}px';
   }
 
   @override
   DivElement nodeRoot = DivElement();
+
   @override
-  List<Element> get disablableNodes => [_selectElement];
+  List<Element> get disableableNodes => [_selectElement];
   final SelectElement _selectElement = SelectElement()..style.height = '100%';
   final List<String> optionList = <String>[];
 
@@ -48,7 +49,8 @@ class SelectField extends Component with Field<List<String>>, MixinDisablable {
       option.remove();
     }
     for (final option in options) {
-      final optionElement = OptionElement()..text = option;
+      final optionElement = OptionElement()
+        ..text = option;
       _selectElement.append(optionElement);
     }
   }
@@ -67,8 +69,13 @@ class SelectField extends Component with Field<List<String>>, MixinDisablable {
   }
 
   bool get multiple => _selectElement.multiple ?? false;
+
   set multiple(bool newVal) => _selectElement.multiple = newVal;
 
   int get size => _selectElement.size ?? 0;
-  set size(int newVal) => _selectElement.size = newVal;
+
+  set size(int newVal) {
+    _selectElement.size = newVal;
+    height = '${newVal * (WidgetsTheme.basicSize+5)}px';
+  }
 }

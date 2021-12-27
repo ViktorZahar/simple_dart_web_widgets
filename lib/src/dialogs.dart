@@ -5,52 +5,41 @@ import '../widgets.dart';
 
 abstract class DialogWindow<T> {
   DialogWindow() {
-    backgroundElement.style
-      ..width = '100%'
-      ..height = '100%'
-      ..background = 'black'
-      ..opacity = '0.5'
-      ..display = 'block'
-      ..left = '0'
-      ..top = '0'
-      ..position = 'fixed';
-    backgroundElement.onClick.listen((e) {
-      if (closable) {
-        closeDialog();
-      }
-    });
-    dialogElement.classes.add('dialogWindow');
-    buttonsPanelElement.style
-      ..width = '100%'
-      ..flexDirection = 'row';
-
-    dialogElement.children.add(captionElement);
-    dialogElement.children.add(buttonsPanelElement);
-    dialogElement.children.add(createDialogContent().nodeRoot);
+    captionPanel.add(captionLabel);
+    dialog
+      ..add(captionPanel)
+      ..add(createDialogContent());
   }
 
-  DivElement backgroundElement = DivElement();
-  DivElement dialogElement = DivElement();
-  DivElement captionElement = DivElement();
-  DivElement buttonsPanelElement = DivElement();
+  HVPanel dialog = HVPanel()
+    ..addCssClasses(['dialogWindow'])
+    ..vertical()
+    ..width = '';
+  HVPanel captionPanel = HVPanel()..addCssClasses(['dialogCaptionPanel']);
+  SimpleLabel captionLabel = SimpleLabel();
   Completer<T>? completer;
   Function()? onCloseListener;
   bool closable = true;
 
   Future showDialog() {
     completer = Completer<T>();
-    final bodyElement = window.document.querySelector('body')!;
-    captionElement.text = caption();
-    bodyElement.children.add(backgroundElement);
-    bodyElement.children.add(dialogElement);
-
+    captionLabel.caption = caption();
+    modalStatePanel
+      ..onClick = () {
+        if (closable) {
+          closeDialog();
+        }
+      }
+      ..clear()
+      ..add(dialog);
     center();
+    modalStatePanel.add(dialog);
+    modalStatePanel.visible = true;
     return completer!.future;
   }
 
   void closeDialog() {
-    backgroundElement.remove();
-    dialogElement.remove();
+    modalStatePanel.visible = false;
     if (onCloseListener != null) {
       onCloseListener!();
     }
@@ -59,11 +48,11 @@ abstract class DialogWindow<T> {
   void center() {
     final windowWidth = window.innerWidth!;
     final windowHeight = window.innerHeight!;
-    final dialogWidth = dialogElement.clientWidth;
-    final dialogHeight = dialogElement.clientHeight;
+    final dialogWidth = dialog.nodeRoot.clientWidth;
+    final dialogHeight = dialog.nodeRoot.clientHeight;
     final x = (windowWidth - dialogWidth) / 2;
-    final y = (windowHeight - dialogHeight) / 2;
-    dialogElement.style
+    final y = (windowHeight - dialogHeight) / 3;
+    dialog.nodeRoot.style
       ..top = '${y}px'
       ..left = '${x}px';
   }

@@ -1,5 +1,7 @@
 import 'dart:html';
 
+typedef ValueChangeListener<T> = Function(T oldValue, T newValue);
+
 abstract class Component {
   Element get nodeRoot;
 
@@ -48,6 +50,8 @@ abstract class Component {
     nodeRoot.style.borderRadius = borderRadius;
   }
 
+  String get borderRadius => nodeRoot.style.borderRadius;
+
   String get height => nodeRoot.style.height;
 
   void fullSize() {
@@ -63,6 +67,10 @@ abstract class Component {
     height = '100%';
   }
 
+  void wrap() {
+    nodeRoot.style.flexWrap = 'wrap';
+  }
+
   void addCssClasses(List<String> className) {
     nodeRoot.classes.addAll(className);
   }
@@ -76,11 +84,12 @@ abstract class Composite {
   List<Component> get children;
 
   void add(Component component);
+
   void addAll(List<Component> components);
 }
 
 mixin Field<T> {
-  List<Function(T oldValue, T newValue)> onValueChangeListeners = [];
+  List<ValueChangeListener<T>> onValueChangeListeners = <ValueChangeListener<T>>[];
 
   T get value;
 
@@ -88,7 +97,7 @@ mixin Field<T> {
 
   void focus();
 
-  void onValueChange(Function(T oldValue, T newValue) listener) {
+  void onValueChange(ValueChangeListener<T> listener) {
     onValueChangeListeners.add(listener);
   }
 

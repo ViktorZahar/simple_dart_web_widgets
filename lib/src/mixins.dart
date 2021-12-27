@@ -34,14 +34,14 @@ mixin MixinClickable {
   }
 }
 
-mixin MixinDisablable {
-  List<Element> get disablableNodes;
+mixin MixinDisableable {
+  List<Element> get disableableNodes;
   bool _disabled = false;
   bool get disabled => _disabled;
 
   set disabled(bool newVal) {
     _disabled = newVal;
-    for (final element in disablableNodes) {
+    for (final element in disableableNodes) {
       if (newVal) {
         element.setAttribute('disabled', '');
       } else {

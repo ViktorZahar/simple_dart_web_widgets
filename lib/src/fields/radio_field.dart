@@ -2,9 +2,10 @@ import 'dart:html';
 
 import '../../widgets.dart';
 
-class RadioField extends HVPanel with Field<String> {
+class RadioField extends HVPanel with Field<String>, MixinDisableable {
   RadioField() {
     dartClassName('RadioField');
+    wrap();
     addCssClasses([WidgetsTheme.radioField]);
   }
 
@@ -20,13 +21,23 @@ class RadioField extends HVPanel with Field<String> {
       radioButtons.singleWhere((el) => el.value == value).checked = true;
 
   void addRadioButton(String value, String text) {
-    final rowPanel = HVPanel();
+    final rowPanel = HVPanel()
+      ..align = 'center'
+      ..width = ''
+      ..height = '${WidgetsTheme.basicFieldSize}px';
     final radioButton = RadioButtonInputElement()
       ..value = value
       ..name = groupName;
     final label = LabelElement()
-      ..style.paddingRight = '5px'
-      ..text = text;
+      ..style.paddingLeft = '3px'
+      ..style.paddingRight = '10px'
+      ..text = text
+      ..onClick.listen((e) {
+        if (disabled) {
+          return;
+        }
+        radioButton.checked = true;
+      });
     radioButton.onChange.listen((ev) {
       fireValueChange(radioButton.value!, value);
     });
@@ -40,4 +51,7 @@ class RadioField extends HVPanel with Field<String> {
   void focus() {
     nodeRoot.focus();
   }
+
+  @override
+  List<Element> get disableableNodes => radioButtons;
 }

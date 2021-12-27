@@ -5,6 +5,7 @@ import '../../widgets.dart';
 class SimpleLabel extends Component {
   SimpleLabel() {
     nodeRoot.style
+      ..overflow = 'hidden'
       ..flexShrink = '0'
       ..alignItems = _verticalAlign
       ..justifyContent = _horizontalAlign;
@@ -47,7 +48,7 @@ class SimpleLabel extends Component {
     }
   }
 
-  wrap() {
+  void wrap() {
     nodeRoot.style.wordWrap = 'anywhere';
   }
 }

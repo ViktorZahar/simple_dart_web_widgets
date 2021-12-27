@@ -1,168 +1,206 @@
 /* Default widgets theme */
 
 @font-face {
-    font-family: "JetBrains Mono";
-    src: url(JetBrainsMono-Regular.ttf) format("truetype");
+  font-family: "JetBrains Mono";
+  src: url(JetBrainsMono-Regular.ttf) format("truetype");
 }
 
-html, body {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-grow: 0;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: JetBrains Mono, Consolas, 'Courier New', monospace;
+html,
+body {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-grow: 0;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: JetBrains Mono, Consolas, "Courier New", monospace;
 }
 
-textArea ,input {
-    border: 1px #5897ce solid;
-    box-sizing: border-box;
-    color:black;
+textArea,
+input {
+  border: 1px #5897ce solid;
+  box-sizing: border-box;
+  color: black;
 }
 
 select {
-    color:black;
+  color: black;
 }
 
 div {
-    display: flex;
-    box-sizing: border-box;
-    min-height: 0;
+  display: flex;
+  box-sizing: border-box;
+  min-height: 0;
 }
 
 .simpleButtonBasic {
-    cursor: pointer;
-    background: #5897ce;
-    color: #f0f0f0;
-    padding: 10px;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
+  cursor: pointer;
+  background: #5897ce;
+  color: #f0f0f0;
+  padding: 10px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 }
 
 .simpleButtonBasic:active {
-    background: #68a7ae;
+  background: #68a7ae;
 }
 
 .simpleButtonBasic:hover {
-    background: #68a7ae;
+  background: #68a7ae;
 }
 
-.simpleButtonWarning{
-    cursor: pointer;
-    background: #f4424b;
-    color: #f0f0f0;
-    padding: 10px;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
+.simpleButtonWarning {
+  cursor: pointer;
+  background: #f4424b;
+  color: #f0f0f0;
+  padding: 10px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  height:25px;
 }
 
 .simpleButtonWarrning:active {
-    background: #b79497;
+  background: #b79497;
 }
 
-.simpleButtonDisabled{
-    background: #9b9b9b;
-    color: #f0f0f0;
-    padding: 10px;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
+.simpleButtonDisabled {
+  background: #9b9b9b;
+  color: #f0f0f0;
+  padding: 10px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  height:25px;
 }
 
 .simpleButtonNoStyle {
-    cursor: pointer;
-    padding: 10px;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
+  cursor: pointer;
+  padding: 0px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  height:25px;
 }
 
 .comboboxField {
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 }
 
 .comboboxField > select {
-      flex-grow: 1;
-      border: 1px #5897ce solid;
+  flex-grow: 1;
+  border: 1px #5897ce solid;
 }
 
 .radioField {
-    text-align: center;
-    align-items: center;
-    justify-content: center;
 }
 
 .tabTag {
-    cursor: pointer;
-    background: #9b9b9b;
-    color: #f0f0f0;
-    font-size: 14px;
-    padding: 10px;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    margin-right: 1px;
+  cursor: pointer;
+  background-color: rgba(63, 3, 63, 0.3);
+  color: #f0f0f0;
+  padding: 5px 10px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  margin-right: 2px;
 }
 
 .tabTagCurrent {
-    cursor: pointer;
-    background: #5897ce;
-    color: #f0f0f0;
-    font-size: 14px;
-    padding: 10px;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    margin-right: 1px;
+  cursor: pointer;
+  color: #f0f0f0;
+  background-color: rgba(63, 3, 63, 0.75);
+  padding: 5px 10px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  margin-right: 2px;
 }
 
 .hvPanelHeader {
-    text-align: center;
-    font-weight: 700;
+  text-align: center;
+  font-weight: 700;
 }
 
 .dialogWindow {
-    position: fixed;
-    display: flex;
-    background: white;
+  position: fixed;
+  display: flex;
+  background: white;
+  opacity: 1;
+  color: black;
+  flex-direction: column;
+  border-radius: 10px;
+}
+
+.dialogCaptionPanel {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background: #5897ce;
+    color white;
+    font-weight: 800;
     padding: 5px;
-    opacity: 1;
-    flex-direction: column;
+    color: white;
 }
 
 .loadIndicator {
-    width: 100px;
-    height: 100px;
+  width: 100px;
+  height: 100px;
 }
 
 .tableHeadersRow {
-    background:lavender;
+  background: lavender;
 }
 
 .tableCopyButton {
-    background: transparent;
-    font-size:12px;
-    color:lightgray;
-    padding: 5px;
-    border-radius: 10px;
-    cursor: pointer;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
+  background: transparent;
+  font-size: 12px;
+  color: #ddd;
+  padding: 5px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 }
 
 .tableCopyButton:hover {
-    text-decoration: underline;
-    color:black;
+  text-decoration: underline;
+  color: black;
 }
+
+.modalStatePanel {
+  width: 100%;
+  height: 100%;
+  background: black;
+  color: white;
+  opacity: 0.8;
+  left: 0;
+  top: 0;
+  position: fixed;
+  z-index: 10;
+  justify-content: center;
+}
+
+.contextMenu{
+      position: absolute;
+      display: flex;
+      background: white;
+      opacity: 1;
+}
+
+.contextMenuAction{
+      color: black;
+}
+
+.selectable:hover{
+    background-color: #5897ce;
+    color: white;
+    cursor: pointer;
+ }

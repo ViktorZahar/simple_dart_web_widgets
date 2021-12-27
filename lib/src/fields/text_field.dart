@@ -2,7 +2,7 @@ import 'dart:html';
 
 import '../../widgets.dart';
 
-class TextField extends Component with Field<String>, MixinDisablable {
+class TextField extends Component with Field<String>, MixinDisableable {
   TextField({bool password = false}) {
     nodeRoot.style
       ..display = 'flex'
@@ -12,7 +12,6 @@ class TextField extends Component with Field<String>, MixinDisablable {
       textInput = PasswordInputElement();
     }
     textInput.style
-      ..fontSize = '16px'
       ..fontFamily = WidgetsTheme.basicFont
       ..width = '100%'
       ..flexGrow = '1';
@@ -21,14 +20,17 @@ class TextField extends Component with Field<String>, MixinDisablable {
     textInput.onInput.listen((event) {
       fireValueChange(value, value);
     });
+    height = '${WidgetsTheme.basicFieldSize}px';
+    fontSize = WidgetsTheme.basicSize;
   }
 
   @override
   DivElement nodeRoot = DivElement();
+
   @override
-  List<Element> get disablableNodes => [textInput];
+  List<Element> get disableableNodes => [textInput];
   TextInputElementBase textInput = TextInputElement();
-  int _fontSize = 16;
+  int _fontSize = WidgetsTheme.basicSize;
 
   @override
   set width(String width) {

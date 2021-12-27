@@ -1,59 +1,45 @@
 import 'dart:async';
 
-import 'dart:html';
+import '../widgets.dart';
+import 'panels.dart';
 
 class ContextMenu {
-  ContextMenu() {
-    backgroundElement.style
-      ..width = '100%'
-      ..height = '100%'
-      ..background = 'black'
-      ..opacity = '0.5'
-      ..display = 'block'
-      ..left = '0'
-      ..top = '0'
-      ..position = 'absolute';
-    backgroundElement.onClick.listen((e) {
-      closeMenu();
-    });
-    menuElement.style
-      ..position = 'absolute'
-      ..display = 'flex'
-      ..background = 'white'
-      ..padding = '5px'
-      ..opacity = '1'
-      ..flexDirection = 'column';
-  }
+  ContextMenu();
+
+  HVPanel menuPanel = HVPanel()
+    ..addCssClasses(['contextMenu'])
+    ..width = ''
+    ..vertical()
+    ..setPadding(5);
 
   Completer<String> completer = Completer<String>();
 
-  DivElement backgroundElement = DivElement();
-  DivElement menuElement = DivElement();
-
   Future<String> showContextMenu(List<String> actions, num x, num y) {
     completer = Completer();
-    final body = window.document.querySelector('body')!;
-    body.children.add(backgroundElement);
-    menuElement.children.clear();
+    modalStatePanel.onClick = () {
+      modalStatePanel.visible = false;
+    };
+    menuPanel.clear();
     for (final action in actions) {
-      final actionElement = DivElement()
-        ..text = action
-        ..classes.add('selectable')
-        ..onClick.listen((event) {
-          completer.complete(action);
-          closeMenu();
-        });
-      menuElement.children.add(actionElement);
+      final actionElement = SimpleLabel()
+        ..caption = action
+        ..addCssClasses(['selectable','contextMenuAction']);
+      actionElement.nodeRoot.onClick.listen((event) {
+        completer.complete(action);
+        closeMenu();
+      });
+      menuPanel.add(actionElement);
     }
-    menuElement.style
+    menuPanel.nodeRoot.style
       ..top = '${y}px'
       ..left = '${x}px';
-    body.children.add(menuElement);
+    modalStatePanel
+      ..add(menuPanel)
+      ..visible = true;
     return completer.future;
   }
 
   void closeMenu() {
-    backgroundElement.remove();
-    menuElement.remove();
+    modalStatePanel.visible = false;
   }
 }

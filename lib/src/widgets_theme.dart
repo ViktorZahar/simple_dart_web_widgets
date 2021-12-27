@@ -1,5 +1,7 @@
 class WidgetsTheme {
   static String basicFont = 'JetBrains Mono';
+  static int basicSize = 12;
+  static int basicFieldSize = 25;
   static const String simpleButtonBasic = 'simpleButtonBasic';
   static const String simpleButtonWarning = 'simpleButtonWarning';
   static const String simpleButtonDisabled = 'simpleButtonDisabled';

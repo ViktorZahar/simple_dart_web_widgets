@@ -2,30 +2,31 @@ import 'dart:html';
 
 import '../../widgets.dart';
 
-class NumField extends Component with Field<num>, MixinDisablable {
+class NumField extends Component with Field<num>, MixinDisableable {
   NumField() {
     nodeRoot.style
       ..display = 'flex'
       ..justifyContent = 'center';
+    nodeRoot.setAttribute('Name', 'NumField');
     numberInput.style
-      ..fontSize = '16px'
       ..fontFamily = WidgetsTheme.basicFont
       ..width = '100%'
-      ..textAlign = 'end'
       ..flexGrow = '1';
-    nodeRoot.setAttribute('Name', 'NumField');
     nodeRoot.children.add(numberInput);
     numberInput.onInput.listen((event) {
       fireValueChange(value, value);
     });
+    numberInput.onBlur.listen((event) => numberInput.value = value.toString());
+    fontSize = WidgetsTheme.basicSize;
+    height = '${WidgetsTheme.basicFieldSize}px';
   }
 
   @override
   DivElement nodeRoot = DivElement();
 
   @override
-  List<Element> get disablableNodes => [numberInput];
-  NumberInputElement numberInput = NumberInputElement();
+  List<Element> get disableableNodes => [numberInput];
+  TextInputElement numberInput = TextInputElement();
   int _fontSize = 16;
 
   @override

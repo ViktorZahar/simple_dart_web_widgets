@@ -170,6 +170,7 @@ class HVPanel extends Component implements Composite {
     nodeRoot.style.backgroundColor = newBackground;
   }
 
+  @override
   set borderRadius(String borderRadius) {
     nodeRoot.style.borderRadius = borderRadius;
   }

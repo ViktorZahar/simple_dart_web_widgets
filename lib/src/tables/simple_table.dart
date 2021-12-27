@@ -21,7 +21,8 @@ class SimpleTable extends HVPanel {
 
   HVPanel namePanel = HVPanel();
   bool _copyFull = false;
-  SimpleLabel nameLabel = SimpleLabel()..varName('nameLabel');
+  SimpleLabel nameLabel = SimpleLabel()
+    ..varName('nameLabel');
   SimpleTableRow headersRow = SimpleTableRow()
     ..varName('headersRow')
     ..addCssClasses(['tableHeadersRow']);
@@ -32,6 +33,7 @@ class SimpleTable extends HVPanel {
     ..addCssClasses(['tableCopyButton'])
     ..caption = 'copy';
   HVPanel scrollablePanel = HVPanel()
+    ..nodeRoot.style.flexWrap = 'nowrap'
     ..vertical()
     ..varName('scrollablePanel')
     ..scrollable()
@@ -141,8 +143,7 @@ class SimpleTable extends HVPanel {
   void copyToClipboard(ClipboardEvent event) {
     if (_copyFull) {
       final cpData = StringBuffer()
-        ..writeln(nameLabel.caption)
-        ..writeln(
+        ..writeln(nameLabel.caption)..writeln(
             headersRow.cells.map((cell) => cell.text).toList().join('\t'));
       for (final row in rows) {
         cpData.writeln(row.cells.map((cell) => cell.text).toList().join('\t'));
@@ -160,8 +161,8 @@ class SimpleCell extends Component {
     nodeRoot = AnchorElement(href: href);
   }
 
-  SimpleCell.createImageCell(
-      String content, String imageWidth, String imageHeight) {
+  SimpleCell.createImageCell(String content, String imageWidth,
+      String imageHeight) {
     final imageElement = ImageElement(src: content);
     imageElement.style
       ..width = imageWidth
@@ -176,14 +177,16 @@ class SimpleCell extends Component {
       ..vertical()
       ..nodeRoot.style.flexShrink = '1';
     for (final line in content) {
-      final label = SimpleLabel()..caption = '$line ';
+      final label = SimpleLabel()
+        ..caption = '$line ';
       hvPanel.add(label);
     }
     nodeRoot = hvPanel.nodeRoot;
   }
 
   @override
-  Element nodeRoot = DivElement()..style.overflowWrap = 'anywhere';
+  Element nodeRoot = DivElement()
+    ..style.overflowWrap = 'anywhere';
 
   String get text => nodeRoot.text ?? '';
 
@@ -192,6 +195,7 @@ class SimpleCell extends Component {
 
 class SimpleTableRow extends HVPanel {
   SimpleTableRow() {
+    addCssClasses(['tableRow']);
     fullWidth();
   }
 
@@ -231,7 +235,7 @@ class SimpleTableRow extends HVPanel {
 
   SimpleCell createImageCell(String content, int width, int height) {
     final cell =
-        SimpleCell.createImageCell(content, '${width}px', '${height}px');
+    SimpleCell.createImageCell(content, '${width}px', '${height}px');
     cells.add(cell);
     add(cell);
     return cell;

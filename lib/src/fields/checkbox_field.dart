@@ -2,7 +2,7 @@ import 'dart:html';
 
 import '../../widgets.dart';
 
-class CheckboxField extends Component with Field<bool>, MixinDisablable {
+class CheckboxField extends Component with Field<bool>, MixinDisableable {
   CheckboxField() {
     dartClassName('CheckboxField');
     nodeRoot.style
@@ -21,15 +21,17 @@ class CheckboxField extends Component with Field<bool>, MixinDisablable {
 
     nodeRoot.children.add(_checkBoxInput);
     nodeRoot.children.add(_label);
+    height = '${WidgetsTheme.basicFieldSize}px';
   }
 
   @override
   DivElement nodeRoot = DivElement();
+
   @override
-  List<Element> get disablableNodes => [_checkBoxInput];
+  List<Element> get disableableNodes => [_checkBoxInput];
   final CheckboxInputElement _checkBoxInput = CheckboxInputElement();
   final LabelElement _label = LabelElement()..style.paddingRight = '5px';
-  int _fontSize = 16;
+  int _fontSize = WidgetsTheme.basicSize;
 
   @override
   set width(String width) {
