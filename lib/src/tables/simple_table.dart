@@ -52,6 +52,9 @@ class SimpleTable extends HVPanel {
     columns.add(column);
     final headerCell = headersRow.createColumnHeaderCell(column)
       ..width = '${width}px';
+    if (sortable) {
+      headerCell.nodeRoot.style.textDecoration = 'underline';
+    }
     column.headerCell = headerCell;
     if (sortable) {
       headerCell.nodeRoot.onClick.listen((e) {

@@ -22,7 +22,7 @@ class DateField extends Component with Field<DateTime>, MixinDisableable {
       ..flexGrow = '1';
 
     nodeRoot
-      ..setAttribute('Name', 'TextField')
+      ..setAttribute('Name', 'DateField')
       ..children.add(_dateInput)
       ..onChange.listen((event) {
         fireValueChange(value, value);
