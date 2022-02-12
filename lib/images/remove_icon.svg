@@ -1,0 +1,67 @@
+<svg
+        width="50"
+        height="50"
+        version="1.1"
+        id="svg16"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:svg="http://www.w3.org/2000/svg">
+    <defs
+            id="defs20">
+        <linearGradient
+                id="linearGradient1139">
+            <stop
+                    style="stop-color:#ffffff;stop-opacity:1;"
+                    offset="0"
+                    id="stop1137" />
+        </linearGradient>
+        <linearGradient
+                id="linearGradient1089">
+            <stop
+                    style="stop-color:#ffffff;stop-opacity:1;"
+                    offset="0"
+                    id="stop1087" />
+        </linearGradient>
+    </defs>
+    <g
+            id="g14">
+        <title
+                id="title9">Layer 1</title>
+        <g
+                id="g1848">
+            <ellipse
+                    stroke-width="0"
+                    ry="25"
+                    rx="25"
+                    id="svg_1"
+                    cy="25"
+                    cx="25"
+                    stroke="#000"
+                    fill="#ef1a41"
+                    style="fill:#f2141d;fill-opacity:1" />
+            <line
+                    stroke-width="5"
+                    stroke-linecap="undefined"
+                    stroke-linejoin="undefined"
+                    id="svg_2"
+                    y2="35.111584"
+                    x2="35.111584"
+                    y1="14.891558"
+                    x1="14.891558"
+                    stroke="#000"
+                    fill="none"
+                    style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:6.22155;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+            <line
+                    stroke-width="5"
+                    stroke-linecap="undefined"
+                    stroke-linejoin="undefined"
+                    id="svg_3"
+                    y2="35.111584"
+                    x2="14.891561"
+                    y1="14.891561"
+                    x1="35.111591"
+                    stroke="#000"
+                    fill="none"
+                    style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:6.22155;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,128 @@
+import 'dart:async';
+import 'dart:html';
+
+class ValueChangeEvent<T> {
+  ValueChangeEvent(this.oldValue, this.newValue);
+
+  late T oldValue;
+  late T newValue;
+}
+
+abstract class Component {
+  Component() {
+    addCssClass(runtimeType.toString());
+  }
+
+  Element get nodeRoot;
+
+  bool _visible = true;
+  bool _warp = false;
+
+  void varName(String varName) {
+    nodeRoot.setAttribute('varName', varName);
+  }
+
+  void fillContent() {
+    nodeRoot.style.flex = '1';
+  }
+
+  void clearClasses() {
+    nodeRoot.classes.clear();
+  }
+
+  bool get visible => _visible;
+
+  set visible(bool _newVisible) {
+    if (_visible != _newVisible) {
+      _visible = _newVisible;
+      if (_newVisible) {
+        nodeRoot.style.display = 'flex';
+      } else {
+        nodeRoot.style.display = 'none';
+      }
+    }
+  }
+
+  set width(String _newWidth) {
+    nodeRoot.style.width = _newWidth;
+  }
+
+  String get width => nodeRoot.style.width;
+
+  set height(String _newHeight) {
+    nodeRoot.style.height = _newHeight;
+  }
+
+  String get height => nodeRoot.style.height;
+
+  void fullSize() {
+    width = '100%';
+    height = '100%';
+  }
+
+  void fullWidth() {
+    width = '100%';
+  }
+
+  void fullHeight() {
+    height = '100%';
+  }
+
+  bool get wrap => _warp;
+
+  set wrap(bool _newVal) {
+    _warp = _newVal;
+    if (_warp) {
+      nodeRoot.style.flexWrap = 'wrap';
+    } else {
+      nodeRoot.style.flexWrap = 'nowrap';
+    }
+  }
+
+  set padding(String padding) => nodeRoot.style.padding = padding;
+
+  String get padding =>
+      (nodeRoot.style.padding.isEmpty) ? '0px' : nodeRoot.style.padding;
+
+
+  void addCssClasses(List<String> classNames) {
+    nodeRoot.classes.addAll(classNames);
+  }
+
+  void addCssClass(String className) {
+    nodeRoot.classes.add(className);
+  }
+
+  void removeCssClasses(List<String> className) {
+    nodeRoot.classes.removeAll(className);
+  }
+
+  void removeCssClass(String className) {
+    nodeRoot.classes.remove(className);
+  }
+}
+
+abstract class Composite {
+  List<Component> get children;
+
+  void add(Component component);
+
+  void addAll(List<Component> components);
+}
+
+mixin Field<T> {
+  final StreamController<ValueChangeEvent<T>> _onValueChange =
+      StreamController<ValueChangeEvent<T>>();
+
+  Stream<ValueChangeEvent<T>> get onValueChange => _onValueChange.stream;
+
+  T get value;
+
+  set value(T value);
+
+  void focus();
+
+  void fireValueChange(T oldValue, T newValue) {
+    _onValueChange.sink.add(ValueChangeEvent(oldValue, newValue));
+  }
+}

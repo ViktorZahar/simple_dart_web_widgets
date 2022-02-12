@@ -1,0 +1,136 @@
+/* Default widgets theme */
+
+body {
+  font-family: sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.SimpleButton {
+  cursor: pointer;
+  background: #000;
+  color: #f0f0f0;
+  padding: 0px 10px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.SimpleButton.Active {
+  background: #555;
+}
+
+.SimpleButton:hover {
+  background: #333;
+}
+
+.SimpleButton:disabled {
+  background: #9b9b9b;
+  color: #f0f0f0;
+}
+
+.RemoveButton {
+  background-color: transparent;
+  background-image: url(../images/remove_icon.svg);
+  background-size: cover;
+  cursor:pointer;
+}
+
+.TabTag {
+  cursor: pointer;
+  background-color: #000;
+  color: #fff;
+  padding: 5px 10px;
+}
+
+.TabTag.Active {
+  cursor: pointer;
+  color: #fff;
+  background-color: #555;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.HvPanelHeader {
+  text-align: center;
+}
+
+.DialogWindow {
+  position: fixed;
+  display: flex;
+  background: white;
+  opacity: 1;
+  color: black;
+  flex-direction: column;
+}
+
+.DialogCaption {
+  background: #000;
+  color: white;
+  padding: 5px 1px;
+}
+
+.TableHeadersRow {
+  background: lavender;
+}
+
+.TableCopyButton {
+  background: transparent;
+  color: #ddd;
+  padding: 5px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.TableCopyButton:hover {
+  text-decoration: underline;
+  color: black;
+}
+
+.ModalStatePanel {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  left: 0;
+  top: 0;
+  position: fixed;
+  z-index: 10;
+  justify-content: center;
+}
+
+.ContextMenu {
+  position: absolute;
+  display: flex;
+  background: white;
+  padding: 5px;
+  opacity: 1;
+  cursor: pointer;
+}
+
+.ContextMenuAction {
+  color: black;
+}
+
+.ContextMenuAction:hover {
+  color: black;
+  background-color: #555;
+}
+
+.SimpleTableRow.Header{
+   background-color:rgba(0,0,0,0.15);
+   padding: 4px 0px;
+}
+
+
+.SimpleTableRow.Even{
+   background-color:rgba(255,255,255,0.075)
+}
+
+.SimpleTableRow.Odd{
+   background-color:rgba(0,0,0,0.075)
+}
