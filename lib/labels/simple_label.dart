@@ -3,14 +3,17 @@ import 'dart:html';
 import '../abstract_component.dart';
 import '../mixins.dart';
 
-class SimpleLabel extends Component with MixinClickable {
-  SimpleLabel() {
+class SimpleLabel extends Component with MixinDisable {
+  SimpleLabel() : super('SimpleLabel') {
     nodeRoot.style
       ..overflow = 'hidden'
       ..flexShrink = '0'
       ..alignItems = _verticalAlign
       ..justifyContent = _horizontalAlign;
   }
+
+  Stream<MouseEvent> get onClick =>
+      nodeRoot.onClick.where((event) => !disabled);
 
   @override
   Element nodeRoot = DivElement();
@@ -53,5 +56,5 @@ class SimpleLabel extends Component with MixinClickable {
   }
 
   @override
-  bool get enabled => true;
+  List<Element> get disableNodes => [nodeRoot];
 }

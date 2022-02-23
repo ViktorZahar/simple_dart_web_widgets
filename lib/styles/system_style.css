@@ -12,7 +12,6 @@ body {
 a {
   box-sizing: border-box;
   display: flex;
-  align-items: center;
   color: inherit;
 }
 
@@ -24,16 +23,22 @@ div {
 }
 
 select {
+  box-sizing: border-box;
   font: inherit;
 }
+
 input {
+  box-sizing: border-box;
   font: inherit;
 }
 
 option {
+  box-sizing: border-box;
   font: inherit;
 }
+
 textarea {
+  box-sizing: border-box;
   font: inherit;
   resize: none;
 }

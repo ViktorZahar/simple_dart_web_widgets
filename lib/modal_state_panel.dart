@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:html';
 
-import 'hv_panel.dart';
+import 'panel.dart';
 
 ModalStatePanel modalStatePanel = ModalStatePanel();
 
-class ModalStatePanel extends HVPanel {
-  ModalStatePanel() {
+class ModalStatePanel extends PanelComponent {
+  ModalStatePanel() : super('ModalStatePanel') {
     visible = false;
     align = 'center';
     vertical = true;
@@ -35,7 +35,7 @@ class ModalStatePanel extends HVPanel {
       } else {
         nodeRoot.style.display = 'none';
         clear();
-        _onClick.sink.close();
+        _onClick.close();
         _onClick = StreamController<MouseEvent>();
       }
     }

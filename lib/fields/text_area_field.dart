@@ -4,8 +4,7 @@ import '../abstract_component.dart';
 import '../mixins.dart';
 
 class TextAreaField extends Component with Field<String>, MixinDisable {
-  TextAreaField() {
-    nodeRoot.setAttribute('Name', 'TextField');
+  TextAreaField() : super('TextAreaField') {
     nodeRoot.onChange.listen((event) {
       fireValueChange(value, value);
     });

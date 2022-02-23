@@ -2,8 +2,8 @@ import 'dart:html';
 
 import 'abstract_component.dart';
 
-class HVPanel extends Component implements Composite {
-  HVPanel() {
+abstract class PanelComponent extends Component {
+  PanelComponent(String className) : super(className) {
     nodeRoot.style
       ..display = 'flex'
       ..flexShrink = '0'
@@ -15,21 +15,24 @@ class HVPanel extends Component implements Composite {
   @override
   DivElement nodeRoot = DivElement();
 
-  @override
   List<Component> children = [];
   String _stride = '0px';
   bool _vertical = false;
   bool _scrollable = false;
   String _align = 'stretch';
 
-  @override
   void add(Component component) {
     children.add(component);
     nodeRoot.children.add(component.nodeRoot);
     stride = _stride;
   }
 
-  @override
+  void insert(int index, Component component) {
+    children.insert(index, component);
+    nodeRoot.children.insert(index, component.nodeRoot);
+    stride = _stride;
+  }
+
   void addAll(List<Component> components) {
     for (final comp in components) {
       children.add(comp);
@@ -38,7 +41,7 @@ class HVPanel extends Component implements Composite {
     stride = _stride;
   }
 
-  void remove(Component component) {
+  void removeComponent(Component component) {
     children.remove(component);
     nodeRoot.children.remove(component.nodeRoot);
     stride = _stride;
@@ -128,4 +131,8 @@ class HVPanel extends Component implements Composite {
     _align = newAlign;
     nodeRoot.style.alignItems = newAlign;
   }
+}
+
+class Panel extends PanelComponent {
+  Panel() : super('Panel');
 }

@@ -6,6 +6,10 @@ body {
   font-weight: 500;
 }
 
+.SimpleLabel {
+  color:#000;
+}
+
 .SimpleButton {
   cursor: pointer;
   background: #000;
@@ -24,16 +28,22 @@ body {
   background: #333;
 }
 
-.SimpleButton:disabled {
+.SimpleButton.Disabled {
   background: #9b9b9b;
   color: #f0f0f0;
+  cursor: default;
+}
+
+.SimpleLink.Disabled {
+  pointer-events: none;
+  cursor: default;
 }
 
 .RemoveButton {
   background-color: transparent;
   background-image: url(../images/remove_icon.svg);
   background-size: cover;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .TabTag {
@@ -52,23 +62,8 @@ body {
   justify-content: center;
 }
 
-.HvPanelHeader {
-  text-align: center;
-}
-
 .DialogWindow {
   position: fixed;
-  display: flex;
-  background: white;
-  opacity: 1;
-  color: black;
-  flex-direction: column;
-}
-
-.DialogCaption {
-  background: #000;
-  color: white;
-  padding: 5px 1px;
 }
 
 .TableHeadersRow {
@@ -121,16 +116,39 @@ body {
   background-color: #555;
 }
 
-.SimpleTableRow.Header{
-   background-color:rgba(0,0,0,0.15);
-   padding: 4px 0px;
+.SimpleTableRow.Header {
+  background-color: rgba(0, 0, 0, 0.15);
+  padding: 4px 0px;
 }
 
-
-.SimpleTableRow.Even{
-   background-color:rgba(255,255,255,0.075)
+.TableCopyButton {
+  background: transparent;
+  color: #ddd;
+  padding: 5px;
+  cursor: pointer;
 }
 
-.SimpleTableRow.Odd{
-   background-color:rgba(0,0,0,0.075)
+.TableCopyButton:hover {
+  text-decoration: underline;
+  color: black;
+  background: transparent;
+}
+
+.LoadIndicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom:0;
+  zIndex:9;
+  background-image: url(../images/load_indicator.gif);
+  background-color: rgba(255, 255, 255, 0.75);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100px 100px;
+}
+
+.Sortable {
+  cursor: pointer;
+  text-decoration: underline;
 }

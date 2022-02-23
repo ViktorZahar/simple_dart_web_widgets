@@ -1,11 +1,11 @@
 import 'dart:html';
 
 import '../abstract_component.dart';
-import '../hv_panel.dart';
 import '../mixins.dart';
+import '../panel.dart';
 
-class RadioField extends HVPanel with Field<String>, MixinDisable {
-  RadioField() {
+class RadioField extends PanelComponent with Field<String>, MixinDisable {
+  RadioField() : super('RadioField') {
     wrap = true;
   }
 
@@ -21,7 +21,7 @@ class RadioField extends HVPanel with Field<String>, MixinDisable {
       radioButtons.singleWhere((el) => el.value == value).checked = true;
 
   void addRadioButton(String value, String text) {
-    final rowPanel = HVPanel()..align = 'center';
+    final rowPanel = Panel()..align = 'center';
     final radioButton = RadioButtonInputElement()
       ..value = value
       ..name = groupName;

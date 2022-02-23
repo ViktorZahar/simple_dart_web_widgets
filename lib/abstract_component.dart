@@ -9,21 +9,30 @@ class ValueChangeEvent<T> {
 }
 
 abstract class Component {
-  Component() {
-    addCssClass(runtimeType.toString());
+  Component(this.className) {
+    setCssClass(className);
   }
 
   Element get nodeRoot;
 
   bool _visible = true;
   bool _warp = false;
+  bool _fillContent = false;
+  late String className;
 
   void varName(String varName) {
     nodeRoot.setAttribute('varName', varName);
   }
 
-  void fillContent() {
-    nodeRoot.style.flex = '1';
+  bool get fillContent => _fillContent;
+
+  set fillContent(bool newVal) {
+    _fillContent = newVal;
+    if (_fillContent) {
+      nodeRoot.style.flex = '1';
+    } else {
+      nodeRoot.style.flex = '';
+    }
   }
 
   void clearClasses() {
@@ -84,13 +93,18 @@ abstract class Component {
   String get padding =>
       (nodeRoot.style.padding.isEmpty) ? '0px' : nodeRoot.style.padding;
 
-
   void addCssClasses(List<String> classNames) {
     nodeRoot.classes.addAll(classNames);
   }
 
   void addCssClass(String className) {
     nodeRoot.classes.add(className);
+  }
+
+  void setCssClass(String className) {
+    nodeRoot.classes
+      ..clear()
+      ..add(className);
   }
 
   void removeCssClasses(List<String> className) {
@@ -100,14 +114,10 @@ abstract class Component {
   void removeCssClass(String className) {
     nodeRoot.classes.remove(className);
   }
-}
 
-abstract class Composite {
-  List<Component> get children;
-
-  void add(Component component);
-
-  void addAll(List<Component> components);
+  void remove() {
+    nodeRoot.remove();
+  }
 }
 
 mixin Field<T> {
@@ -124,5 +134,9 @@ mixin Field<T> {
 
   void fireValueChange(T oldValue, T newValue) {
     _onValueChange.sink.add(ValueChangeEvent(oldValue, newValue));
+  }
+
+  void closeStream() {
+    _onValueChange.close();
   }
 }

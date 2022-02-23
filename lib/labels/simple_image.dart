@@ -3,11 +3,12 @@ import 'dart:html';
 import '../abstract_component.dart';
 
 class SimpleImage extends Component {
-  SimpleImage() {
+  SimpleImage() : super('SimpleImage') {
     nodeRoot.style
       ..alignItems = _verticalAlign
       ..justifyContent = _horizontalAlign;
   }
+
   @override
   ImageElement nodeRoot = ImageElement();
 

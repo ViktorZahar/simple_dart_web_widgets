@@ -1,85 +1,63 @@
 import 'dart:html';
 
 import '../abstract_component.dart';
-import '../buttons.dart';
-import '../hv_panel.dart';
 import '../labels/simple_label.dart';
+import '../panel.dart';
+import '../utils.dart';
 
-class SimpleTable extends HVPanel {
-  SimpleTable() {
+class SimpleTable extends PanelComponent {
+  SimpleTable() : super('SimpleTable') {
     vertical = true;
     nodeRoot.style.flexShrink = '1';
-    nameLabel.fillContent();
-    btnCopyFull.onClick.listen((event) {
-      _copyFull = true;
-      window.getSelection()!.selectAllChildren(nodeRoot);
-      document.execCommand('copy');
-      window.getSelection()!.removeAllRanges();
-      _copyFull = false;
-    });
-    namePanel
-      ..add(nameLabel)
-      ..add(btnCopyFull);
-    addAll([namePanel, headersRow, scrollablePanel]);
-    nodeRoot.onCopy.listen(copyToClipboard);
+    addAll([headersRow, scrollablePanel]);
+    nodeRoot.onCopy.listen(copyToClipboardListener);
   }
 
-  HVPanel namePanel = HVPanel();
   bool _copyFull = false;
-  SimpleLabel nameLabel = SimpleLabel()..varName('nameLabel');
   SimpleTableRow headersRow = SimpleTableRow()..addCssClass('Header');
   List<SimpleTableRow> rows = <SimpleTableRow>[];
   List<SimpleTableColumn> columns = <SimpleTableColumn>[];
-  SimpleButton btnCopyFull = SimpleButton()..caption = 'copy';
-  HVPanel scrollablePanel = HVPanel()
+
+  PanelComponent scrollablePanel = Panel()
     ..wrap = false
     ..vertical = true
     ..varName('scrollablePanel')
     ..scrollable = true
-    ..fillContent()
+    ..fillContent=true
     ..fullSize();
 
-  Function(int columnIdx, String direction)? onSortListener;
-
   SimpleTableColumn createColumn(String headerCaption, int width,
-      {bool sortable = false,
-      String vAlign = 'left',
-      int doublePrecision = 2}) {
+      {bool sortable = false, String vAlign = 'left', int precision = 0}) {
     final column = SimpleTableColumn()
       .._width = width
       ..caption = headerCaption
       ..sortable = sortable
-      ..doublePrecision = doublePrecision
+      ..precision = precision
       ..vAlign = vAlign;
     columns.add(column);
     final headerCell = headersRow.createColumnHeaderCell(column)
       ..width = '${width}px';
-    if (sortable) {
-      headerCell.nodeRoot.style.textDecoration = 'underline';
-    }
     column.headerCell = headerCell;
     if (sortable) {
       headerCell.nodeRoot.onClick.listen((e) {
-        if (onSortListener != null) {
-          var sortSymbol = '';
-          if (headerCell.text == column.caption) {
-            sortSymbol = '▲';
-          } else if (headerCell.text.endsWith('▲')) {
-            sortSymbol = '▼';
-          }
-          for (final col in columns) {
-            col.headerCell.text = col.caption;
-          }
-          headerCell.text = '${column.caption} $sortSymbol'.trim();
-          onSortListener!(columns.indexOf(column), sortSymbol);
+        var sortSymbol = '';
+        if (headerCell.text == column.caption) {
+          sortSymbol = '▲';
+        } else if (headerCell.text.endsWith('▲')) {
+          sortSymbol = '▼';
         }
+        for (final col in columns) {
+          col.headerCell.text = col.caption;
+        }
+        headerCell.text = '${column.caption} $sortSymbol'.trim();
+        sortData(columns.indexOf(column), sortSymbol);
       });
     }
     return column;
   }
 
   SimpleTableRow createRow(List<dynamic> cellValues) {
-    final row = SimpleTableRow();
+    final row = SimpleTableRow()..data = cellValues;
     for (var i = 0; i < cellValues.length; i++) {
       final value = cellValues[i];
       final column = columns[i];
@@ -94,8 +72,8 @@ class SimpleTable extends HVPanel {
         var valueStr = '';
         if (value == null) {
           valueStr = '';
-        } else if (value is double) {
-          valueStr = value.toStringAsFixed(column.doublePrecision);
+        } else if (value is num) {
+          valueStr = value.toStringAsFixed(column.precision);
         } else {
           valueStr = value.toString();
         }
@@ -156,30 +134,80 @@ class SimpleTable extends HVPanel {
     }
   }
 
-  void copyToClipboard(ClipboardEvent event) {
+  void copyToClipboard() {
+    _copyFull = true;
+    window.getSelection()!.selectAllChildren(nodeRoot);
+    document.execCommand('copy');
+    window.getSelection()!.removeAllRanges();
+    _copyFull = false;
+  }
+
+  void copyToClipboardListener(ClipboardEvent event) {
     if (_copyFull) {
       final cpData = StringBuffer()
-        ..writeln(nameLabel.caption)
         ..writeln(
             headersRow.cells.map((cell) => cell.text).toList().join('\t'));
       for (final row in rows) {
-        cpData.writeln(row.cells.map((cell) => cell.text).toList().join('\t'));
+        for (var i = 0; i < row.data.length; i++) {
+          final value = row.data[i];
+          final column = columns[i];
+          var formattedValue = '';
+          if (value is SimpleTableHref) {
+            formattedValue = value.caption;
+          } else if (value is SimpleTableImage) {
+            formattedValue = value.url;
+          } else if (value is List) {
+            formattedValue = value.join(';');
+          } else if (value == null) {
+            formattedValue = '';
+          } else if (value is num) {
+            formattedValue =
+                value.toStringAsFixed(column.precision).replaceAll('.', ',');
+          } else {
+            formattedValue = value.toString();
+          }
+          cpData.write('$formattedValue\t');
+        }
+        cpData.write('\n');
       }
       event.clipboardData!.setData('text/plain', cpData.toString());
       event.preventDefault();
     }
   }
+
+  void sortData(int indexOf, String sortSymbol) {
+    final rowData = <List<dynamic>>[];
+    for (final row in rows) {
+      rowData.add(row.data);
+    }
+    if (sortSymbol == '▼') {
+      rowData.sort((a, b) {
+        final data1 = a[indexOf];
+        final data2 = b[indexOf];
+        return compareDynamics(data2, data1);
+      });
+    } else {
+      rowData.sort((a, b) {
+        final data1 = a[indexOf];
+        final data2 = b[indexOf];
+        return compareDynamics(data1, data2);
+      });
+    }
+    clear();
+    rowData.forEach(createRow);
+  }
 }
 
 class SimpleCell extends Component {
-  SimpleCell();
+  SimpleCell() : super('SimpleCell');
 
-  SimpleCell.createLinkCell(String href) {
+  SimpleCell.createLinkCell(String href) : super('SimpleCell') {
     nodeRoot = AnchorElement(href: href);
   }
 
   SimpleCell.createImageCell(
-      String content, String imageWidth, String imageHeight) {
+      String content, String imageWidth, String imageHeight)
+      : super('SimpleCell') {
     final imageElement = ImageElement(src: content);
     imageElement.style
       ..width = imageWidth
@@ -189,8 +217,8 @@ class SimpleCell extends Component {
     nodeRoot.children.add(imageElement);
   }
 
-  SimpleCell.createMultiLineCell(List<dynamic> content) {
-    final hvPanel = HVPanel()
+  SimpleCell.createMultiLineCell(List<dynamic> content) : super('SimpleCell') {
+    final hvPanel = Panel()
       ..vertical = true
       ..nodeRoot.style.flexShrink = '1';
     for (final line in content) {
@@ -208,12 +236,13 @@ class SimpleCell extends Component {
   set text(String newText) => nodeRoot.text = newText;
 }
 
-class SimpleTableRow extends HVPanel {
-  SimpleTableRow() {
+class SimpleTableRow extends PanelComponent {
+  SimpleTableRow() : super('SimpleTableRow') {
     fullWidth();
   }
 
   List<SimpleCell> cells = <SimpleCell>[];
+  late List<dynamic> data;
 
   SimpleCell createCell(String text) {
     final cell = SimpleCell()..text = text;
@@ -225,9 +254,7 @@ class SimpleTableRow extends HVPanel {
   SimpleCell createColumnHeaderCell(SimpleTableColumn column) {
     final cell = SimpleCell()..text = column.caption;
     if (column.sortable) {
-      cell.nodeRoot.style
-        ..cursor = 'pointer'
-        ..fontWeight = 'bold';
+      cell.addCssClass('Sortable');
     }
     cells.add(cell);
     add(cell);
@@ -266,7 +293,7 @@ class SimpleTableColumn {
   int _width = 0;
   bool sortable = false;
   String vAlign = 'left';
-  int doublePrecision = 2;
+  int precision = 0;
 
   int get width => _width;
 
@@ -280,6 +307,9 @@ class SimpleTableColumn {
 
 class SimpleTableHref {
   SimpleTableHref(this.caption, this.url);
+
+  @override
+  String toString() => caption;
 
   late String caption = '';
   late String url = '';

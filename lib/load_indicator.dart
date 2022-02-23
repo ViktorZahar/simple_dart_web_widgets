@@ -1,20 +1,20 @@
-import 'hv_panel.dart';
-import 'labels/simple_image.dart';
+import 'dart:html';
 
-class LoadIndicator {
-  SimpleImage? _image;
+import 'abstract_component.dart';
 
-  void loadIndicatorShow(HVPanel hvPanel) {
-    if (_image == null) {
-      _image = SimpleImage()..addCssClass('LoadIndicator');
-      _image ??= SimpleImage()..source = 'images/load_indicator.gif';
-    }
+class LoadIndicator extends Component {
+  LoadIndicator() : super('LoadIndicator');
+
+  @override
+  DivElement nodeRoot = DivElement();
+
+  void show(Component component) {
+    component.nodeRoot
+      ..style.position = 'relative'
+      ..children.add(nodeRoot);
   }
 
-  void loadIndicatorHide() {
-    if (_image != null) {
-      _image!.nodeRoot.remove();
-      _image = null;
-    }
+  void hide() {
+    nodeRoot.remove();
   }
 }

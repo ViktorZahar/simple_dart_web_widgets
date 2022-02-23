@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'hv_panel.dart';
 import 'labels/simple_label.dart';
 import 'modal_state_panel.dart';
+import 'panel.dart';
 
 class ContextMenu {
   ContextMenu();
 
-  HVPanel menuPanel = HVPanel()
+  Panel menuPanel = Panel()
     ..addCssClass('ContextMenu')
     ..vertical = true;
 

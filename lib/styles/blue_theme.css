@@ -1,12 +1,15 @@
 /* Default widgets theme */
 
-
 body {
   font-family: sans-serif;
   font-size: 12px;
   font-weight: 500;
   background: #3b1761;
-  color:  #f8eef9;
+  color: #f8eef9;
+}
+
+.SimpleLabel {
+  color:#f0f0f0;
 }
 
 .SimpleButton {
@@ -21,16 +24,27 @@ body {
 }
 
 .SimpleButton.Active {
-  background: #555;
+  background: #2e55b4;
+  border:0;
 }
 
 .SimpleButton:hover {
-  background: #333;
+  background: #2e55b4;
 }
 
-.SimpleButton:disabled {
+.SimpleButton.Disabled {
   background: #9b9b9b;
   color: #f0f0f0;
+  cursor: default;
+}
+
+.SimpleLink.Disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+.SimpleLink.Active {
+  background: #2e55b4;
 }
 
 .RemoveButton {
@@ -40,68 +54,72 @@ body {
 }
 
 .TextField > input {
-    border: 0px;
-    border-radius: 3px;
-    background: rgba(255,255,255, 0.2);
-    color: #f8eef9;
+  border: 0px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #f8eef9;
 }
 
 .TextField > input:focus {
-    outline: none;
+  outline: none;
+  border: 0px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #f8eef9;
 }
 
 .TextAreaField {
-    border: 0px;
-    border-radius: 3px;
-    background: rgba(255,255,255, 0.2);
-    color: #f8eef9;
+  border: 0px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #f8eef9;
 }
 
 .TextAreaField:focus {
-    outline: none;
+  outline: none;
 }
 
 .SelectField > select {
-    border-radius: 3px;
-    background: rgba(255,255,255, 0.2);
-    color: #f8eef9;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #f8eef9;
 }
 
 .SelectField > select:focus {
-    outline: none;
+  outline: none;
 }
 
 .NumField > input {
-    border: 0px;
-    border-radius: 3px;
-    background: rgba(255,255,255, 0.2);
-    color: #f8eef9;
+  border: 0px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #f8eef9;
 }
 
 .NumField > input:focus {
-    outline: none;
+  outline: none;
 }
 
 .DateField {
-    border: 0px;
-    border-radius: 3px;
-    background: rgba(255,255,255, 0.2);
-    color: #f8eef9;
+  border: 0px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #f8eef9;
 }
 
 .DateField:focus {
-    outline: none;
+  outline: none;
 }
 
 .DateTimeField {
-    border: 0px;
-    border-radius: 3px;
-    background: rgba(255,255,255, 0.2);
-    color: #f8eef9;
+  border: 0px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #f8eef9;
 }
 
 .DateTimeField:focus {
-    outline: none;
+  outline: none;
 }
 
 .TabTag {
@@ -112,8 +130,8 @@ body {
 
 .TabTag.Active {
   cursor: pointer;
-  border-top: 2px solid transparent;
-  border-bottom: 2px solid #fff;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid #fff;
   text-align: center;
   align-items: center;
   justify-content: center;
@@ -121,36 +139,8 @@ body {
 
 .DialogWindow {
   position: fixed;
-  display: flex;
-  background: rgba(0,0,0,0.25);
-  opacity: 1;
-  color: white;
-  flex-direction: column;
 }
 
-.DialogCaption {
-  padding: 5px 1px;
-}
-
-.TableHeadersRow {
-  background: lavender;
-}
-
-.TableCopyButton {
-  background: transparent;
-  color: #ddd;
-  padding: 5px;
-  border-radius: 10px;
-  cursor: pointer;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-}
-
-.TableCopyButton:hover {
-  text-decoration: underline;
-  color: black;
-}
 
 .ModalStatePanel {
   width: 100%;
@@ -170,31 +160,61 @@ body {
   padding: 5px;
   opacity: 1;
   cursor: pointer;
-  background: rgba(0,0,0,0.3);
-}
-
-.ContextMenuAction {
+  background: #1f2022;
   color: white;
 }
 
 .ContextMenuAction:hover {
-  background: rgba(255,255,255,0.3);
-  color: black;
+  background: #2e55b4;
+  color: white;
 }
 
-.SimpleTableRow.Header{
-   background-color:rgba(0,0,0,0.4);
-   padding: 4px 0px;
+.SimpleTableRow.Header {
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 4px 0px;
 }
 
-.SimpleTableRow.Even{
-   background-color:rgba(255,255,255,0.075);
+.SimpleTableRow.Even {
+  background-color: rgba(255, 255, 255, 0.075);
 }
 
-.SimpleTableRow.Odd{
-   background-color:rgba(0,0,0,0.075);
+.SimpleTableRow.Odd {
+  background-color: rgba(0, 0, 0, 0.075);
 }
+
+.TableCopyButton {
+  background: transparent;
+  color: #270b3c;
+  cursor: pointer;
+  border:0;
+}
+
+.TableCopyButton:hover {
+  text-decoration: underline;
+  background: transparent;
+  color: white;
+}
+
 
 .FileChooser {
-    font:inherit;
+  font: inherit;
+}
+
+.LoadIndicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom:0;
+  zIndex:9;
+  background-image: url(../images/load_indicator.gif);
+  background-color: rgba(0, 0, 0, 0.75);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100px 100px;
+}
+
+.Sortable {
+  cursor: pointer;
+  text-decoration: underline;
 }

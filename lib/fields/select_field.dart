@@ -4,7 +4,7 @@ import '../abstract_component.dart';
 import '../mixins.dart';
 
 class SelectField extends Component with Field<List<String>>, MixinDisable {
-  SelectField() {
+  SelectField(): super('SelectField') {
     nodeRoot.style.display = 'flex';
     nodeRoot.children.add(_selectElement);
     nodeRoot.onChange.listen((event) {

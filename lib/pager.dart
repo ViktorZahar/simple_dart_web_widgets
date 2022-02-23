@@ -1,13 +1,13 @@
 import 'buttons.dart';
-import 'fields/text_field.dart';
-import 'hv_panel.dart';
+import 'fields/num_field.dart';
 import 'labels/simple_label.dart';
+import 'panel.dart';
 
-class Pager extends HVPanel {
-  Pager() {
+class Pager extends PanelComponent {
+  Pager() : super('Pager') {
     add(btnFirst);
     add(btnPrev);
-    add(textElement);
+    add(numField);
     add(lblCount);
     add(btnNext);
     add(btnLast);
@@ -33,14 +33,13 @@ class Pager extends HVPanel {
       pagable!.openPage(pagable!.pageCount);
       refreshDisplay();
     });
-    textElement.onChange((e) {
+    numField.onValueChange.listen((e) {
       try {
-        final newPageNum = int.parse(textElement.value);
+        final newPageNum = numField.value.toInt();
         pagable!.openPage(newPageNum);
         refreshDisplay();
       } on Exception catch (_) {}
     });
-    height = '25px';
   }
 
   SimpleButton btnFirst = SimpleButton()
@@ -56,7 +55,7 @@ class Pager extends HVPanel {
     ..fullHeight()
     ..caption = '>>';
 
-  TextField textElement = TextField()
+  NumField numField = NumField()
     ..width = '35px'
     ..height = '19px'
     ..textAlign = 'center'
@@ -68,26 +67,26 @@ class Pager extends HVPanel {
     ..nodeRoot.style.paddingLeft = '5px'
     ..nodeRoot.style.paddingRight = '5px';
 
-  Pagable? pagable;
+  Pageable? pagable;
 
-  void bind(Pagable pagable) {
+  void bind(Pageable pagable) {
     this.pagable = pagable;
     refreshDisplay();
   }
 
   void refreshDisplay() {
     if (pagable != null) {
-      textElement.value = pagable!.currentPage.toString();
+      numField.value = pagable!.currentPage;
       lblCount.caption = '/ ${pagable!.pageCount}';
-      btnFirst.enabled = pagable!.currentPage != 1;
-      btnLast.enabled = pagable!.currentPage < pagable!.pageCount;
-      btnPrev.enabled = btnFirst.enabled;
-      btnNext.enabled = btnLast.enabled;
+      btnFirst.disabled = pagable!.currentPage == 1;
+      btnLast.disabled = pagable!.currentPage >= pagable!.pageCount;
+      btnPrev.disabled = btnFirst.disabled;
+      btnNext.disabled = btnLast.disabled;
     }
   }
 }
 
-abstract class Pagable {
+abstract class Pageable {
   int get pageCount;
 
   int get currentPage;

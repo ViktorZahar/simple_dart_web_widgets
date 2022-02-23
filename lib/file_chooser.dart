@@ -2,9 +2,8 @@ import 'dart:html';
 
 import 'abstract_component.dart';
 
-
 class FileChooser extends Component {
-  FileChooser() {
+  FileChooser() : super('FileChooser') {
     nodeRoot.children.add(_fileUploadInputElement);
   }
 

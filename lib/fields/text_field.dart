@@ -4,7 +4,7 @@ import '../abstract_component.dart';
 import '../mixins.dart';
 
 class TextField extends Component with Field<String>, MixinDisable {
-  TextField({bool password = false}) {
+  TextField({bool password = false}): super('TextField') {
     nodeRoot.style
       ..display = 'flex'
       ..textAlign = 'center'
@@ -38,12 +38,6 @@ class TextField extends Component with Field<String>, MixinDisable {
   @override
   set height(String height) {
     nodeRoot.style.height = height;
-  }
-
-  void onChange(Function(Event event) listener) {
-    textInput.onChange.listen((e) {
-      listener(e);
-    });
   }
 
   String get textAlign => textInput.style.textAlign;

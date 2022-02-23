@@ -3,10 +3,8 @@ import 'dart:html';
 import '../abstract_component.dart';
 import '../mixins.dart';
 
-
 class CheckboxField extends Component with Field<bool>, MixinDisable {
-  CheckboxField() {
-    addCssClass('checkBox');
+  CheckboxField() : super('CheckboxField') {
     nodeRoot.style
       ..display = 'flex'
       ..textAlign = 'center'
@@ -16,9 +14,6 @@ class CheckboxField extends Component with Field<bool>, MixinDisable {
     _checkBoxInput.onChange.listen((event) {
       fireValueChange(value, value);
     });
-    _checkBoxInput.style
-      ..width = '18px'
-      ..height = '18px';
 
     nodeRoot.children.add(_checkBoxInput);
     nodeRoot.children.add(_label);
@@ -43,6 +38,7 @@ class CheckboxField extends Component with Field<bool>, MixinDisable {
     _checkBoxInput.style.height = height;
     nodeRoot.style.height = height;
   }
+
   void onChange(Function(Event event) listener) {
     _checkBoxInput.onChange.listen((e) {
       listener(e);

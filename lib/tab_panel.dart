@@ -1,17 +1,17 @@
 import 'dart:html';
 
 import 'abstract_component.dart';
-import 'hv_panel.dart';
 import 'labels/simple_label.dart';
 import 'mixins.dart';
+import 'panel.dart';
 
-class TabPanel extends HVPanel {
-  TabPanel() {
+class TabPanel extends PanelComponent {
+  TabPanel() : super('TabPanel') {
     vertical = true;
     add(tagsPanel);
   }
 
-  HVPanel tagsPanel = HVPanel();
+  Panel tagsPanel = Panel()..addCssClass('TabTagsPanel');
   List<TabTag> tags = <TabTag>[];
   TabTag? _currentTag;
 
@@ -33,7 +33,7 @@ class TabPanel extends HVPanel {
     if (_currentTag != tabTag) {
       if (_currentTag != null) {
         _currentTag!.active = false;
-        remove(_currentTag!.tabContent!);
+        removeComponent(_currentTag!.tabContent!);
       }
       _currentTag = tabTag..fireOnSelect();
       _currentTag!.active = true;
@@ -43,7 +43,9 @@ class TabPanel extends HVPanel {
 }
 
 class TabTag extends SimpleLabel with MixinActivate {
-  TabTag();
+  TabTag() {
+    addCssClass('TabTag');
+  }
 
   Component? tabContent;
 

@@ -2,14 +2,14 @@ import 'dart:html';
 
 import '../abstract_component.dart';
 import '../buttons.dart';
-import '../hv_panel.dart';
 import '../labels/simple_label.dart';
+import '../panel.dart';
 import 'text_field.dart';
 
 typedef FilterFunc = bool Function(List<String> oldValues, String newRow);
 
-class ListField extends HVPanel with Field<List<String>> {
-  ListField() {
+class ListField extends PanelComponent with Field<List<String>> {
+  ListField() : super('ListField') {
     vertical = true;
     stride = '3px';
     addButton.onClick.listen((event) {
@@ -56,10 +56,10 @@ class ListField extends HVPanel with Field<List<String>> {
 
   TextField addField = TextField()
     ..fullWidth()
-    ..fillContent();
+    ..fillContent = true;
   SimpleButton addButton = SimpleButton()..caption = 'Add';
-  HVPanel addPanel = HVPanel()..stride = '5px';
-  HVPanel valueListPanel = HVPanel()..vertical = true;
+  Panel addPanel = Panel()..stride = '5px';
+  Panel valueListPanel = Panel()..vertical = true;
 
   @override
   List<String> get value => valueListPanel.children.map((e) {
@@ -75,7 +75,7 @@ class ListField extends HVPanel with Field<List<String>> {
     final oldValue = value;
     if (newValue.length < valueListPanel.children.length) {
       for (var i = newValue.length; i < valueListPanel.children.length; i++) {
-        valueListPanel.remove(valueListPanel.children[i]);
+        valueListPanel.removeComponent(valueListPanel.children[i]);
       }
     }
     var i = 0;
@@ -97,15 +97,15 @@ class ListField extends HVPanel with Field<List<String>> {
     final newRowPanel = ListFieldRow()..value = row;
     newRowPanel.onRemove = (e) {
       final oldValue = value;
-      valueListPanel.remove(newRowPanel);
+      valueListPanel.removeComponent(newRowPanel);
       fireValueChange(oldValue, value);
     };
     valueListPanel.add(newRowPanel);
   }
 }
 
-class ListFieldRow extends HVPanel {
-  ListFieldRow() {
+class ListFieldRow extends PanelComponent {
+  ListFieldRow() : super('ListFieldRow') {
     stride = '3px';
     removeButton.onClick.listen((event) {
       if (onRemove != null) {
@@ -124,7 +124,7 @@ class ListFieldRow extends HVPanel {
     ..caption = '';
 
   SimpleLabel valueLabel = SimpleLabel()
-    ..fillContent()
+    ..fillContent = true
     ..fullWidth();
 
   Function(MouseEvent event)? onRemove;

@@ -4,7 +4,7 @@ import '../abstract_component.dart';
 import '../mixins.dart';
 
 class NumField extends Component with Field<num>, MixinDisable {
-  NumField() {
+  NumField() : super('NumField') {
     numberInput.style
       ..width = '100%'
       ..flexGrow = '1';
@@ -21,7 +21,6 @@ class NumField extends Component with Field<num>, MixinDisable {
   @override
   List<Element> get disableNodes => [numberInput];
   TextInputElement numberInput = TextInputElement();
-  int _fontSize = 16;
 
   @override
   set width(String width) {
@@ -32,19 +31,6 @@ class NumField extends Component with Field<num>, MixinDisable {
   @override
   set height(String height) {
     nodeRoot.style.height = height;
-  }
-
-  set fontSize(int size) {
-    _fontSize = size;
-    numberInput.style.fontSize = '${size}px';
-  }
-
-  int get fontSize => _fontSize;
-
-  void onChange(Function(Event event) listener) {
-    numberInput.onChange.listen((e) {
-      listener(e);
-    });
   }
 
   String get textAlign => numberInput.style.textAlign;

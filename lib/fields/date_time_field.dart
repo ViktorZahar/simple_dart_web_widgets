@@ -5,9 +5,12 @@ import '../mixins.dart';
 import '../utils.dart';
 
 class DateTimeField extends Component with Field<DateTime>, MixinDisable {
-  DateTimeField() {
+  DateTimeField() : super('DateTimeField') {
     nodeRoot.onChange.listen((event) {
-      fireValueChange(value, value);
+      try {
+        final newValue = value;
+        fireValueChange(newValue, newValue);
+      } on Exception catch (_) {}
     });
   }
 
@@ -28,9 +31,17 @@ class DateTimeField extends Component with Field<DateTime>, MixinDisable {
   set textAlign(String value) => nodeRoot.style.textAlign = value;
 
   @override
-  DateTime get value =>
-      DateTime.fromMillisecondsSinceEpoch((nodeRoot.valueAsNumber ?? 0).ceil(),
-          isUtc: true);
+  DateTime get value {
+    if (nodeRoot.valueAsNumber == null) {
+      throw Exception('bad field value');
+    }
+    if (nodeRoot.valueAsNumber!.isNaN) {
+      throw Exception('bad field value');
+    }
+    return DateTime.fromMillisecondsSinceEpoch(
+        (nodeRoot.valueAsNumber ?? 0).ceil(),
+        isUtc: true);
+  }
 
   @override
   set value(DateTime value) {

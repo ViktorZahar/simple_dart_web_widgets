@@ -1,24 +1,14 @@
 import 'dart:async';
-import 'dart:html';
 
-import 'abstract_component.dart';
-import 'hv_panel.dart';
-import 'labels/simple_label.dart';
 import 'modal_state_panel.dart';
+import 'panel.dart';
 
-abstract class DialogWindow<T> {
-  DialogWindow() {
-    captionPanel.add(captionLabel);
-    dialog
-      ..add(captionPanel)
-      ..add(createDialogContent());
+abstract class AbstractDialog<T> {
+  AbstractDialog() {
+    dialogWindow = createDialogWindow()..addCssClass('DialogWindow');
   }
 
-  HVPanel dialog = HVPanel()
-    ..addCssClass('DialogWindow')
-    ..vertical = true;
-  HVPanel captionPanel = HVPanel()..addCssClass('DialogCaption');
-  SimpleLabel captionLabel = SimpleLabel();
+  late PanelComponent dialogWindow;
   Completer<T>? completer;
 
   final StreamController<String> _onClose = StreamController<String>();
@@ -26,9 +16,8 @@ abstract class DialogWindow<T> {
   Stream<String> get onClose => _onClose.stream;
   bool closable = true;
 
-  Future showDialog() {
+  Future<T> showDialog() {
     completer = Completer<T>();
-    captionLabel.caption = caption();
     modalStatePanel
       ..onClick.listen((event) {
         if (closable) {
@@ -36,10 +25,7 @@ abstract class DialogWindow<T> {
         }
       })
       ..clear()
-      ..add(dialog);
-    center();
-    modalStatePanel
-      ..add(dialog)
+      ..add(dialogWindow)
       ..visible = true;
     return completer!.future;
   }
@@ -49,19 +35,9 @@ abstract class DialogWindow<T> {
     _onClose.sink.add('');
   }
 
-  void center() {
-    final windowWidth = window.innerWidth!;
-    final windowHeight = window.innerHeight!;
-    final dialogWidth = dialog.nodeRoot.clientWidth;
-    final dialogHeight = dialog.nodeRoot.clientHeight;
-    final x = (windowWidth - dialogWidth) / 2;
-    final y = (windowHeight - dialogHeight) / 3;
-    dialog.nodeRoot.style
-      ..top = '${y}px'
-      ..left = '${x}px';
+  void remove() {
+    _onClose.close();
   }
 
-  String caption();
-
-  Component createDialogContent();
+  PanelComponent createDialogWindow();
 }

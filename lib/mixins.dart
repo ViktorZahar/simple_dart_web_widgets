@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:html';
 
 mixin MixinCaption {
@@ -16,14 +15,6 @@ mixin MixinCaption {
   String get caption => _stateCaption;
 }
 
-mixin MixinClickable {
-  Element get nodeRoot;
-
-  bool get enabled;
-
-  Stream<MouseEvent> get onClick => nodeRoot.onClick;
-}
-
 mixin MixinDisable {
   List<Element> get disableNodes;
 
@@ -36,11 +27,17 @@ mixin MixinDisable {
     for (final element in disableNodes) {
       if (newVal) {
         element.setAttribute('disabled', '');
+        element.classes.add('Disabled');
       } else {
         element.removeAttribute('disabled');
+        element.classes.remove('Disabled');
       }
     }
   }
+
+  bool get enabled => !disabled;
+
+  set enabled(bool newVal) => disabled = !newVal;
 }
 
 mixin MixinActivate {

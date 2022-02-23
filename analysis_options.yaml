@@ -11,7 +11,7 @@ linter:
     - always_require_non_null_named_parameters
     # - always_specify_types
     - annotate_overrides
-    - avoid_annotating_with_dynamic
+#    - avoid_annotating_with_dynamic
     - avoid_bool_literals_in_conditional_expressions
     - avoid_catches_without_on_clauses
     - avoid_catching_errors
@@ -50,7 +50,7 @@ linter:
     - camel_case_types
     - cancel_subscriptions
     - cascade_invocations
-#    - close_sinks
+    - close_sinks
     - comment_references
     - constant_identifier_names
     - control_flow_in_finally
