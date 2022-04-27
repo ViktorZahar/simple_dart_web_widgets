@@ -23,7 +23,7 @@ class SimpleTable extends PanelComponent {
     ..vertical = true
     ..varName('scrollablePanel')
     ..scrollable = true
-    ..fillContent=true
+    ..fillContent = true
     ..fullSize();
 
   SimpleTableColumn createColumn(String headerCaption, int width,
@@ -35,8 +35,7 @@ class SimpleTable extends PanelComponent {
       ..precision = precision
       ..vAlign = vAlign;
     columns.add(column);
-    final headerCell = headersRow.createColumnHeaderCell(column)
-      ..width = '${width}px';
+    final headerCell = headersRow.createColumnHeaderCell(column);
     column.headerCell = headerCell;
     if (sortable) {
       headerCell.nodeRoot.onClick.listen((e) {
@@ -66,6 +65,8 @@ class SimpleTable extends PanelComponent {
         cell = row.createHrefCell(value);
       } else if (value is SimpleTableImage) {
         cell = row.createImageCell(value);
+      } else if (value is Component) {
+        cell = row.createComponentCell(value);
       } else if (value is List) {
         cell = row.createMultiLineCell(value);
       } else {
@@ -74,6 +75,8 @@ class SimpleTable extends PanelComponent {
           valueStr = '';
         } else if (value is num) {
           valueStr = value.toStringAsFixed(column.precision);
+        } else if (value is DateTime) {
+          valueStr = formatDateHum(value);
         } else {
           valueStr = value.toString();
         }
@@ -228,6 +231,10 @@ class SimpleCell extends Component {
     nodeRoot = hvPanel.nodeRoot;
   }
 
+  SimpleCell.createComponentCell(Component comp) : super('SimpleCell') {
+    nodeRoot = comp.nodeRoot;
+  }
+
   @override
   Element nodeRoot = DivElement()..style.overflowWrap = 'anywhere';
 
@@ -252,9 +259,18 @@ class SimpleTableRow extends PanelComponent {
   }
 
   SimpleCell createColumnHeaderCell(SimpleTableColumn column) {
-    final cell = SimpleCell()..text = column.caption;
+    final cell = SimpleCell()
+      ..text = column.caption
+      ..width = '${column.width}px';
     if (column.sortable) {
       cell.addCssClass('Sortable');
+    }
+    final vAlign = column.vAlign;
+    if (vAlign == 'center') {
+      cell.nodeRoot.style.justifyContent = 'center';
+    }
+    if (vAlign == 'right') {
+      cell.nodeRoot.style.justifyContent = 'flex-end';
     }
     cells.add(cell);
     add(cell);
@@ -278,6 +294,13 @@ class SimpleTableRow extends PanelComponent {
 
   SimpleCell createMultiLineCell(List<dynamic> content) {
     final cell = SimpleCell.createMultiLineCell(content);
+    cells.add(cell);
+    add(cell);
+    return cell;
+  }
+
+  SimpleCell createComponentCell(Component comp) {
+    final cell = SimpleCell.createComponentCell(comp);
     cells.add(cell);
     add(cell);
     return cell;

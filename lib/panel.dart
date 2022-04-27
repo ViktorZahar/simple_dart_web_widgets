@@ -20,6 +20,7 @@ abstract class PanelComponent extends Component {
   bool _vertical = false;
   bool _scrollable = false;
   String _align = 'stretch';
+  String _justifyContent = 'flex-start';
 
   void add(Component component) {
     children.add(component);
@@ -130,6 +131,13 @@ abstract class PanelComponent extends Component {
   set align(String newAlign) {
     _align = newAlign;
     nodeRoot.style.alignItems = newAlign;
+  }
+
+  String get justifyContent => _justifyContent;
+
+  set justifyContent(String newjustifyContent) {
+    _justifyContent = newjustifyContent;
+    nodeRoot.style.justifyContent = newjustifyContent;
   }
 }
 

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:html';
 
 import 'abstract_component.dart';
@@ -11,14 +12,26 @@ class TabPanel extends PanelComponent {
     add(tagsPanel);
   }
 
-  Panel tagsPanel = Panel()..addCssClass('TabTagsPanel');
+  final StreamController<TabTag> _onSelect = StreamController<TabTag>();
+
+  Stream<TabTag> get onSelect => _onSelect.stream;
+
+  Panel tagsPanel = Panel()
+    ..addCssClass('TabTagsPanel')
+    ..wrap = true;
   List<TabTag> tags = <TabTag>[];
   TabTag? _currentTag;
 
+  void fireOnSelect(TabTag tabTag) {
+    _onSelect.add(tabTag);
+  }
+
+  void destroy() {
+    _onSelect.close();
+  }
+
   TabTag addTab(String caption, Component tabComponent) {
-    final newTabTag = TabTag()
-      ..caption = caption
-      ..tabContent = tabComponent;
+    final newTabTag = TabTag(tabComponent)..caption = caption;
     tagsPanel.add(newTabTag);
     tags.add(newTabTag);
     newTabTag.nodeRoot.onClick.listen((event) {
@@ -33,33 +46,28 @@ class TabPanel extends PanelComponent {
     if (_currentTag != tabTag) {
       if (_currentTag != null) {
         _currentTag!.active = false;
-        removeComponent(_currentTag!.tabContent!);
+        removeComponent(_currentTag!.tabContent);
       }
-      _currentTag = tabTag..fireOnSelect();
+      _currentTag = tabTag;
       _currentTag!.active = true;
-      add(_currentTag!.tabContent!);
+      fireOnSelect(tabTag);
+      add(_currentTag!.tabContent);
     }
+  }
+
+  @override
+  void clear() {
+    tags.clear();
+    tagsPanel.clear();
   }
 }
 
 class TabTag extends SimpleLabel with MixinActivate {
-  TabTag() {
+  TabTag(this.tabContent) {
     addCssClass('TabTag');
   }
 
-  Component? tabContent;
-
-  List<Function()> onSelectListeners = <Function()>[];
-
-  void onSelect(Function() listener) {
-    onSelectListeners.add(listener);
-  }
-
-  void fireOnSelect() {
-    for (final listener in onSelectListeners) {
-      listener();
-    }
-  }
+  late Component tabContent;
 
   @override
   List<Element> get activate => [nodeRoot];

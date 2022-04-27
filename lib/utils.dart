@@ -15,6 +15,17 @@ String formatDateTime(DateTime date) => '${date.year.toString()}-'
     '${date.minute.toString().padLeft(2, '0')}:'
     '${date.second.toString().padLeft(2, '0')}';
 
+String formatDateHum(DateTime date) => '${date.day.toString().padLeft(2, '0')}.'
+    '${date.month.toString().padLeft(2, '0')}.'
+    '${date.year.toString()}';
+
+String formatDateTimeHum(DateTime date) => '${date.day.toString().padLeft(2, '0')}.'
+    '${date.month.toString().padLeft(2, '0')}.'
+    '${date.year.toString()} '
+    '${date.hour.toString().padLeft(2, '0')}:'
+    '${date.minute.toString().padLeft(2, '0')}:'
+    '${date.second.toString().padLeft(2, '0')}';
+
 Uri createUri(String path, Map<String, String> queryParameters) {
   final protocol = window.location.protocol;
   Uri uri;
@@ -43,14 +54,15 @@ String convertError(Object e) {
   }
 }
 
-Panel labelComponent(String caption, Component comp) => Panel()
-  ..fullWidth()
-  ..addAll([
-    SimpleLabel()
-      ..caption = caption
-      ..width = '50%',
-    comp
-  ]);
+Panel labelComponent(String caption, Component comp) =>
+    Panel()
+      ..fullWidth()
+      ..addAll([
+        SimpleLabel()
+          ..caption = caption
+          ..width = '50%',
+        comp..width = '50%'
+      ]);
 
 int compareDynamics(dynamic a, dynamic b) {
   if (a is num && b is num) {

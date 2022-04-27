@@ -40,6 +40,12 @@ class TextField extends Component with Field<String>, MixinDisable {
     nodeRoot.style.height = height;
   }
 
+  set placeholder(String text) {
+    textInput.placeholder = text;
+  }
+
+  String get placeholder => textInput.placeholder;
+
   String get textAlign => textInput.style.textAlign;
 
   set textAlign(String value) => textInput.style.textAlign = value;

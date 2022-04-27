@@ -1,20 +1,21 @@
 /* Default widgets theme */
 
 body {
-  font-family: sans-serif;
+  font-family: JetBrains Mono;
   font-size: 12px;
   font-weight: 500;
 }
 
-.SimpleLabel {
-  color:#000;
+a {
+  color: #134ea1;
+  text-decoration: none;
 }
 
 .SimpleButton {
   cursor: pointer;
   background: #000;
   color: #f0f0f0;
-  padding: 0px 10px;
+  padding: 3px 10px;
   text-align: center;
   align-items: center;
   justify-content: center;
@@ -86,6 +87,27 @@ body {
   color: black;
 }
 
+.SimpleDialogLayout {
+  color: #000;
+  background: #fff;
+}
+
+.SimpleDialogLayoutHeader{
+  padding: 10px;
+  color: #fff;
+  background: #000;
+}
+
+.SimpleDialogLayoutBody{
+  padding: 10px;
+  color: #000;
+  background: #fff;
+}
+
+.SimpleDialogLayoutFooter{
+  padding: 10px;
+}
+
 .ModalStatePanel {
   width: 100%;
   height: 100%;
@@ -106,6 +128,7 @@ body {
   opacity: 1;
   cursor: pointer;
 }
+
 
 .ContextMenuAction {
   color: black;
