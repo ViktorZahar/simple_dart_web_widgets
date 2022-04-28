@@ -1,38 +1,58 @@
 import 'dart:async';
 import 'dart:html';
 
-import '../abstract_component.dart';
 import '../fields/checkbox_field.dart';
+import '../utils.dart';
 import 'simple_table.dart';
 
+typedef ObjectTableRowAdapter<T> = List<dynamic> Function(T object);
+
+class ObjectTableSelectEvent<T> {
+  ObjectTableSelectEvent(this.object, {this.selected = false});
+
+  final T object;
+  bool selected = false;
+}
+
 class ObjectTable<T> extends SimpleTable {
-  ObjectTable() {
-    final cell = SimpleCell()..width = '40px';
-    headersRow.add(cell);
+  ObjectTable(this.objectRowAdapter, {selectable = false}) {
+    _selectable = selectable;
+    if (_selectable) {
+      final cell = SimpleCell()..width = '40px';
+      headersRow.add(cell);
+    }
   }
 
   List<T> objectList = <T>[];
+  bool _selectable = false;
 
-  final StreamController<bool> _onSelect = StreamController<bool>();
+  late ObjectTableRowAdapter<T> objectRowAdapter;
 
-  @override
-  SimpleTableRow createRow(List<dynamic> cellValues) {
-    final object = cellValues[0];
+  final StreamController<ObjectTableSelectEvent<T>> _onSelect =
+      StreamController<ObjectTableSelectEvent<T>>();
+
+  SimpleTableRow createObjectRow(T object) {
     objectList.add(object);
-    final newRow = super.createRow(cellValues.sublist(1));
-    final checkboxField = CheckboxField()
-      ..width = '40px'
-      ..onValueChange.listen(_onCheckBoxSelect);
-    final cell = SimpleCell.createComponentCell(checkboxField);
-    newRow.insert(0, cell);
+    final rowData = objectRowAdapter(object)..add(object);
+    final newRow = super.createRow(rowData);
+    if (_selectable) {
+      final checkboxField = CheckboxField()
+        ..width = '40px'
+        ..onValueChange.listen((event) {
+          _onCheckBoxSelect(
+              ObjectTableSelectEvent(object, selected: event.newValue));
+        });
+      final cell = SimpleCell.createComponentCell(checkboxField);
+      newRow.insert(0, cell);
+    }
     return newRow;
   }
 
-  void _onCheckBoxSelect(ValueChangeEvent<bool> event) {
-    _onSelect.sink.add(event.newValue);
+  void _onCheckBoxSelect(ObjectTableSelectEvent<T> object) {
+    _onSelect.sink.add(object);
   }
 
-  Stream<bool> get onSelect => _onSelect.stream;
+  Stream<ObjectTableSelectEvent<T>> get onSelect => _onSelect.stream;
 
   void destroy() {
     _onSelect.close();
@@ -57,5 +77,30 @@ class ObjectTable<T> extends SimpleTable {
   void clear() {
     super.clear();
     objectList.clear();
+  }
+
+  @override
+  void sortData(int indexOf, String sortSymbol) {
+    final rowData = <List<dynamic>>[];
+    for (final row in rows) {
+      rowData.add(row.data);
+    }
+    if (sortSymbol == '▼') {
+      rowData.sort((a, b) {
+        final data1 = a[indexOf];
+        final data2 = b[indexOf];
+        return compareDynamics(data2, data1);
+      });
+    } else {
+      rowData.sort((a, b) {
+        final data1 = a[indexOf];
+        final data2 = b[indexOf];
+        return compareDynamics(data1, data2);
+      });
+    }
+    clear();
+    rowData.forEach((row) {
+      createObjectRow(row.last);
+    });
   }
 }

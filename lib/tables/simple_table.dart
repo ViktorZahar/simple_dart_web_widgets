@@ -57,9 +57,9 @@ class SimpleTable extends PanelComponent {
 
   SimpleTableRow createRow(List<dynamic> cellValues) {
     final row = SimpleTableRow()..data = cellValues;
-    for (var i = 0; i < cellValues.length; i++) {
-      final value = cellValues[i];
+    for (var i = 0; i < columns.length; i++) {
       final column = columns[i];
+      final value = cellValues[i];
       SimpleCell? cell;
       if (value is SimpleTableHref) {
         cell = row.createHrefCell(value);
