@@ -18,9 +18,15 @@ class TabPanel extends PanelComponent {
 
   Panel tagsPanel = Panel()
     ..addCssClass('TabTagsPanel')
+    ..stride = '1px'
     ..wrap = true;
   List<TabTag> tags = <TabTag>[];
   TabTag? _currentTag;
+  Panel contentPanel = Panel()
+    ..addCssClass('TabContentPanel')
+    ..fullSize()
+    ..vertical = true
+    ..fillContent = true;
 
   void fireOnSelect(TabTag tabTag) {
     _onSelect.add(tabTag);
@@ -31,7 +37,22 @@ class TabPanel extends PanelComponent {
   }
 
   TabTag addTab(String caption, Component tabComponent) {
-    final newTabTag = TabTag(tabComponent)..caption = caption;
+    final newTabTag = TabTag()
+      ..caption = caption
+      ..tabContent = tabComponent;
+    tagsPanel.add(newTabTag);
+    tags.add(newTabTag);
+    newTabTag.nodeRoot.onClick.listen((event) {
+      currentTag = newTabTag;
+    });
+    return newTabTag;
+  }
+
+  TabTag addLazyTab(String caption, LazyTabComponent lazyTabComponent) {
+    final newTabTag = TabTag()
+      ..caption = caption
+      ..tabContent = lazyTabComponent
+      ..lazyTabContent = lazyTabComponent;
     tagsPanel.add(newTabTag);
     tags.add(newTabTag);
     newTabTag.nodeRoot.onClick.listen((event) {
@@ -46,12 +67,16 @@ class TabPanel extends PanelComponent {
     if (_currentTag != tabTag) {
       if (_currentTag != null) {
         _currentTag!.active = false;
-        removeComponent(_currentTag!.tabContent);
+        removeComponent(_currentTag!.tabContent!);
       }
       _currentTag = tabTag;
       _currentTag!.active = true;
       fireOnSelect(tabTag);
-      add(_currentTag!.tabContent);
+      if (tabTag.lazyTabContent != null) {
+        tabTag.lazyTabContent!.onShow();
+      }
+
+      add(_currentTag!.tabContent!);
     }
   }
 
@@ -63,12 +88,23 @@ class TabPanel extends PanelComponent {
 }
 
 class TabTag extends SimpleLabel with MixinActivate {
-  TabTag(this.tabContent) {
+  TabTag() {
     addCssClass('TabTag');
   }
 
-  late Component tabContent;
+  Component? tabContent;
+  LazyTabComponent? lazyTabContent;
 
   @override
   List<Element> get activate => [nodeRoot];
+}
+
+class LazyTabComponent extends PanelComponent {
+  LazyTabComponent() : super('LazyTabComponent') {
+    fullSize();
+    vertical = true;
+    fillContent = true;
+  }
+
+  Future<void> onShow() async {}
 }

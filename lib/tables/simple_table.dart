@@ -151,7 +151,7 @@ class SimpleTable extends PanelComponent {
         ..writeln(
             headersRow.cells.map((cell) => cell.text).toList().join('\t'));
       for (final row in rows) {
-        for (var i = 0; i < row.data.length; i++) {
+        for (var i = 0; i < columns.length; i++) {
           final value = row.data[i];
           final column = columns[i];
           var formattedValue = '';
@@ -264,13 +264,6 @@ class SimpleTableRow extends PanelComponent {
       ..width = '${column.width}px';
     if (column.sortable) {
       cell.addCssClass('Sortable');
-    }
-    final vAlign = column.vAlign;
-    if (vAlign == 'center') {
-      cell.nodeRoot.style.justifyContent = 'center';
-    }
-    if (vAlign == 'right') {
-      cell.nodeRoot.style.justifyContent = 'flex-end';
     }
     cells.add(cell);
     add(cell);

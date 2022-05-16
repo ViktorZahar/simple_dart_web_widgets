@@ -2,6 +2,7 @@ import 'dart:async';
 
 import '../buttons.dart';
 import '../labels/simple_label.dart';
+import '../load_indicator.dart';
 import '../panel.dart';
 import 'object_table.dart';
 import 'repository.dart';
@@ -23,12 +24,13 @@ class RepositoryTable<T> extends ObjectTable<T> {
     });
     headerPanel.addAll([headerLabel, copyButton]);
     insert(0, headerPanel);
-    loadMore();
   }
 
   late Repository<T> repository;
 
   final StreamController<bool> _onLoadMore = StreamController<bool>();
+
+  LoadIndicator loadIndicator = LoadIndicator();
 
   Stream<bool> get onLoadMore => _onLoadMore.stream;
 
@@ -44,9 +46,11 @@ class RepositoryTable<T> extends ObjectTable<T> {
     ..setCssClass('TableCopyButton');
 
   Future<void> loadMore() async {
+    loadIndicator.show(this);
     final moreObjects = await repository.loadMore();
     moreObjects.forEach(createObjectRow);
     _onLoadMore.add(moreObjects.isNotEmpty);
+    loadIndicator.hide();
   }
 
   @override
