@@ -9,6 +9,9 @@ class SimpleLink extends Component with MixinActivate, MixinDisable {
   @override
   AnchorElement nodeRoot = AnchorElement();
 
+  String _verticalAlign = 'center';
+  String _horizontalAlign = 'left';
+
   bool _newTab = false;
 
   bool get newTab => _newTab;
@@ -35,4 +38,20 @@ class SimpleLink extends Component with MixinActivate, MixinDisable {
 
   @override
   List<Element> get disableNodes => [nodeRoot];
+
+  String get verticalAlign => _verticalAlign;
+
+  set verticalAlign(String align) {
+    _verticalAlign = align;
+    nodeRoot.style.alignItems = _verticalAlign;
+  }
+
+  String get horizontalAlign => _horizontalAlign;
+
+  set horizontalAlign(String align) {
+    if (_horizontalAlign != align) {
+      _horizontalAlign = align;
+      nodeRoot.style.justifyContent = _horizontalAlign;
+    }
+  }
 }

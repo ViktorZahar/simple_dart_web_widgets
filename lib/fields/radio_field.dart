@@ -4,7 +4,8 @@ import '../abstract_component.dart';
 import '../mixins.dart';
 import '../panel.dart';
 
-class RadioField extends PanelComponent with Field<String>, MixinDisable {
+class RadioField extends PanelComponent
+    with Field<String>, UrlStateComponent<String>, MixinDisable {
   RadioField() : super('RadioField') {
     wrap = true;
   }
@@ -19,6 +20,12 @@ class RadioField extends PanelComponent with Field<String>, MixinDisable {
   @override
   set value(String value) =>
       radioButtons.singleWhere((el) => el.value == value).checked = true;
+
+  @override
+  String get urlState => value;
+
+  @override
+  set urlState(String newValue) => value = newValue;
 
   void addRadioButton(String value, String text) {
     final rowPanel = Panel()..align = 'center';

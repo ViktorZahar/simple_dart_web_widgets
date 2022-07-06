@@ -8,7 +8,8 @@ import 'text_field.dart';
 
 typedef FilterFunc = bool Function(List<String> oldValues, String newRow);
 
-class ListField extends PanelComponent with Field<List<String>> {
+class ListField extends PanelComponent
+    with Field<List<String>>, UrlStateComponent<List<String>> {
   ListField() : super('ListField') {
     vertical = true;
     stride = '3px';
@@ -92,6 +93,12 @@ class ListField extends PanelComponent with Field<List<String>> {
     }
     fireValueChange(oldValue, newValue);
   }
+
+  @override
+  String get urlState => value.join(',');
+
+  @override
+  set urlState(String newValue) => value = newValue.split(',');
 
   void addRow(String row) {
     final newRowPanel = ListFieldRow()..value = row;

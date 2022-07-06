@@ -1,9 +1,10 @@
 /* Default widgets theme */
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;600;700;800;900&display=swap');
 
 body {
-  font-family: JetBrains Mono;
-  font-size: 12px;
-  font-weight: 500;
+  font-family: Ubuntu, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
 }
 
 a {
@@ -51,16 +52,15 @@ a {
 
 .TabTag {
   cursor: pointer;
-  background-color: #000;
-  color: #fff;
+  color: #777;
   padding: 5px 10px;
-  border-radius: 10px;
 }
 
 .TabTag.Active {
   cursor: pointer;
-  color: #fff;
-  background-color: #555;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid #000;
+  color: #000;
   text-align: center;
   align-items: center;
   justify-content: center;
@@ -69,6 +69,10 @@ a {
 
 .DialogWindow {
   position: fixed;
+}
+
+.TableHeaderPanel {
+  font-weight: 500;
 }
 
 .TableHeadersRow {
@@ -88,24 +92,22 @@ a {
 
 .TableCopyButton:hover {
   text-decoration: underline;
-  color: black;
+  color: #000;
 }
 
 .SimpleDialogLayout {
-  color: #000;
-  background: #fff;
+  border-radius: 10px;
+  background-color: #f0f0f0;
+  box-shadow: rgb(32 12 71 / 32%) 0px 0px 32px;
 }
 
 .SimpleDialogLayoutHeader{
-  padding: 10px;
-  color: #fff;
-  background: #000;
+  font-weight: 500;
+  color: #000;
 }
 
 .SimpleDialogLayoutBody{
-  padding: 10px;
   color: #000;
-  background: #fff;
 }
 
 .SimpleDialogLayoutFooter{
@@ -116,7 +118,7 @@ a {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.75);
-  color: white;
+  color: #fff;
   left: 0;
   top: 0;
   position: fixed;
@@ -127,7 +129,7 @@ a {
 .ContextMenu {
   position: absolute;
   display: flex;
-  background: white;
+  background: #fff;
   padding: 5px;
   opacity: 1;
   cursor: pointer;
@@ -135,11 +137,11 @@ a {
 
 
 .ContextMenuAction {
-  color: black;
+  color: #000;
 }
 
 .ContextMenuAction:hover {
-  color: black;
+  color: #000;
   background-color: #555;
 }
 
@@ -157,7 +159,7 @@ a {
 
 .TableCopyButton:hover {
   text-decoration: underline;
-  color: black;
+  color: #000;
   background: transparent;
 }
 
@@ -167,7 +169,7 @@ a {
   left: 0;
   right: 0;
   bottom:0;
-  zIndex:9;
+  z-index:9;
   background-image: url(../images/load_indicator.gif);
   background-color: rgba(255, 255, 255, 0.75);
   background-repeat: no-repeat;
@@ -178,4 +180,19 @@ a {
 .Sortable {
   cursor: pointer;
   text-decoration: underline;
+}
+
+.ChartWidget {
+  color: #000;
+  font-size: 10px;
+}
+
+.HeadedPanelHeader{
+  font-weight: 500;
+}
+
+.HeadedPanel {
+  border-radius: 10px;
+  background-color: #f0f0f0;
+  box-shadow: rgb(32 12 71 / 32%) 0px 0px 32px;
 }

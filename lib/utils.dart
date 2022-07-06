@@ -1,4 +1,5 @@
 import 'dart:html';
+import 'dart:math';
 
 import 'abstract_component.dart';
 import 'labels/simple_label.dart';
@@ -19,7 +20,8 @@ String formatDateHum(DateTime date) => '${date.day.toString().padLeft(2, '0')}.'
     '${date.month.toString().padLeft(2, '0')}.'
     '${date.year.toString()}';
 
-String formatDateTimeHum(DateTime date) => '${date.day.toString().padLeft(2, '0')}.'
+String formatDateTimeHum(DateTime date) =>
+    '${date.day.toString().padLeft(2, '0')}.'
     '${date.month.toString().padLeft(2, '0')}.'
     '${date.year.toString()} '
     '${date.hour.toString().padLeft(2, '0')}:'
@@ -54,17 +56,25 @@ String convertError(Object e) {
   }
 }
 
-Panel labelComponent(String caption, Component comp) =>
-    Panel()
-      ..fullWidth()
-      ..addAll([
-        SimpleLabel()
-          ..caption = caption
-          ..width = '50%',
-        comp..width = '50%'
-      ]);
+Panel labelComponent(String caption, Component comp) => Panel()
+  ..fullWidth()
+  ..addAll([
+    SimpleLabel()
+      ..caption = caption
+      ..width = '50%',
+    comp..width = '50%'
+  ]);
 
 int compareDynamics(dynamic a, dynamic b) {
+  if (a == null && b == null) {
+    return 0;
+  }
+  if (a == null) {
+    return 1;
+  }
+  if (b == null) {
+    return -1;
+  }
   if (a is num && b is num) {
     return a.compareTo(b);
   }
@@ -80,4 +90,17 @@ int compareDynamics(dynamic a, dynamic b) {
   final aStr = a.toString();
   final bStr = b.toString();
   return aStr.compareTo(bStr);
+}
+
+List<String> listFromJson(List listObject) {
+  final ret = <String>[];
+  for (final val in listObject) {
+    ret.add(val.toString());
+  }
+  return ret;
+}
+
+double roundDouble(double value, int places) {
+  final mod = pow(10, places);
+  return (value * mod).round().toDouble() / mod;
 }

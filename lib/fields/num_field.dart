@@ -3,7 +3,8 @@ import 'dart:html';
 import '../abstract_component.dart';
 import '../mixins.dart';
 
-class NumField extends Component with Field<num>, MixinDisable {
+class NumField extends Component
+    with Field<num>, UrlStateComponent<num>, MixinDisable {
   NumField() : super('NumField') {
     numberInput.style
       ..width = '100%'
@@ -42,6 +43,12 @@ class NumField extends Component with Field<num>, MixinDisable {
 
   @override
   set value(num value) => numberInput.value = value.toString();
+
+  @override
+  String get urlState => value.toString();
+
+  @override
+  set urlState(String newValue) => num.tryParse(numberInput.value!) ?? 0;
 
   @override
   void focus() {

@@ -1,3 +1,10 @@
+## 0.0.4
+
+- add theme controller
+- add dark theme
+- add headed panel
+- add charts
+
 ## 0.0.3
 
 - big refactoring for share package

@@ -21,7 +21,7 @@ class SimpleTable extends PanelComponent {
   PanelComponent scrollablePanel = Panel()
     ..wrap = false
     ..vertical = true
-    ..varName('scrollablePanel')
+    ..varName = 'scrollablePanel'
     ..scrollable = true
     ..fillContent = true
     ..fullSize();
@@ -57,7 +57,11 @@ class SimpleTable extends PanelComponent {
 
   SimpleTableRow createRow(List<dynamic> cellValues) {
     final row = SimpleTableRow()..data = cellValues;
-    for (var i = 0; i < columns.length; i++) {
+    var colLen = columns.length;
+    if (colLen > cellValues.length) {
+      colLen = cellValues.length;
+    }
+    for (var i = 0; i < colLen; i++) {
       final column = columns[i];
       final value = cellValues[i];
       SimpleCell? cell;
@@ -264,6 +268,13 @@ class SimpleTableRow extends PanelComponent {
       ..width = '${column.width}px';
     if (column.sortable) {
       cell.addCssClass('Sortable');
+    }
+    final vAlign = column.vAlign;
+    if (vAlign == 'center') {
+      cell.nodeRoot.style.justifyContent = 'center';
+    }
+    if (vAlign == 'right') {
+      cell.nodeRoot.style.justifyContent = 'flex-end';
     }
     cells.add(cell);
     add(cell);

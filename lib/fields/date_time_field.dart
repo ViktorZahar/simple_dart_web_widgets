@@ -4,7 +4,8 @@ import '../abstract_component.dart';
 import '../mixins.dart';
 import '../utils.dart';
 
-class DateTimeField extends Component with Field<DateTime>, MixinDisable {
+class DateTimeField extends Component
+    with Field<DateTime>, UrlStateComponent<DateTime>, MixinDisable {
   DateTimeField() : super('DateTimeField') {
     nodeRoot.onChange.listen((event) {
       try {
@@ -49,6 +50,14 @@ class DateTimeField extends Component with Field<DateTime>, MixinDisable {
     newValue = formatDateTimeText(value);
     nodeRoot.value = newValue;
   }
+
+  @override
+  String get urlState => getStringValue();
+
+  @override
+  set urlState(String newValue) => value = DateTime.fromMillisecondsSinceEpoch(
+      (nodeRoot.valueAsNumber ?? 0).ceil(),
+      isUtc: true);
 
   String getStringValue() => formatDateTime(value);
 

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:html';
 
 import 'abstract_component.dart';
@@ -35,10 +36,8 @@ abstract class PanelComponent extends Component {
   }
 
   void addAll(List<Component> components) {
-    for (final comp in components) {
-      children.add(comp);
-      nodeRoot.children.add(comp.nodeRoot);
-    }
+    children.addAll(components);
+    nodeRoot.children.addAll(components.map((c) => c.nodeRoot));
     stride = _stride;
   }
 
@@ -84,24 +83,24 @@ abstract class PanelComponent extends Component {
         if (!isLast) {
           child.nodeRoot.style.marginBottom = _stride;
         } else {
-          child.nodeRoot.style.marginBottom = '0';
+          child.nodeRoot.style.marginBottom = '';
         }
         if (wrap) {
           child.nodeRoot.style.marginRight = _stride;
         } else {
-          child.nodeRoot.style.marginRight = '0';
+          child.nodeRoot.style.marginRight = '';
         }
       } else {
         if (!isLast) {
           child.nodeRoot.style.marginRight = _stride;
         } else {
-          child.nodeRoot.style.marginRight = '0';
+          child.nodeRoot.style.marginRight = '';
         }
 
         if (wrap) {
           child.nodeRoot.style.marginBottom = _stride;
         } else {
-          child.nodeRoot.style.marginBottom = '0';
+          child.nodeRoot.style.marginBottom = '';
         }
       }
     }
@@ -138,6 +137,13 @@ abstract class PanelComponent extends Component {
   set justifyContent(String newjustifyContent) {
     _justifyContent = newjustifyContent;
     nodeRoot.style.justifyContent = newjustifyContent;
+  }
+
+  Future<void> addWithWaiting(Component component) async {
+    children.add(component);
+    nodeRoot.children.add(component.nodeRoot);
+    stride = _stride;
+    return component.waitForReady();
   }
 }
 

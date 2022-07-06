@@ -28,7 +28,7 @@ class RepositoryTable<T> extends ObjectTable<T> {
 
   late Repository<T> repository;
 
-  final StreamController<bool> _onLoadMore = StreamController<bool>();
+  final StreamController<bool> _onLoadMore = StreamController<bool>.broadcast();
 
   LoadIndicator loadIndicator = LoadIndicator();
 
@@ -54,8 +54,8 @@ class RepositoryTable<T> extends ObjectTable<T> {
   }
 
   @override
-  void destroy() {
-    super.destroy();
+  void dispose() {
+    super.dispose();
     _onLoadMore.close();
   }
 }

@@ -3,8 +3,9 @@ import 'dart:html';
 import '../abstract_component.dart';
 import '../mixins.dart';
 
-class TextField extends Component with Field<String>, MixinDisable {
-  TextField({bool password = false}): super('TextField') {
+class TextField extends Component
+    with Field<String>, MixinDisable, UrlStateComponent<String> {
+  TextField({bool password = false}) : super('TextField') {
     nodeRoot.style
       ..display = 'flex'
       ..textAlign = 'center'
@@ -55,6 +56,12 @@ class TextField extends Component with Field<String>, MixinDisable {
 
   @override
   set value(String value) => textInput.value = value;
+
+  @override
+  String get urlState => value;
+
+  @override
+  set urlState(String newValue) => value = newValue;
 
   @override
   void focus() {

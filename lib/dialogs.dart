@@ -7,11 +7,15 @@ import 'panel.dart';
 abstract class AbstractDialog<T> extends PanelComponent {
   AbstractDialog(String className) : super('DialogWindow') {
     addCssClass(className);
+    padding = '10px';
+    vertical = true;
+    stride = '5px';
   }
 
   Completer<T> completer = Completer<T>();
 
-  final StreamController<String> _onClose = StreamController<String>();
+  final StreamController<String> _onClose =
+      StreamController<String>.broadcast();
 
   Stream<String> get onClose => _onClose.stream;
   bool closable = true;
@@ -36,7 +40,7 @@ abstract class AbstractDialog<T> extends PanelComponent {
     _onClose.sink.add('Close');
   }
 
-  void destroy() {
+  void dispose() {
     _onClose.close();
   }
 
@@ -46,8 +50,10 @@ abstract class AbstractDialog<T> extends PanelComponent {
 abstract class SimpleDialogLayout<T> extends AbstractDialog<T> {
   SimpleDialogLayout() : super('SimpleDialogLayout') {
     vertical = true;
+    stride = '5px';
+    padding = '10px';
     headerPanel.add(headerLabel);
-    addAll([headerPanel, bodyPanel, footerPanel]);
+    addAll([headerPanel, bodyPanel]);
   }
 
   String get caption => headerLabel.caption;
@@ -56,11 +62,10 @@ abstract class SimpleDialogLayout<T> extends AbstractDialog<T> {
     headerLabel.caption = newCaption;
   }
 
-  Panel headerPanel = Panel()
-    ..addCssClass('SimpleDialogLayoutHeader');
+  Panel headerPanel = Panel()..addCssClass('SimpleDialogLayoutHeader');
   SimpleLabel headerLabel = SimpleLabel();
   Panel bodyPanel = Panel()
-    ..addCssClass('SimpleDialogLayoutBody');
-  Panel footerPanel = Panel()
-    ..addCssClass('SimpleDialogLayoutFooter');
+    ..addCssClass('SimpleDialogLayoutBody')
+    ..padding = '10px'
+    ..stride = '5px';
 }

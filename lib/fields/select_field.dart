@@ -3,8 +3,9 @@ import 'dart:html';
 import '../abstract_component.dart';
 import '../mixins.dart';
 
-class SelectField extends Component with Field<List<String>>, MixinDisable {
-  SelectField(): super('SelectField') {
+class SelectField extends Component
+    with Field<List<String>>, UrlStateComponent<List<String>>, MixinDisable {
+  SelectField() : super('SelectField') {
     nodeRoot.style.display = 'flex';
     nodeRoot.children.add(_selectElement);
     nodeRoot.onChange.listen((event) {
@@ -37,6 +38,12 @@ class SelectField extends Component with Field<List<String>>, MixinDisable {
     }
     fireValueChange(oldValue, value);
   }
+
+  @override
+  String get urlState => value.join(',');
+
+  @override
+  set urlState(String newValue) => value = newValue.split(',');
 
   @override
   void focus() {

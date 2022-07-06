@@ -20,9 +20,11 @@ abstract class Component {
   bool _fillContent = false;
   late String className;
 
-  void varName(String varName) {
+  set varName(String varName) {
     nodeRoot.setAttribute('varName', varName);
   }
+
+  String get varName => nodeRoot.getAttribute('varName') ?? '';
 
   bool get fillContent => _fillContent;
 
@@ -118,17 +120,23 @@ abstract class Component {
   void remove() {
     nodeRoot.remove();
   }
+
+  Future<void> waitForReady() async {
+    await Future.delayed(const Duration(milliseconds: 280));
+  }
 }
 
 mixin Field<T> {
   final StreamController<ValueChangeEvent<T>> _onValueChange =
-      StreamController<ValueChangeEvent<T>>();
+      StreamController<ValueChangeEvent<T>>.broadcast();
 
   Stream<ValueChangeEvent<T>> get onValueChange => _onValueChange.stream;
 
   T get value;
 
   set value(T value);
+
+  String state = '';
 
   void focus();
 
@@ -139,4 +147,12 @@ mixin Field<T> {
   void closeStream() {
     _onValueChange.close();
   }
+}
+
+mixin UrlStateComponent<T> {
+  Stream<ValueChangeEvent<T>> get onValueChange;
+
+  String varName = '';
+
+  String urlState = '';
 }

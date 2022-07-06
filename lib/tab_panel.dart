@@ -6,13 +6,14 @@ import 'labels/simple_label.dart';
 import 'mixins.dart';
 import 'panel.dart';
 
-class TabPanel extends PanelComponent {
+class TabPanel extends PanelComponent implements UrlStateComponent<String> {
   TabPanel() : super('TabPanel') {
     vertical = true;
     add(tagsPanel);
   }
 
-  final StreamController<TabTag> _onSelect = StreamController<TabTag>();
+  final StreamController<TabTag> _onSelect =
+      StreamController<TabTag>.broadcast();
 
   Stream<TabTag> get onSelect => _onSelect.stream;
 
@@ -30,10 +31,13 @@ class TabPanel extends PanelComponent {
 
   void fireOnSelect(TabTag tabTag) {
     _onSelect.add(tabTag);
+    final _state = urlState;
+    _onValueChange.add(ValueChangeEvent(_state, _state));
   }
 
-  void destroy() {
+  void dispose() {
     _onSelect.close();
+    _onValueChange.close();
   }
 
   TabTag addTab(String caption, Component tabComponent) {
@@ -71,12 +75,11 @@ class TabPanel extends PanelComponent {
       }
       _currentTag = tabTag;
       _currentTag!.active = true;
-      fireOnSelect(tabTag);
+      add(_currentTag!.tabContent!);
       if (tabTag.lazyTabContent != null) {
         tabTag.lazyTabContent!.onShow();
       }
-
-      add(_currentTag!.tabContent!);
+      fireOnSelect(tabTag);
     }
   }
 
@@ -85,6 +88,39 @@ class TabPanel extends PanelComponent {
     tags.clear();
     tagsPanel.clear();
   }
+
+  @override
+  String get urlState {
+    var res = currentTag.tabContent!.varName;
+    if (res.isEmpty) {
+      res = currentTag.caption;
+    }
+    return res;
+  }
+
+  @override
+  set urlState(String newValue) {
+    if (newValue.isEmpty) {
+      if (tags.isNotEmpty) {
+        currentTag = tags.first;
+      }
+      return;
+    }
+    final tabTag = tags.firstWhere((tag) {
+      if (tag.tabContent == null || tag.tabContent!.varName.isEmpty) {
+        return tag.caption == newValue;
+      } else {
+        return tag.tabContent!.varName == newValue;
+      }
+    }, orElse: () => tags.first);
+    currentTag = tabTag;
+  }
+
+  final StreamController<ValueChangeEvent<String>> _onValueChange =
+      StreamController<ValueChangeEvent<String>>.broadcast();
+
+  @override
+  Stream<ValueChangeEvent<String>> get onValueChange => _onValueChange.stream;
 }
 
 class TabTag extends SimpleLabel with MixinActivate {

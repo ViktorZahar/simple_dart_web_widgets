@@ -3,7 +3,8 @@ import 'dart:html';
 import '../abstract_component.dart';
 import '../mixins.dart';
 
-class CheckboxField extends Component with Field<bool>, MixinDisable {
+class CheckboxField extends Component
+    with Field<bool>, UrlStateComponent<bool>, MixinDisable {
   CheckboxField() : super('CheckboxField') {
     nodeRoot.style
       ..display = 'flex'
@@ -54,6 +55,12 @@ class CheckboxField extends Component with Field<bool>, MixinDisable {
     _checkBoxInput.checked = value;
     fireValueChange(oldValue, value);
   }
+
+  @override
+  String get urlState => value.toString();
+
+  @override
+  set urlState(String newValue) => value = newValue == 'true';
 
   set caption(String caption) => _label.text = caption;
 

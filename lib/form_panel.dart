@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'abstract_component.dart';
 import 'labels/simple_label.dart';
 import 'panel.dart';

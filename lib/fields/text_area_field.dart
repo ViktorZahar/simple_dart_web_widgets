@@ -3,9 +3,10 @@ import 'dart:html';
 import '../abstract_component.dart';
 import '../mixins.dart';
 
-class TextAreaField extends Component with Field<String>, MixinDisable {
+class TextAreaField extends Component
+    with Field<String>, MixinDisable, UrlStateComponent<String> {
   TextAreaField() : super('TextAreaField') {
-    nodeRoot.onChange.listen((event) {
+    nodeRoot.onInput.listen((event) {
       fireValueChange(value, value);
     });
   }
@@ -16,12 +17,6 @@ class TextAreaField extends Component with Field<String>, MixinDisable {
   @override
   List<Element> get disableNodes => [nodeRoot];
 
-  void onChange(Function(Event event) listener) {
-    nodeRoot.onChange.listen((e) {
-      listener(e);
-    });
-  }
-
   String get textAlign => nodeRoot.style.textAlign;
 
   set textAlign(String value) => nodeRoot.style.textAlign = value;
@@ -31,6 +26,12 @@ class TextAreaField extends Component with Field<String>, MixinDisable {
 
   @override
   set value(String value) => nodeRoot.value = value;
+
+  @override
+  String get urlState => value;
+
+  @override
+  set urlState(String newValue) => value = newValue;
 
   @override
   void focus() {

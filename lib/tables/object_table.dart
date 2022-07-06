@@ -29,7 +29,7 @@ class ObjectTable<T> extends SimpleTable {
   late ObjectTableRowAdapter<T> objectRowAdapter;
 
   final StreamController<ObjectTableSelectEvent<T>> _onSelect =
-      StreamController<ObjectTableSelectEvent<T>>();
+      StreamController<ObjectTableSelectEvent<T>>.broadcast();
 
   SimpleTableRow createObjectRow(T object) {
     objectList.add(object);
@@ -54,7 +54,7 @@ class ObjectTable<T> extends SimpleTable {
 
   Stream<ObjectTableSelectEvent<T>> get onSelect => _onSelect.stream;
 
-  void destroy() {
+  void dispose() {
     _onSelect.close();
   }
 

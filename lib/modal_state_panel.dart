@@ -17,7 +17,8 @@ class ModalStatePanel extends PanelComponent {
     });
   }
 
-  StreamController<MouseEvent> _onClick = StreamController<MouseEvent>();
+  StreamController<MouseEvent> _onClick =
+      StreamController<MouseEvent>.broadcast();
 
   Stream<MouseEvent> get onClick => _onClick.stream;
 
@@ -36,7 +37,7 @@ class ModalStatePanel extends PanelComponent {
         nodeRoot.style.display = 'none';
         clear();
         _onClick.close();
-        _onClick = StreamController<MouseEvent>();
+        _onClick = StreamController<MouseEvent>.broadcast();
       }
     }
   }
