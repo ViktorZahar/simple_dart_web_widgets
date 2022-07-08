@@ -113,32 +113,23 @@ class SimpleTable extends PanelComponent {
       }
     }
     rows.add(simpleTableRow);
+    formatRow(simpleTableRow);
+    scrollablePanel.add(simpleTableRow);
+  }
+
+  void formatRow(SimpleTableRow simpleTableRow) {
     final isEven = rows.length % 2 == 0;
     if (isEven) {
       simpleTableRow.addCssClass('Even');
     } else {
       simpleTableRow.addCssClass('Odd');
     }
-    scrollablePanel.add(simpleTableRow);
   }
 
   @override
   void clear() {
     scrollablePanel.clear();
     rows.clear();
-  }
-
-  void applyCellStyle(
-      Function(int rowIdx, int colIdx, SimpleCell cell) styleFunction) {
-    var r = 0;
-    for (final row in rows) {
-      var c = 0;
-      for (final cell in row.cells) {
-        styleFunction(r, c, cell);
-        c++;
-      }
-      r++;
-    }
   }
 
   void copyToClipboard() {

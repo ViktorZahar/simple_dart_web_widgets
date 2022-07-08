@@ -1,3 +1,7 @@
+## 0.0.5 
+
+- SimpleTableRow formatting extracted
+
 ## 0.0.4
 
 - add theme controller
